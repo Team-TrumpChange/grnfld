@@ -96,15 +96,15 @@ const refreshCoins = () => {
 };
 
 module.exports = {
-  getAllPosts: getAllPosts,
-  createPost: createPost,
-  getComments: getComments,
-  // getPostsWithCommentsAsync: getPostsWithCommentsAsync,
-  checkCredentials: checkCredentials,
-  createUser: createUser,
-  createComment: createComment,
-  markSolution: markSolution,
-  checkCoin: checkCoin,
-  subtractCoins: subtractCoins,
-  refreshCoins: refreshCoins
+  getAllPosts,
+  createPost,
+  getComments,
+  // getPostsWithCommentsAsync,
+  checkCredentials,
+  createUser,
+  createComment,
+  markSolution,
+  checkCoin,
+  subtractCoins,
+  refreshCoins
 };
