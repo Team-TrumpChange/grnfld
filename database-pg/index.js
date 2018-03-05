@@ -14,6 +14,8 @@ if (config.mySql) {
   });
 }
 
+//these will work with PostgreSQL and MySQL
+//used because joins would only return createdat column from users and not posts
 const getAllPosts = () => {
   return knex.column(knex.raw('posts.*, users.username')).select()
     .from(knex.raw('posts, users'))

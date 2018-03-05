@@ -1,3 +1,5 @@
+//HAS GITHUB AUTH INFORMATION. NOT CURRENTLY USED
+
 const express = require('express');
 const passport = require('passport');
 const GithubStrategy = require('passport-github').Strategy;
