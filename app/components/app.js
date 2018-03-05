@@ -1,5 +1,4 @@
 angular.module('app')
-
 .controller('AppCtrl', function (postsService, $rootScope) {
   $rootScope.userId = 0;
   $rootScope.hackcoin = 0;

@@ -60,10 +60,11 @@ angular.module('app')
     }
   };
 
-  $scope.selectSolution = async (comment) => {
+  $scope.selectSolution = (comment) => {
     if ($rootScope.userId === $scope.currentPost.user_id) {
       $scope.currentPost.solution_id = comment.comment_id; //changes local solution_id so that star moves without refresh
-      await commentsService.selectSolution(comment.comment_id, $scope.currentPost.post_id);
+      commentsService.selectSolution(comment.comment_id, $scope.currentPost.post_id);
+      console.log('select Solution completed');
     }
   };
 

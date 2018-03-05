@@ -15,7 +15,6 @@
     "angular-route": "^1.6.9",
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.18.2",
-    "bootstrap3-dialog": "^1.35.4",
     "express": "^4.16.2",
     "knex": "^0.14.4",
     "mysql": "^2.15.0",
