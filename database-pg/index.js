@@ -41,12 +41,13 @@ const getUserComments = async (userId) => {
     .where('user_id', userId);
 
   for (const comment of comments) {
-    comment.post = await getCommentsPost(comment.post_id);
+    let posts = comment.post = await getPostForComment(comment.post_id);
+    comment.post = posts[0];
   }
   return comments
 }
 
-let getCommentsPost = async (postId) => {
+let getPostForComment = async (postId) => {
   return knex.column(knex.raw('posts.*, users.username')).select()
     .from('posts')
     .innerJoin('users', 'posts.user_id', 'users.user_id')

@@ -30,10 +30,12 @@ angular.module('app')
         //pagination
         $scope.$watch('currentPage + numPerPage', function () {
           //filter posts by page number
-          let begin = (($scope.currentCommentsPage - 1) * $scope.numPerPage);
+          let begin = (($scope.currentPage - 1) * $scope.numPerPage);
+          console.log(begin);
           let end = begin + $scope.numPerPage;
-
+          console.log(end);
           $scope.filteredComments = $scope.userComments.slice(begin, end);
+          console.log($scope.filteredComments, 'this pages comments');
         });
       })
     };
@@ -50,6 +52,20 @@ angular.module('app')
         $scope.comments.forEach(comment => comment.message = comment.message.replace(/\{\{([^}]+)\}\}/g, '<code>$1</code>'));
         $scope.currentIndex = clickedValue; //sets index for when submit comment is clicked
       });
+
+    };
+
+    $scope.handleCommentClick = (clickedValue) => {
+      $scope.currentComment = $scope.filteredComments[clickedValue];
+      console.log('comment click!!!!');
+      console.log($scope.currentComment, $scope.currentComment.post.title);
+      //get all comments from clicked post
+      commentsService.getComments($scope.currentComment.post_id, (data) => {
+        $scope.postComments = data;
+        $scope.postComments.forEach(comment => comment.message = comment.message.replace(/\{\{([^}]+)\}\}/g, '<code>$1</code>'));
+        console.log($scope.postComments);
+        $scope.currentIndex = clickedValue; //sets index for when submit comment is clicked
+      }); //having these indexes the same might do weird things later on
 
     };
 
