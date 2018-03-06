@@ -35,6 +35,24 @@ const getComments = (postId) => {
     .where(knex.raw(`comments.post_id = ${postId} and comments.user_id = users.user_id`));
 };
 
+const getUserComments = async (userId) => {
+  let comments = await knex.select()
+    .from('comments')
+    .where('user_id', userId);
+
+  for (const comment of comments) {
+    comment.post = await getCommentsPost(comment.post_id);
+  }
+  return comments
+}
+
+let getCommentsPost = async (postId) => {
+  return knex.column(knex.raw('posts.*, users.username')).select()
+    .from('posts')
+    .innerJoin('users', 'posts.user_id', 'users.user_id')
+    .where('posts.post_id', postId)
+}
+
 //using async/await
 //currently not used
 // async function getPostsWithCommentsAsync() {
@@ -110,6 +128,7 @@ module.exports = {
   getUserPosts,
   createPost,
   getComments,
+  getUserComments,
   // getPostsWithCommentsAsync,
   checkCredentials,
   createUser,
