@@ -1,0 +1,18 @@
+<h2 style="opacity: 0;">User Page</h2>
+<posts-front-page></posts-front-page>
+<pagination 
+  ng-model="currentPage" 
+  total-items="userPosts.length" 
+  max-size="5" 
+  boundary-links="true" 
+  items-per-page="numPerPage">
+</pagination>
+
+<comments-user-page></comments-user-page>
+<pagination 
+  ng-model="currentCommentPage" 
+  total-items="userComments.length" 
+  max-size="5" 
+  boundary-links="true" 
+  items-per-page="numPerPage">
+</pagination>

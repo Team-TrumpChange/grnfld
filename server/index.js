@@ -20,6 +20,12 @@ app.get('/posts', async (req, res) => {
   res.json(posts);
 });
 
+app.get('/userPosts', async (req, res) => {
+  let userId = req.query.userId;
+  let posts = await db.getUserPosts(userId)
+  res.json(posts);
+})
+
 // app.get('/test', (req, res) => {
   // wrap this in a promise/async/await
   // let postsWithComments = async () => {
@@ -35,6 +41,12 @@ app.get('/posts', async (req, res) => {
 app.get('/comments', async (req, res) => {
   let postId = req.query.postId;
   let comments = await db.getComments(postId);
+  res.json(comments);
+});
+
+app.get('/userComments', async (req, res) => {
+  let userId = req.query.userId;
+  let comments = await db.getUserComments(userId);
   res.json(comments);
 });
 
@@ -109,7 +121,7 @@ app.post('/coin', async (req, res) => {
 });
 
 app.post('/solution', async (req, res) => {
-  console.log(req.body);
+  console.log(req.body, 'solution');
   const data = await db.markSolution(req.body.commentId, req.body.postId);
   res.status(200).end();
 });

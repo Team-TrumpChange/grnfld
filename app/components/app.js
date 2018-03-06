@@ -18,6 +18,10 @@ angular.module('app')
       templateUrl: 'templates/submit.html',
       controller: 'SubmitCtrl'
     })
+    .when('/user', {
+      templateUrl: 'templates/user.html',
+      controller: 'UserCtrl'
+    })
     .otherwise({ redirectTo: '/' });
   $locationProvider.html5Mode(true);
 });

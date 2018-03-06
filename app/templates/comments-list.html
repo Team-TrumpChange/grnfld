@@ -1,0 +1,86 @@
+<div>
+  <button ng-click="refresh()" type="button" class="btn btn-primary btn-sm pull-right">Refresh</button>
+  <h3 class="" style="margin-left: 10px;">Your Most Recent Comments:</h3>
+  <div class="list-group">
+    <a ng-repeat="comment in filteredComments track by $index" ng-click="handleCommentClick($index)" comment="comment" class="list-group-item list-group-item-action flex-column align-items-start"
+      data-toggle="modal" data-target="#commentModal">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">
+          <strong>{{comment.post.title}}</strong>
+        </h5>
+        <small>
+          <strong> votes : {{comment.votes}}</strong>
+        </small>
+      </div>
+      <p class="mb-1">{{comment.message}}</p>
+      <small>{{comment.created_at | date:'medium'}}</small>
+    </a>
+    <div id="commentModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">{{currentComment.post.title}}</h4>
+          </div>
+          <div class="modal-body">
+            <pre>{{currentComment.post.code}}</pre>
+          </div>
+          <div class="modal-body">
+            <p>{{currentComment.post.summary}}</p>
+          </div>
+          <div class="modal-footer">
+
+
+            <div ng-repeat="comment in postComments track by $index" class="comments-list" ng-class="{'solution': comment.solution}">
+
+
+              <div id="like-error" class="alert alert-danger alert-dismissible fade in" style="display:none">
+
+                <strong>No more Hackcoins!</strong> Please wait for your coins to refresh
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <strong>{{comment.username}}</strong>
+                      <span class="text-muted">commented at {{comment.created_at | date:'short'}}</span>
+                      <span ng-class="{'glyphicon glyphicon-star': currentPost.solution_id === comment.comment_id}" aria-hidden="true"></span>
+                    </div>
+                    <div class="panel-body">
+                      <p ng-bind-html="comment.message"></p>
+                    </div>
+                    <!-- /panel-body -->
+                    <p style="margin-right: 2px;">
+                      <small>
+                        <a ng-class="{'disabled': $root.hackcoin <= 0 || !$root.userId}" ng-click="likeComment(comment.comment_id, $index)" href="">Like</a> -
+                        <a ng-show="currentPost.user_id === $root.userId" ng-click="selectSolution(comment)" href="">Mark as Solution</a> Votes: {{postComment.votes}}
+                      </small>
+                    </p>
+                  </div>
+                  <!-- /panel panel-default -->
+                </div>
+                <!-- /col-sm-5 -->
+              </div>
+            </div>
+
+
+            <form ng-show="$root.userId" name="commentCommentForm" ng-submit="submitCommentComment(commentForm.$valid)" novalidate>
+
+              <div class="form-group">
+                <label for="newCommentDescription" class="pull-left">Your response</label>
+                <textarea name="message" ng-model="message" class="form-control" rows="3" placeholder="Write your comment here" ng-maxlength="8000"
+                  required></textarea>
+                <p ng-show="commentForm.message.$error.required && commentForm.message.$dirty" class="help-block">You cannot leave a blank comment.</p>
+                <p ng-show="commentForm.message.$error.maxlength" class="help-block">Your comment is too long.</p>
+              </div>
+              <button type="submit" ng-click="commentForm.$setPristine()" ng-disabled="commentForm.$invalid" class="btn btn-primary pull-left">Submit</button>
+            </form>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

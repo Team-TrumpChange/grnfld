@@ -21,11 +21,38 @@ const getAllPosts = () => {
     .orderBy('post_id', 'desc');
 };
 
+const getUserPosts = (userId) => {
+  return knex.column(knex.raw('posts.*, users.username')).select()
+    .from('posts')
+    .innerJoin('users', 'posts.user_id', 'users.user_id')
+    .where('users.user_id', userId)
+    .orderBy('posts.post_id', 'desc');
+}
+
 const getComments = (postId) => {
   return knex.column(knex.raw('comments.*, users.username')).select()
     .from(knex.raw('comments, users'))
     .where(knex.raw(`comments.post_id = ${postId} and comments.user_id = users.user_id`));
 };
+
+const getUserComments = async (userId) => {
+  let comments = await knex.select()
+    .from('comments')
+    .where('user_id', userId);
+
+  for (const comment of comments) {
+    let posts = comment.post = await getPostForComment(comment.post_id);
+    comment.post = posts[0];
+  }
+  return comments
+}
+
+let getPostForComment = async (postId) => {
+  return knex.column(knex.raw('posts.*, users.username')).select()
+    .from('posts')
+    .innerJoin('users', 'posts.user_id', 'users.user_id')
+    .where('posts.post_id', postId)
+}
 
 //using async/await
 //currently not used
@@ -78,8 +105,10 @@ const createUser = async (username, password) => {
   }
 };
 
-const markSolution = (commentId, postId) => {
-  knex('posts').where('post_id', postId).update('solution_id', commentId);
+const markSolution = async (commentId, postId) => {
+  await knex('comments').where('post_id', postId).update('solution', false); //resets comments if something was previously marked as solution
+  await knex('comments').where('comment_id', commentId).update('solution', true);
+  await knex('posts').where('post_id', postId).update('solution_id', commentId);
 };
 
 const checkCoin = (userId) => {
@@ -97,8 +126,10 @@ const refreshCoins = () => {
 
 module.exports = {
   getAllPosts,
+  getUserPosts,
   createPost,
   getComments,
+  getUserComments,
   // getPostsWithCommentsAsync,
   checkCredentials,
   createUser,
