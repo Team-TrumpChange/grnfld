@@ -14,8 +14,6 @@ if (config.mySql) {
   });
 }
 
-//these will work with PostgreSQL and MySQL
-//used because joins would only return createdat column from users and not posts
 const getAllPosts = () => {
   return knex.column(knex.raw('posts.*, users.username')).select()
     .from(knex.raw('posts, users'))
@@ -90,7 +88,7 @@ const checkCoin = (userId) => {
 
 const subtractCoins = async (currenthackcoin, subtractinghackcoin, userId, commentId) => {
   await knex('users').where('user_id', userId).update('hackcoin', currenthackcoin - subtractinghackcoin);
-  await knex('comments').where('comment_id', commentId).increment('votes', subtractinghackcoin);  //update votes by amount of hackcoins subtracted
+  await knex('comments').where('comment_id', commentId).increment('votes', subtractinghackcoin); //update votes by amount of hackcoins subtracted
 };
 
 const refreshCoins = () => {

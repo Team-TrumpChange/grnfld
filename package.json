@@ -16,12 +16,9 @@
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
-    "knex": "+^0.14.4",
+    "knex": "^0.14.4",
     "mysql": "^2.15.0",
     "nodemon": "^1.15.1",
     "pg": "^7.4.1"
-  },
-  "devDependencies": {
-    "eslint-config-google": "^0.9.1"
   }
 }

@@ -8,6 +8,6 @@ angular.module('app')
 .directive('navbar', function() {
   return {
     templateUrl: 'templates/navbar.html',
-    controller: 'NavbarCtrl',
+    controller: 'NavbarCtrl'
   };
 });
