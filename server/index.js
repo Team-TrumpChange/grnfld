@@ -20,6 +20,12 @@ app.get('/posts', async (req, res) => {
   res.json(posts);
 });
 
+app.get('/userPosts', async (req, res) => {
+  let userId = req.query.userId;
+  let posts = await db.getUserPosts(userId)
+  res.json(posts);
+})
+
 // app.get('/test', (req, res) => {
   // wrap this in a promise/async/await
   // let postsWithComments = async () => {

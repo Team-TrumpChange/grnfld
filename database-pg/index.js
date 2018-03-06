@@ -21,6 +21,14 @@ const getAllPosts = () => {
     .orderBy('post_id', 'desc');
 };
 
+const getUserPosts = (userId) => {
+  return knex.column(knex.raw('posts.*, users.username')).select()
+    .from('posts')
+    .innerJoin('users', 'posts.user_id', 'users.user_id')
+    .where('users.user_id', userId)
+    .orderBy('posts.post_id', 'desc');
+}
+
 const getComments = (postId) => {
   return knex.column(knex.raw('comments.*, users.username')).select()
     .from(knex.raw('comments, users'))
@@ -99,6 +107,7 @@ const refreshCoins = () => {
 
 module.exports = {
   getAllPosts,
+  getUserPosts,
   createPost,
   getComments,
   // getPostsWithCommentsAsync,
