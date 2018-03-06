@@ -109,7 +109,7 @@ app.post('/coin', async (req, res) => {
 });
 
 app.post('/solution', async (req, res) => {
-  console.log(req.body);
+  console.log(req.body, 'solution');
   const data = await db.markSolution(req.body.commentId, req.body.postId);
   res.status(200).end();
 });
