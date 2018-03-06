@@ -25,25 +25,25 @@ Bootstrap utilities are pulled from CDNs. on the index.html page
 <h4>Stretch goals:</h4>
 1. Scoring system for users <br>
   a. 1 like = 1 extra hackcoin<br>
-  b. 1 like = permanent points for user profile
+  b. 1 like = permanent points for user profile<br>
 2. Anonymous posting<br>
-  a. create new usernames for every post
+  a. create new usernames for every post<br>
 3. Search<br>
-  a. posts have tags to search by
-4. Child comments (reddit style)
-5. Closed flag
-6. Oauth
-7. Sessions for persistent login
-8. Refactor to async/await in server calls
-9. create modals for using multiple hackcoins (ng-doubleclick)
+  a. posts have tags to search by<br>
+4. Child comments (reddit style)<br>
+5. Closed flag<br>
+6. Oauth<br>
+7. Sessions for persistent login<br>
+8. Refactor to async/await in server calls<br>
+9. create modals for using multiple hackcoins (ng-doubleclick)<br>
 10. Comment order<br>
-  a. order by number of likes
-11. Delete posts and comments
+  a. order by number of likes<br>
+11. Delete posts and comments<br>
 12. footer and IP information<br>
   a. privacy statement<br>
   b. contact information<br>
-  c. careers
-13. Profile page
-14. multi-line code formatting in comments
-15. prettify codebox with syntax highlighting
-16. create unique URL to share direct links to posts
+  c. careers<br>
+13. Profile page<br>
+14. multi-line code formatting in comments<br>
+15. prettify codebox with syntax highlighting<br>
+16. create unique URL to share direct links to posts<br>
