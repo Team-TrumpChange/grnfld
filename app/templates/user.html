@@ -1,0 +1,11 @@
+<h2 style="opacity: 0;">User Page</h2>
+<div>
+  <posts-front-page></posts-front-page>
+  <pagination 
+    ng-model="currentPage" 
+    total-items="posts.length" 
+    max-size="5" 
+    boundary-links="true" 
+    items-per-page="numPerPage">
+  </pagination>
+</div>
