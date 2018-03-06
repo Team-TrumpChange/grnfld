@@ -90,6 +90,20 @@ angular.module('app')
       }
     };
 
+    $scope.submitCommentComment = (isValid) => {
+      if (isValid) {
+        let commentObj = {
+          user_id: $rootScope.userId,
+          post_id: $scope.currentComment.post_id,
+          message: $scope.message
+        };
+        commentsService.submitNewComment(commentObj, (data) => {
+          $scope.message = '';
+          $scope.handleCommentClick($scope.currentIndex);
+        });
+      }
+    };
+
     $scope.selectSolution = (comment) => {
       if ($rootScope.userId === $scope.currentPost.user_id) {
         $scope.currentPost.solution_id = comment.comment_id; //changes local solution_id so that star moves without refresh
