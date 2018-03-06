@@ -7,6 +7,7 @@ angular.module('app')
     $scope.init = function () {
       $scope.currentPage = 1;
       $scope.numPerPage = 5;
+      $scope.currentCommentPage = 1;
 
       //get all posts on page load
       postsService.getUserPosts($rootScope.userId, data => {
