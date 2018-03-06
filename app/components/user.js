@@ -9,9 +9,9 @@ angular.module('app')
       $scope.numPerPage = 5;
 
       //get all posts on page load
-      postsService.getAll(data => {
+      postsService.getUserPosts($rootScope.userId, data => {
         console.log('got posts', data);
-        $scope.posts = data;
+        $scope.userPosts = data;
 
         //pagination
         $scope.$watch('currentPage + numPerPage', function () {
@@ -19,7 +19,7 @@ angular.module('app')
           let begin = (($scope.currentPage - 1) * $scope.numPerPage);
           let end = begin + $scope.numPerPage;
 
-          $scope.filteredPosts = $scope.posts.slice(begin, end);
+          $scope.filteredPosts = $scope.userPosts.slice(begin, end);
         });
       });
     };

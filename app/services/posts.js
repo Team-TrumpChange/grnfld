@@ -10,6 +10,16 @@ angular.module('app')
       });
   };
 
+  this.getUserPosts = function (userId, callback) {
+    $http.get(`/userPosts?userId=${userId}`)
+      .then(function({data}) {
+        callback(data);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  }
+
   this.submitNewPost = function (newPostObj, callback) {
     $http.post('/createPost', newPostObj)
       .then(function (data) {
