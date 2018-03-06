@@ -44,6 +44,12 @@ app.get('/comments', async (req, res) => {
   res.json(comments);
 });
 
+app.get('/userComments', async (req, res) => {
+  let userId = req.query.userId;
+  let comments = await db.getUserComments(userId);
+  res.json(comments);
+})
+
 app.post('/createPost', async (req, res) => {
   try {
     await db.createPost(req.body);

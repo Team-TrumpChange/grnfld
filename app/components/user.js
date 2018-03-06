@@ -22,6 +22,20 @@ angular.module('app')
           $scope.filteredPosts = $scope.userPosts.slice(begin, end);
         });
       });
+
+      commentsService.getUserComments($rootScope.userId, data => {
+        console.log('got commented posts', data);
+        $scope.userComments = data;
+
+        //pagination
+        $scope.$watch('currentPage + numPerPage', function () {
+          //filter posts by page number
+          let begin = (($scope.currentCommentsPage - 1) * $scope.numPerPage);
+          let end = begin + $scope.numPerPage;
+
+          $scope.filteredComments = $scope.userComments.slice(begin, end);
+        });
+      })
     };
 
     //runs init on view startup

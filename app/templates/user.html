@@ -2,7 +2,16 @@
 <posts-front-page></posts-front-page>
 <pagination 
   ng-model="currentPage" 
-  total-items="posts.length" 
+  total-items="userPosts.length" 
+  max-size="5" 
+  boundary-links="true" 
+  items-per-page="numPerPage">
+</pagination>
+
+<posts-user-page></posts-user-page>
+<pagination 
+  ng-model="currentCommentPage" 
+  total-items="comments.length" 
   max-size="5" 
   boundary-links="true" 
   items-per-page="numPerPage">
