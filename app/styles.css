@@ -1,3 +1,8 @@
+body, html {
+    background: white;
+    color: black;
+}
+
 .disabled {
     cursor: not-allowed;
     opacity: .5;
@@ -97,4 +102,27 @@ button.btn.btn-success:active {
 
 .glyphicon {
     color: #158465;
+}
+
+.list-group-item {
+    background-color: white;
+    border: none;
+    border-radius: 0px;
+}
+
+a.list-group-item {
+    color: black;
+}
+
+.list-group {
+    width: 95%;
+    margin: 0 auto;
+}
+
+hr {
+    margin-top: 50px;
+    width: 85%;
+    height: 1px;
+    border: none;
+    background-color: #1DBB8D;
 }
