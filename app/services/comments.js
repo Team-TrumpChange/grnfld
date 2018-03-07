@@ -1,4 +1,4 @@
- angular.module('app')
+angular.module('app')
 .service('commentsService', function ($http) {
   this.submitNewComment = function (newCommentObj, callback) {
     $http.post('/createComment', newCommentObj)
@@ -44,4 +44,8 @@
       postId: postId, commentId: commentId
     });
   };
+
+  this.validate = (commentObj, callback) => {
+
+  }
 });

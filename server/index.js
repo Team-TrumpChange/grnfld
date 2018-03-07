@@ -2,6 +2,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt-nodejs');
 const db = require('../database-pg/index');
+const AYLIENTextAPI = require('aylien_textapi');
+const config = require('../database-pg/config.js');
+const foaas = require('./foaas.js');
+
+let getSentiment = new AYLIENTextAPI({
+  application_id: config.aylien.id,
+  application_key: config.aylien.key
+});
 
 const app = express();
 app.use(express.static(__dirname + '/../app'));
@@ -59,14 +67,32 @@ app.post('/createPost', async (req, res) => {
   res.end();
 });
 
-app.post('/createComment', async (req, res) => {
+app.post('/createComment', (req, res) => {
   let comment = req.body;
-  try {
-    await db.createComment(comment);
-  } catch (err) {
-    console.log(err);
-  }
-  res.end();
+  getSentiment.sentiment({text: comment.message}, async (err, sentiment) => {
+    if (err) {
+      console.log(err);
+      res.status(500).end();
+    } else {
+      if (sentiment.polarity === 'negative' && sentiment.polarity_confidence > 0.75) {
+        foaas(comment.message, comment.user_id, function(err, warning) {
+          if (err) {
+            res.status(500).end();
+          } else {
+            console.log(warning, 'warning');
+            res.json({rejection: warning})
+          }
+        });
+      } else {
+        try {
+          await db.createComment(comment);
+        } catch (err) {
+          res.status(500).end();
+        }
+        res.end();
+      }
+    }
+  });
 });
 
 app.post('/login', async (req, res) => {
@@ -131,3 +157,4 @@ app.get('*', (req, res) => res.redirect('/'));
 app.listen(process.env.PORT || 3000, function () {
   console.log('listening on port 3000!');
 });
+

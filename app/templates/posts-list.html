@@ -74,6 +74,8 @@
                                 <label for="newCommentDescription" class="pull-left">Your response</label>
                                 <div><a href="#" data-toggle="modal" data-target="#codepen-modal">SandBox</a></div>
 
+                                <p ng-show="warning">{{meanMessage}}</p>
+                                <p ng-show="warning">{{warning}}</p>
                                 <textarea name="message" ng-model="message" class="form-control" rows="3" placeholder="Write your comment here" ng-maxlength="8000"
                                     required></textarea>
                                 <p ng-show="commentForm.message.$error.required && commentForm.message.$dirty" class="help-block">You cannot leave a blank comment.</p>
