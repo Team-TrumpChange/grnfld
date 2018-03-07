@@ -44,6 +44,8 @@ angular.module('app')
     $scope.init();
   };
 
+  $scope.warning = '';
+
   $scope.message = '';
 
   $scope.submitComment = (isValid) => {
@@ -54,8 +56,14 @@ angular.module('app')
         message: $scope.message
       };
       commentsService.submitNewComment(commentObj, (data) => {
-        $scope.message = '';
-        $scope.handlePostClick($scope.currentIndex);
+        if (data.data.rejection) {
+          console.log(data.data.rejection);
+          $scope.warning = 'Please make constructive comments only'
+        } else {
+          $scope.warning = '';
+          $scope.message = '';
+          $scope.handlePostClick($scope.currentIndex);
+        }
       });
     }
   };
@@ -64,7 +72,6 @@ angular.module('app')
     if ($rootScope.userId === $scope.currentPost.user_id) {
       $scope.currentPost.solution_id = comment.comment_id; //changes local solution_id so that star moves without refresh
       commentsService.selectSolution(comment.comment_id, $scope.currentPost.post_id);
-      console.log('select Solution completed');
     }
   };
 
