@@ -13,10 +13,12 @@ angular.module('app')
     });
   };
 
-  this.register = function (username, password, callback) {
+  this.register = function (username, password, email, skills, callback) {
     $http.post('/register', {
       username: username,
-      password: password
+      password: password,
+      email: email,
+      skills: skills,
     })
       .then(function (data) {
         callback(data);

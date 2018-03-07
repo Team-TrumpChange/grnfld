@@ -116,8 +116,8 @@ app.post('/login', async (req, res) => {
 
 app.post('/register', async (req, res) => {
   const shasum = bcrypt.hashSync(req.body.password);
-  const data = await db.createUser(req.body.username, shasum);
-  if (data === 'already exists') {
+  const data = await db.createUser(req.body.username, shasum, req.body.email, req.body.skills);
+  if (data === 'username already exists' || data === 'email already exists') {
     res.status(409).end();
   } else {
     const userInfo = await db.checkCredentials(req.body.username);
