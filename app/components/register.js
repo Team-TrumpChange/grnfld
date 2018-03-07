@@ -6,12 +6,15 @@ angular.module('app')
 
   $scope.register = {
     username: '',
-    password: ''
+    password: '',
+    confirmpassword: '',
+    email: '',
+    skills: ''
   };
 
   $scope.submit = function (isValid) {
     if (isValid) {
-      usersService.register($scope.register.username, $scope.register.password, res => {
+      usersService.register($scope.register.username, $scope.register.password, $scope.register.email, $scope.register.skills, res => {
         if (res.status === 409) {
           console.log('registration error');
           $('#registration-error').show();
@@ -21,7 +24,9 @@ angular.module('app')
           $rootScope.hackcoin = res.data.hackcoin;
           $scope.register = {
             username: '',
-            password: ''
+            password: '',
+            email: '',
+            skills: ''
           };
           $('#register-modal').modal('toggle');
           $location.path('/');

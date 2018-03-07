@@ -7,6 +7,8 @@ CREATE TABLE users
   user_id INT NOT NULL AUTO_INCREMENT,
   username VARCHAR(25) NOT NULL,
   password varchar(60) NOT NULL,
+  email VARCHAR(40) NOT NULL,
+  skills VARCHAR(255),
   hackcoin int NOT NULL DEFAULT 5,
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   PRIMARY KEY (user_id)
@@ -59,13 +61,13 @@ CREATE TABLE comments
 -- ---
 
 insert into users
-  (username, password)
+  (username, password, email, skills)
 VALUES
-  ('yaboi', '$2a$10$MCRlmB8bUswMTqKG.kURCu2pu8ipopli2LLaO5OODNokt44cpLZ56'),
-  ('Gepeto', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou'),
-  ('Zanbato', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou'),
-  ('Colonel', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou'),
-  ('Hipster', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou');
+  ('yaboi', '$2a$10$MCRlmB8bUswMTqKG.kURCu2pu8ipopli2LLaO5OODNokt44cpLZ56', 'yaboi@hotmail.com', 'javascript, python, react, sandwiches'),
+  ('Gepeto', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou', 'gepeto@aol.com', 'python, java'),
+  ('Zanbato', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou', 'zanbato@gmail.com', 'java'),
+  ('Colonel', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou', 'colonel@yahoo.com', 'ruby on rails, javascript'),
+  ('Hipster', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou', 'hipster@live.com', 'python, django');
 
 insert into posts
   (user_id, title, code, summary, solution_id)
