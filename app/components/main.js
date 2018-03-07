@@ -36,7 +36,6 @@ angular.module('app')
       $scope.comments.forEach(comment => comment.message = comment.message.replace(/\{\{([^}]+)\}\}/g, '<code>$1</code>')); // what this means?
       $scope.currentIndex = clickedValue; //sets index for when submit comment is clicked
     });
-
   };
 
   //hacky way of refreshing the current view to get new posts
@@ -77,9 +76,16 @@ angular.module('app')
       console.log('subcommentObj:', subcommentObj);
       subcommentsService.submitNewSubcomment(subcommentObj, (data) => {
         $scope.submessage = '';
+        $scope.showReplyForm();
         // $scope.handlePostClick($scope.currentIndex);
       });
     }
+  };
+
+  $scope.replyClicked = false;
+
+  $scope.showReplyForm = () => {
+    $scope.replyClicked = !$scope.replyClicked;
   };
 
   $scope.selectSolution = (comment) => {

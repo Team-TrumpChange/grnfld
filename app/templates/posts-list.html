@@ -54,8 +54,8 @@
                                         <!-- /panel-body -->
                                         <p style="margin-left: 2px;">
                                           <small>
-                                              <a>Reply</a>
-                                                <form ng-show="$root.userId" name="subCommentForm" ng-submit="submitSubcomment(subCommentForm.$valid, comment.comment_id, submessage)" novalidate>
+                                              <a ng-click="showReplyForm()">Reply</a>
+                                                <form ng-show="$root.userId && replyClicked" name="subCommentForm" ng-submit="submitSubcomment(subCommentForm.$valid, comment.comment_id, submessage)" novalidate>
                                                 
                                                     <div class="form-group">
                                                         <label for="newCommentDescription" class="pull-left">Your reply</label>
@@ -63,6 +63,7 @@
                                                             required></textarea>
                                                         <p ng-show="subCommentForm.submessage.$error.required && subCommentForm.submessage.$dirty" class="help-block">You cannot leave a blank comment.</p>
                                                         <p ng-show="subCommentForm.submessage.$error.maxlength" class="help-block">Your comment is too long.</p>
+                                            
                                                     </div>
                                                     <button type="submit" ng-click="subCommentForm.$setPristine()" ng-disabled="subCommentForm.$invalid" class="btn btn-primary pull-right">Submit</button>
                                                 </form>
