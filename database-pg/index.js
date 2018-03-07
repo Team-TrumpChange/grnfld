@@ -94,14 +94,17 @@ const checkCredentials = (username) => {
     .where(knex.raw(`LOWER(username) = LOWER('${username}')`));
 };
 
-const createUser = async (username, password) => {
-  const query = await knex.select().from('users')
+const createUser = async (username, password, email, skills) => {
+  const userQuery = await knex.select().from('users')
     .where(knex.raw(`LOWER(username) = LOWER('${username}')`));
-
-  if (query.length) {
-    return 'already exists';
+  const emailQuery = await knex.select().from('users')
+    .where(knex.raw(`LOWER(email) = LOWER('${email}')`));
+  if (userQuery.length) {
+    return 'username already exists';
+  } else if (emailQuery.length) {
+    return 'email already exists';
   } else {
-    return await knex('users').insert({ username: username, password: password});
+    return await knex('users').insert({ username: username, password: password, email: email, skills: skills});
   }
 };
 
