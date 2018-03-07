@@ -72,6 +72,7 @@
 
                             <div class="form-group">
                                 <label for="newCommentDescription" class="pull-left">Your response</label>
+                                <p ng-show="warning">{{meanMessage}}</p>
                                 <p ng-show="warning">{{warning}}</p>
                                 <textarea name="message" ng-model="message" class="form-control" rows="3" placeholder="Write your comment here" ng-maxlength="8000"
                                     required></textarea>

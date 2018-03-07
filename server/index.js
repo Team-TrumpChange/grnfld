@@ -75,10 +75,9 @@ app.post('/createComment', (req, res) => {
       res.status(500).end();
     } else {
       if (sentiment.polarity === 'negative' && sentiment.polarity_confidence > 0.75) {
-        console.log('mean');
-        foaas(comment.message, 'bob', function(err, warning) {
+        foaas(comment.message, comment.user_id, function(err, warning) {
           if (err) {
-            console.log(err);
+            res.status(500).end();
           } else {
             console.log(warning, 'warning');
             res.json({rejection: warning})
@@ -88,7 +87,7 @@ app.post('/createComment', (req, res) => {
         try {
           await db.createComment(comment);
         } catch (err) {
-          console.log(err);
+          res.status(500).end();
         }
         res.end();
       }

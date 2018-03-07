@@ -45,7 +45,7 @@ angular.module('app')
   };
 
   $scope.warning = '';
-
+  $scope.meanMessage = '';
   $scope.message = '';
 
   $scope.submitComment = (isValid) => {
@@ -57,8 +57,8 @@ angular.module('app')
       };
       commentsService.submitNewComment(commentObj, (data) => {
         if (data.data.rejection) {
-          console.log(data.data.rejection);
-          $scope.warning = 'Please make constructive comments only'
+          $scope.meanMessage = data.data.rejection;
+          $scope.warning = 'Please make constructive comments only';
         } else {
           $scope.warning = '';
           $scope.message = '';

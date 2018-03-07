@@ -124,6 +124,11 @@ const refreshCoins = () => {
   knex('users').update('hackcoin', 5);
 };
 
+const getUsername = async (id) => {
+  let user = await knex.select('username').from('users').where('user_id', id);
+  return user[0].username;
+}
+
 module.exports = {
   getAllPosts,
   getUserPosts,
@@ -137,5 +142,6 @@ module.exports = {
   markSolution,
   checkCoin,
   subtractCoins,
-  refreshCoins
+  refreshCoins,
+  getUsername
 };

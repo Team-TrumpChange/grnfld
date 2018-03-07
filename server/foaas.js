@@ -1,4 +1,6 @@
 let axios = require('axios');
+const db = require('../database-pg/index');
+
 
 let FOendpoints = {
   0: '/back',
@@ -13,15 +15,15 @@ let FOendpoints = {
   9: '/thinking'
 }
 
-const foaas = (message, username, callback) => {
-  let index = (message.length%10);
-  let endpoint = FOendpoints[index];
+const foaas = async (message, user_id, callback) => {
+
+  let endpoint = FOendpoints[message.length % 10];
+  
+  let username = await db.getUsername(user_id);
+
   let url = `http://foaas.com${endpoint}/${username}/Everyone`
-  console.log(url);
-  //callback('that was mean');
   axios.get(url, { headers: { 'Accept': 'text/plain' } })
     .then(res => {
-      console.log(res.data);
       callback(null, res.data);
     }) 
     .catch(error => {
