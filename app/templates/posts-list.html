@@ -55,7 +55,7 @@
                                         <p style="margin-left: 2px;">
                                           <small>
                                               <a>Reply</a>
-                                                <form ng-show="$root.userId" name="subCommentForm" ng-submit="submitSubcomment(subCommentForm.$valid, comment.comment_id)" novalidate>
+                                                <form ng-show="$root.userId" name="subCommentForm" ng-submit="submitSubcomment(subCommentForm.$valid, comment.comment_id, submessage)" novalidate>
                                                 
                                                     <div class="form-group">
                                                         <label for="newCommentDescription" class="pull-left">Your reply</label>

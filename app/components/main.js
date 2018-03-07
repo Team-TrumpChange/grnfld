@@ -46,6 +46,7 @@ angular.module('app')
 
   $scope.message = '';
 
+
   $scope.submitComment = (isValid) => {
     if (isValid) {
       let commentObj = {
@@ -53,6 +54,7 @@ angular.module('app')
         post_id: $scope.currentPost.post_id,
         message: $scope.message
       };
+      console.log('commentObj:', commentObj);
       commentsService.submitNewComment(commentObj, (data) => {
         $scope.message = '';
         $scope.handlePostClick($scope.currentIndex);
@@ -62,7 +64,7 @@ angular.module('app')
 
   $scope.submessage = '';
 
-  $scope.submitSubcomment = (isValid, commentId) => {
+  $scope.submitSubcomment = (isValid, commentId, submessage) => {
     console.log('isValid from submitSubcomment:', isValid);
     if (isValid) {
 
@@ -70,12 +72,12 @@ angular.module('app')
         user_id: $rootScope.userId,
         post_id: $scope.currentPost.post_id,
         comment_id: commentId,
-        submessage: $scope.submessage
+        submessage: submessage
       }
       console.log('subcommentObj:', subcommentObj);
       subcommentsService.submitNewSubcomment(subcommentObj, (data) => {
         $scope.submessage = '';
-        $scope.handlePostClick($scope.currentIndex);
+        // $scope.handlePostClick($scope.currentIndex);
       });
     }
   };
