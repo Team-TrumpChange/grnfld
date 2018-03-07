@@ -29,9 +29,9 @@ angular.module('app')
         $scope.userComments = data;
 
         //pagination
-        $scope.$watch('currentPage + numPerPage', function () {
+        $scope.$watch('currentCommentPage + numPerPage', function () {
           //filter posts by page number
-          let begin = (($scope.currentPage - 1) * $scope.numPerPage);
+          let begin = (($scope.currentCommentPage - 1) * $scope.numPerPage);
           console.log(begin);
           let end = begin + $scope.numPerPage;
           console.log(end);
