@@ -84,7 +84,8 @@ button.btn.btn-success:active {
     background-color: #116e54;
 }
 
-.modal-footer {
+.log-footer,
+.reg-footer {
     background-color: #1DBB8D;
     border-radius: 3px;
     border: none;
