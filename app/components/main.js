@@ -1,6 +1,6 @@
 angular.module('app')
-.controller('MainCtrl', function ($scope, postsService, $rootScope, commentsService) {
-  $('.alert .close').on('click', function (e) {
+  .controller('MainCtrl', function ($scope, postsService, $rootScope, commentsService, subcommentsService) {
+  $('.alert .close').on('click', function (e) { 
     $(this).parent().hide();
   });
 
@@ -33,7 +33,7 @@ angular.module('app')
     commentsService.getComments($scope.currentPost.post_id, (data) => {
       console.log('comments', data);
       $scope.comments = data;
-      $scope.comments.forEach(comment => comment.message = comment.message.replace(/\{\{([^}]+)\}\}/g, '<code>$1</code>'));
+      $scope.comments.forEach(comment => comment.message = comment.message.replace(/\{\{([^}]+)\}\}/g, '<code>$1</code>')); // what this means?
       $scope.currentIndex = clickedValue; //sets index for when submit comment is clicked
     });
 
@@ -55,6 +55,26 @@ angular.module('app')
       };
       commentsService.submitNewComment(commentObj, (data) => {
         $scope.message = '';
+        $scope.handlePostClick($scope.currentIndex);
+      });
+    }
+  };
+
+  $scope.submessage = '';
+
+  $scope.submitSubcomment = (isValid, commentId) => {
+    console.log('isValid from submitSubcomment:', isValid);
+    if (isValid) {
+
+      let subcommentObj = {
+        user_id: $rootScope.userId,
+        post_id: $scope.currentPost.post_id,
+        comment_id: commentId,
+        submessage: $scope.submessage
+      }
+      console.log('subcommentObj:', subcommentObj);
+      subcommentsService.submitNewSubcomment(subcommentObj, (data) => {
+        $scope.submessage = '';
         $scope.handlePostClick($scope.currentIndex);
       });
     }

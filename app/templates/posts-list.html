@@ -52,6 +52,22 @@
                                             <p ng-bind-html="comment.message"></p>
                                         </div>
                                         <!-- /panel-body -->
+                                        <p style="margin-left: 2px;">
+                                          <small>
+                                              <a>Reply</a>
+                                                <form ng-show="$root.userId" name="subCommentForm" ng-submit="submitSubcomment(subCommentForm.$valid, comment.comment_id)" novalidate>
+                                                
+                                                    <div class="form-group">
+                                                        <label for="newCommentDescription" class="pull-left">Your reply</label>
+                                                        <textarea name="submessage" ng-model="submessage" class="form-control" rows="3" placeholder="Write your reply here" ng-maxlength="8000"
+                                                            required></textarea>
+                                                        <p ng-show="subCommentForm.submessage.$error.required && subCommentForm.submessage.$dirty" class="help-block">You cannot leave a blank comment.</p>
+                                                        <p ng-show="subCommentForm.submessage.$error.maxlength" class="help-block">Your comment is too long.</p>
+                                                    </div>
+                                                    <button type="submit" ng-click="subCommentForm.$setPristine()" ng-disabled="subCommentForm.$invalid" class="btn btn-primary pull-right">Submit</button>
+                                                </form>
+                                          </small>
+                                        </p>
                                         <p style="margin-right: 2px;">
                                             <small>
                                                 <a ng-class="{'disabled': $root.hackcoin <= 0 || !$root.userId}" ng-click="likeComment(comment.comment_id, $index)"

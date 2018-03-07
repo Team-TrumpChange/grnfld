@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS subcomments;
 
 CREATE TABLE users
 (
@@ -50,6 +51,22 @@ CREATE TABLE comments
   PRIMARY KEY (comment_id),
   FOREIGN KEY (user_id) REFERENCES users (user_id),
   FOREIGN KEY (post_id) REFERENCES posts (post_id)
+);
+
+CREATE TABLE subcomments
+(
+  subcomment_id INT NOT NULL AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  post_id INT NOT NULL,
+  comment_id INT NOT NULL, 
+  submessage VARCHAR(8000),
+  votes INTEGER DEFAULT 0,
+  solution boolean DEFAULT FALSE,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (subcomment_id),
+  FOREIGN KEY (user_id) REFERENCES users (user_id),
+  FOREIGN KEY (post_id) REFERENCES posts (post_id),
+  FOREIGN KEY (comment_id) REFERENCES comments (comment_id)
 );
 
 

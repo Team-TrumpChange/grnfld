@@ -76,6 +76,15 @@ app.post('/login', async (req, res) => {
   }
 });
 
+app.post('/createSubcomment', async (req, res) => {
+  try {
+    await db.createSubcomment(req.body);
+  } catch (err) {
+    console.log('err:', err);
+  }
+  res.end();
+});
+
 app.post('/register', async (req, res) => {
   const shasum = bcrypt.hashSync(req.body.password);
   const data = await db.createUser(req.body.username, shasum);

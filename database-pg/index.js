@@ -62,6 +62,15 @@ const createComment = (comment) => {
   }).orderBy('comment_id', 'asc');
 };
 
+const createSubcomment = (subcomment) => {
+  return knex('subcomments').insert({
+    user_id: subcomment.user_id,
+    post_id: subcomment.post_id,
+    comment_id: subcomment.comment_id,
+    submessage: subcomment.submessage
+  }).orderBy('comment_id', 'asc');
+};
+
 const checkCredentials = (username) => {
   return knex.select().from('users')
     .where(knex.raw(`LOWER(username) = LOWER('${username}')`));
@@ -106,5 +115,6 @@ module.exports = {
   markSolution,
   checkCoin,
   subtractCoins,
-  refreshCoins
+  refreshCoins,
+  createSubcomment
 };
