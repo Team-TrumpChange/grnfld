@@ -13,7 +13,6 @@
     "angular": "^1.6.9",
     "angular-cookies": "^1.6.9",
     "angular-route": "^1.6.9",
-    "antd": "^3.2.3",
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",

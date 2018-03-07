@@ -46,7 +46,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Please log in:</h4>
+        <h4 class="modal-title">Welcome back</h4>
       </div>
       <div id="login-error" class="alert alert-danger alert-dismissible fade in" style="display:none;">
         <a href="#" class="close" aria-label="close">&times;</a>
@@ -54,26 +54,29 @@
       </div>
       <form name="loginForm" ng-submit="submit(loginForm.$valid)" novalidate>
         <div class="modal-body">
-          <div class="form-group">
-            <label>Username:</label>
-            <input type="text" name="username" ng-model="login.username" ng-minlength="5" ng-maxlength="25" required>
-            <p ng-show="loginForm.username.$error.minlength && loginForm.username.$dirty" class="help-block">Username is too short.</p>
-            <p ng-show="loginForm.username.$error.maxlength" class="help-block">Username is too long.</p>
+          <div class="form-group input-group">
+            <input class="form-control" type="text" name="username" ng-model="login.username" ng-maxlength="25" placeholder="username" required>
+            <span class="input-group-addon">
+              <i class="glyphicon glyphicon-user"></i>
+            </span>
           </div>
         
-          <div class="form-group">
-            <label>Password:</label>
-            <input type="password" name="password" ng-model="login.password" ng-minlength="2" required>
-            <p ng-show="loginForm.password.$invalid && loginForm.password.$dirty" class="help-block">Password is too short.</p>
+          <div class="form-group input-group">
+            <input class="form-control" type="password" name="password" ng-model="login.password" placeholder="password" required>
+            <span class="input-group-addon">
+              <i class="glyphicon glyphicon-lock"></i>
+            </span>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-success" ng-click="loginForm.$setPristine()" ng-disabled="loginForm.$invalid">Login</button>
+          <p ng-show="loginForm.username.$error.maxlength" class="help-block">Username is too long.</p>
+          <p ng-show="loginForm.password.$invalid && loginForm.password.$dirty" class="help-block">Password is too short.</p>
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-success" ng-click="loginForm.$setPristine()" ng-disabled="loginForm.$invalid">Login</button>
         </div>
       </form>
     </div>
-  </div>
+  </div>s
 </div>
 
 
@@ -83,7 +86,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Please register:</h4>
+        <h4 class="modal-title">Tell us about yourself</h4>
       </div>
       <div id="registration-error" class="alert alert-danger alert-dismissible fade in" style="display:none;">
         <a href="#" class="close" aria-label="close">&times;</a>
@@ -134,8 +137,8 @@
         <p ng-show="register.confirmpassword !== register.password && registerForm.confirmpassword.$dirty" class="help-block">Passwords do not match.</p>
         <p ng-show="registerForm.email.$error.required && registerForm.email.$dirty" class="help-block">An email is required.</p>        
         <p ng-show="registerForm.email.$invalid && registerForm.email.$dirty" class="help-block">Please be sure the email address is valid.</p>
-        <button type="submit" class="btn btn-success" ng-click="registerForm.$setPristine()" ng-disabled="registerForm.$invalid">Register</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-success" ng-click="registerForm.$setPristine()" ng-disabled="registerForm.$invalid">Register</button>
       </div>
       </form>
     </div>
