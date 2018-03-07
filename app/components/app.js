@@ -1,5 +1,5 @@
 angular.module('app')
-.controller('AppCtrl', function (postsService, $rootScope) {
+  .controller('AppCtrl', function (postsService, usersService, $rootScope) {
   $rootScope.userId = 0;
   $rootScope.hackcoin = 0;
 })
