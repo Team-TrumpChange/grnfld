@@ -139,7 +139,7 @@
         <p ng-show="registerForm.email.$error.required && registerForm.email.$dirty" class="help-block">An email is required.</p>        
         <p ng-show="registerForm.email.$invalid && registerForm.email.$dirty" class="help-block">Please be sure the email address is valid.</p>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="submit" class="btn btn-success" ng-click="registerForm.$setPristine()" ng-disabled="registerForm.$invalid">Register</button>
+        <button type="submit" class="btn btn-success" ng-click="registerForm.$setPristine()" ng-disabled="registerForm.$invalid || register.password !== register.confirmpassword">Register</button>
       </div>
       </form>
     </div>
