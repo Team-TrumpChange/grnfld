@@ -13,25 +13,18 @@ let getSentiment = new AYLIENTextAPI({
 });
 
 const app = express();
+
 app.use(express.static(__dirname + '/../app'));
 app.use(express.static(__dirname + '/../node_modules'));
 
 app.use(bodyParser.json());
 
 app.use(session({
-  secret: 'keyboard cat',
+  secret: 'the mystery machine',
   cookie: {
-    maxAge: 6000000,
+    maxAge: 60000000,
   }
 }));
-
-var checkSession = function (req, res, next) {
-  if (req.session.loggedIn === true) {
-    next();
-  } else {
-    res.redirect('/login');
-  }
-};
 
 const timer =  24 * 60 * 1000; //hours minutes seconds  //15 * 1000
 let refreshCoins = setInterval( () => {
@@ -134,6 +127,15 @@ app.post('/login', async (req, res) => {
   }
 });
 
+app.post('/autoLogin', (req,res) => {
+  console.log('trying to autologin');
+  if (req.session.loggedIn === true) {
+    res.send(req.session.user);
+  } else {
+    res.end();
+  }
+})
+
 app.post('/register', async (req, res) => {
   const shasum = bcrypt.hashSync(req.body.password);
   const data = await db.createUser(req.body.username, shasum, req.body.email, req.body.skills);
@@ -152,6 +154,11 @@ app.post('/register', async (req, res) => {
     });
   }
 });
+
+app.post('/logout', (req, res) => {
+  console.log('logging out');
+  req.session.destroy();
+})
 
 app.post('/coin', async (req, res) => {
   let currentHackCoins = await db.checkCoin(req.body.userId);
