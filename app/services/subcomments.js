@@ -6,7 +6,7 @@ angular.module('app')
           callback(data);
         })
         .catch(function (err) {
-          console.log(err);
+          console.log('err:', err);
         });
     };
 
@@ -14,18 +14,19 @@ angular.module('app')
     //   return await $http.post('/coin', newLikeObj)
     // };
 
-    //grab comments
-    // this.getComments = function (postId, callback) {
-    //   $http.get('/comments', {
-    //     params: { postId: postId }
-    //   })
-    //     .then(function ({ data }) {
-    //       callback(data);
-    //     })
-    //     .catch(function (err) {
-    //       console.log(err);
-    //     });
-    // };
+    // grab subcomments
+    this.getSubcomments = function (commentId, callback) {
+      console.log('commentId in getSubcomments', commentId);
+      $http.get('/subcomments', {
+        params: { commentId: commentId }
+      })
+        .then(function ({ data }) {
+          callback(data);
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
+    };
 
     // this.selectSolution = async (commentId, postId) => {
     //   await $http.post('/solution', {

@@ -1,0 +1,27 @@
+<p style="margin-left: 2px;">
+  <small>
+    <div>
+      <div>comment: {{comment}}</div>
+      <a ng-click="$ctrl.showReplyForm()">Reply</a>
+      <form ng-show="$root.userId && $ctrl.replyClicked" name="subCommentForm" ng-submit="$ctrl.submitSubcomment(subCommentForm.$valid)" novalidate>
+        <div ng-model="comment.comment_id"></div>
+        <div class="form-group">
+          <label for="newCommentDescription" class="pull-left">Your reply</label>
+          <textarea name="submessage" ng-model="$ctrl.submessage" class="form-control" rows="3" placeholder="Write your reply here" ng-maxlength="8000"
+            required></textarea>
+          <p ng-show="subCommentForm.submessage.$error.required && subCommentForm.submessage.$dirty" class="help-block">You cannot leave a blank comment.</p>
+          <p ng-show="subCommentForm.submessage.$error.maxlength" class="help-block">Your comment is too long.</p>
+
+        </div>
+        <button type="submit" ng-click="subCommentForm.$setPristine()" ng-disabled="subCommentForm.$invalid" class="btn btn-primary pull-right">Submit</button>
+      </form>
+    </div>
+  </small>
+</p>
+<p style="margin-right: 2px;">
+<small>
+  <a ng-class="{'disabled': $root.hackcoin <= 0 || !$root.userId}" ng-click="likeComment(comment.comment_id, $index)" href="">Like</a> -
+  <a ng-show="currentPost.user_id === $root.userId" ng-click="selectSolution(comment)" href="">Mark as Solution</a> Votes: {{comment.votes}}
+</small>
+</p>
+    

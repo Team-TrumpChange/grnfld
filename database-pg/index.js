@@ -27,6 +27,12 @@ const getComments = (postId) => {
     .where(knex.raw(`comments.post_id = ${postId} and comments.user_id = users.user_id`));
 };
 
+const getSubcomments = (commentId) => {
+  return knex.column(knex.raw('subcomments.*, users.username')).select()
+    .from(knex.raw('comments, subcomments, users'))
+    .where(knex.raw(`subcomments.comment_id = ${commentId} and subcomments.user_id = users.user_id`));
+};
+
 //using async/await
 //currently not used
 // async function getPostsWithCommentsAsync() {
@@ -116,5 +122,6 @@ module.exports = {
   checkCoin,
   subtractCoins,
   refreshCoins,
-  createSubcomment
+  createSubcomment,
+  getSubcomments
 };

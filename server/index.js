@@ -38,6 +38,12 @@ app.get('/comments', async (req, res) => {
   res.json(comments);
 });
 
+app.get('/subcomments', async (req, res) => {
+  console.log('req.body:', req.query);
+  let subcomments = await db.getSubcomments(req.query.commentId);
+  res.json(subcomments);
+})
+
 app.post('/createPost', async (req, res) => {
   try {
     await db.createPost(req.body);
