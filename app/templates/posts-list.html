@@ -1,18 +1,18 @@
 <div>
-    <button ng-click="refresh()" type="button" class="btn btn-primary btn-sm pull-right">Refresh</button>
-    <h3 class="" style="margin-left: 10px;">Most Recent Posts:</h3>
+    <h3 class="recent-post-title" style="margin-left: 10px;">Most Recent Posts</h3>
+    <button ng-click="refresh()" type="button" class="btn btn-primary btn-sm refresh-button">Refresh</button>
     <hr>
     <div class="list-group">
-        <a ng-repeat="post in filteredPosts track by $index" ng-click="handlePostClick($index)" post="post" class="list-group-item list-group-item-action flex-column align-items-start"
+        <a ng-repeat="post in filteredPosts track by $index" ng-click="handlePostClick($index)" post="post" class="list-group-item list-group-item-action flex-column align-items-start posts-list"
             data-toggle="modal" data-target="#myModal">
-            <div class="d-flex w-100 justify-content-between inline-block">    
-                <h5 class="mb-1">
-                    <strong>{{post.title}}</strong>
+            <div class="d-flex w-100 justify-content-between inline-block post-content">    
+                <h5 class="mb-1 post-title">
+                    {{post.title}}
                 </h5>
+                <p class="mb-1">{{post.summary}}</p>
                 <small>
                     <strong>{{post.username}}</strong>
                 </small>
-                <p class="mb-1">{{post.summary}}</p>
                 <small>{{post.created_at | date:'medium'}}</small>
             </div>
             <img ng-src="https://robohash.org/{{post.username}}.png?size=80x80" class="rounded inline-block" />
