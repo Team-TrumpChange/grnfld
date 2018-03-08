@@ -27,7 +27,6 @@ CREATE TABLE posts (
   created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
 
-
 -- ---
 -- Table 'comment'
 --
@@ -43,6 +42,18 @@ CREATE TABLE comments (
   created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
 
+CREATE TABLE subcomments
+(
+  subcomment_id serial PRIMARY KEY,
+  user_id INT REFERENCES users (user_id) NOT NULL,
+  post_id INT REFERENCES posts (post_id) NOT NULL,
+  comment_id INT REFERENCES comments (comment_id) NOT NULL, 
+  message VARCHAR(8000),
+  votes INTEGER DEFAULT 0,
+  solution boolean DEFAULT FALSE,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (subcomment_id)
+);
 
 -- ---
 -- Test Data

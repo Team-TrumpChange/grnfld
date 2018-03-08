@@ -45,15 +45,17 @@ app.get('/userPosts', async (req, res) => {
 
 app.get('/user', async (req,res) => {
   let userId = req.query.userid;
-  let user = await db.getUser(userId);
-  console.log(user.avatar);
-  res.json(user);
+  if (!userId) {
+    res.redirect('/');
+  } else {
+    let user = await db.getUser(userId);
+    res.json(user);
+  }
 });
 
 app.patch('/user', async (req, res) => {
   let userId = req.body.userid;
   let skills = req.body.skills;
-  console.log(skills);
   await db.updateUserSkills(userId, skills);
   res.end();
 });
@@ -76,11 +78,20 @@ app.get('/comments', async (req, res) => {
   res.json(comments);
 });
 
+
+app.get('/subcomments', async (req, res) => {
+  console.log('req.query:', req.query);
+  let subcomments = await db.getSubcomments(req.query.commentId);
+  console.log('subcomments in get:', subcomments);
+  res.json(subcomments);
+})
+
 app.get('/userComments', async (req, res) => {
   let userId = req.query.userId;
   let comments = await db.getUserComments(userId);
   res.json(comments);
 });
+
 
 app.post('/createPost', async (req, res) => {
   try {
@@ -103,7 +114,6 @@ app.post('/createComment', (req, res) => {
           if (err) {
             res.status(500).end();
           } else {
-            console.log(warning, 'warning');
             res.json({rejection: warning})
           }
         });
@@ -142,14 +152,25 @@ app.post('/login', async (req, res) => {
   }
 });
 
+
+app.post('/createSubcomment', async (req, res) => {
+  console.log('req.body:', req.body);
+  try {
+    await db.createSubcomment(req.body);
+  } catch (err) {
+    console.log('err:', err);
+  }
+  res.end();
+});
+
 app.post('/autoLogin', (req,res) => {
-  console.log('trying to autologin');
   if (req.session.loggedIn === true) {
     res.send(req.session.user);
   } else {
     res.end();
   }
 })
+
 
 app.post('/register', async (req, res) => {
   const shasum = bcrypt.hashSync(req.body.password);
