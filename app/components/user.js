@@ -55,8 +55,13 @@ angular.module('app')
         $scope.comments.forEach(comment => comment.message = comment.message.replace(/\{\{([^}]+)\}\}/g, '<code>$1</code>'));
         $scope.currentIndex = clickedValue; //sets index for when submit comment is clicked
       });
-
     };
+
+    $scope.handleUsernameClick = (userId) => {
+      console.log('username click!', userId);
+      $rootScope.userPageUser = userId;
+      $scope.init();
+    }
 
     $scope.handleCommentClick = (clickedValue) => {
       $scope.currentComment = $scope.filteredComments[clickedValue];
