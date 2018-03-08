@@ -5,6 +5,7 @@ const db = require('../database-pg/index');
 const AYLIENTextAPI = require('aylien_textapi');
 const config = require('../database-pg/config.js');
 const foaas = require('./foaas.js');
+const session = require('express-session');
 
 let getSentiment = new AYLIENTextAPI({
   application_id: config.aylien.id,
@@ -12,10 +13,18 @@ let getSentiment = new AYLIENTextAPI({
 });
 
 const app = express();
+
 app.use(express.static(__dirname + '/../app'));
 app.use(express.static(__dirname + '/../node_modules'));
 
 app.use(bodyParser.json());
+
+app.use(session({
+  secret: 'the mystery machine',
+  cookie: {
+    maxAge: 60000000,
+  }
+}));
 
 const timer =  24 * 60 * 1000; //hours minutes seconds  //15 * 1000
 let refreshCoins = setInterval( () => {
@@ -101,6 +110,10 @@ app.post('/login', async (req, res) => {
   if (userInfo.length) {
     const user = userInfo[0];
     if (bcrypt.compareSync(req.body.password, user.password)) {
+
+      req.session.loggedIn = true;
+      req.session.user = user;
+
       res.status(200).json({
         user_id: user.user_id,
         username: user.username,
@@ -114,6 +127,15 @@ app.post('/login', async (req, res) => {
   }
 });
 
+app.post('/autoLogin', (req,res) => {
+  console.log('trying to autologin');
+  if (req.session.loggedIn === true) {
+    res.send(req.session.user);
+  } else {
+    res.end();
+  }
+})
+
 app.post('/register', async (req, res) => {
   const shasum = bcrypt.hashSync(req.body.password);
   const data = await db.createUser(req.body.username, shasum, req.body.email, req.body.skills);
@@ -121,6 +143,10 @@ app.post('/register', async (req, res) => {
     res.status(409).end();
   } else {
     const userInfo = await db.checkCredentials(req.body.username);
+    
+    req.session.loggedIn = true;
+    req.session.user = userInfo[0];
+
     res.status(200).json({
       user_id: userInfo[0].user_id,
       username: userInfo[0].username,
@@ -128,6 +154,11 @@ app.post('/register', async (req, res) => {
     });
   }
 });
+
+app.post('/logout', (req, res) => {
+  console.log('logging out');
+  req.session.destroy();
+})
 
 app.post('/coin', async (req, res) => {
   let currentHackCoins = await db.checkCoin(req.body.userId);
@@ -152,7 +183,10 @@ app.post('/solution', async (req, res) => {
   res.status(200).end();
 });
 
-app.get('*', (req, res) => res.redirect('/'));
+app.get('*', (req, res) => {
+  console.log('OPEN');
+  res.redirect('/');
+});
 
 app.listen(process.env.PORT || 3000, function () {
   console.log('listening on port 3000!');
