@@ -45,15 +45,17 @@ app.get('/userPosts', async (req, res) => {
 
 app.get('/user', async (req,res) => {
   let userId = req.query.userid;
-  let user = await db.getUser(userId);
-  console.log(user.avatar);
-  res.json(user);
+  if (!userId) {
+    res.redirect('/');
+  } else {
+    let user = await db.getUser(userId);
+    res.json(user);
+  }
 });
 
 app.patch('/user', async (req, res) => {
   let userId = req.body.userid;
   let skills = req.body.skills;
-  console.log(skills);
   await db.updateUserSkills(userId, skills);
   res.end();
 });
@@ -103,7 +105,6 @@ app.post('/createComment', (req, res) => {
           if (err) {
             res.status(500).end();
           } else {
-            console.log(warning, 'warning');
             res.json({rejection: warning})
           }
         });
@@ -143,7 +144,6 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/autoLogin', (req,res) => {
-  console.log('trying to autologin');
   if (req.session.loggedIn === true) {
     res.send(req.session.user);
   } else {
