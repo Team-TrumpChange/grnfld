@@ -6,6 +6,7 @@ angular.module('app')
 
     $scope.init = function () {
       $scope.self = $location.path() === '/user'  || $rootScope.userPageUser === $rootScope.userId;
+      console.log(self);
       $scope.currentPage = 1;
       $scope.numPerPage = 5;
       $scope.currentCommentPage = 1;
@@ -40,7 +41,8 @@ angular.module('app')
           console.log($scope.filteredComments, 'this pages comments');
         });
 
-      })
+      });
+      $scope.name = self ? 'Your' : $scope.filteredPosts[0].username;
     };
 
     //runs init on view startup
