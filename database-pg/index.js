@@ -21,17 +21,46 @@ const getAllPosts = () => {
     .orderBy('post_id', 'desc');
 };
 
+const getUserPosts = (userId) => {
+  return knex.column(knex.raw('posts.*, users.username')).select()
+    .from('posts')
+    .innerJoin('users', 'posts.user_id', 'users.user_id')
+    .where('users.user_id', userId)
+    .orderBy('posts.post_id', 'desc');
+}
+
 const getComments = (postId) => {
   return knex.column(knex.raw('comments.*, users.username')).select()
     .from(knex.raw('comments, users'))
     .where(knex.raw(`comments.post_id = ${postId} and comments.user_id = users.user_id`));
 };
 
+
 const getSubcomments = (commentId) => {
   return knex.select('*').from('subcomments').join('users', function () {
     this.on('subcomments.user_id', '=', 'users.user_id').onIn('subcomments.comment_id', [commentId])
   })
 };
+
+const getUserComments = async (userId) => {
+  let comments = await knex.select()
+    .from('comments')
+    .where('user_id', userId);
+
+  for (const comment of comments) {
+    let posts = comment.post = await getPostForComment(comment.post_id);
+    comment.post = posts[0];
+  }
+  return comments
+}
+
+let getPostForComment = async (postId) => {
+  return knex.column(knex.raw('posts.*, users.username')).select()
+    .from('posts')
+    .innerJoin('users', 'posts.user_id', 'users.user_id')
+    .where('posts.post_id', postId)
+}
+
 
 //using async/await
 //currently not used
@@ -82,38 +111,50 @@ const checkCredentials = (username) => {
     .where(knex.raw(`LOWER(username) = LOWER('${username}')`));
 };
 
-const createUser = async (username, password) => {
-  const query = await knex.select().from('users')
+const createUser = async (username, password, email, skills) => {
+  const userQuery = await knex.select().from('users')
     .where(knex.raw(`LOWER(username) = LOWER('${username}')`));
-
-  if (query.length) {
-    return 'already exists';
+  const emailQuery = await knex.select().from('users')
+    .where(knex.raw(`LOWER(email) = LOWER('${email}')`));
+  if (userQuery.length) {
+    return 'username already exists';
+  } else if (emailQuery.length) {
+    return 'email already exists';
   } else {
-    return await knex('users').insert({ username: username, password: password});
+    return await knex('users').insert({ username: username, password: password, email: email, skills: skills});
   }
 };
 
-const markSolution = (commentId, postId) => {
-  knex('posts').where('post_id', postId).update('solution_id', commentId);
+const markSolution = async (commentId, postId) => {
+  await knex('comments').where('post_id', postId).update('solution', false); //resets comments if something was previously marked as solution
+  await knex('comments').where('comment_id', commentId).update('solution', true);
+  await knex('posts').where('post_id', postId).update('solution_id', commentId);
 };
 
 const checkCoin = (userId) => {
   return knex.select('hackcoin').from('users').where('user_id', userId);
 };
 
-const subtractCoins = (currenthackcoin, subtractinghackcoin, userId, commentId) => {
-  knex('users').where('user_id', userId).update('hackcoin', currenthackcoin - subtractinghackcoin);
-  knex('comments').where('comment_id', commentId).increment('votes', subtractinghackcoin);  //update votes by amount of hackcoins subtracted
+const subtractCoins = async (currenthackcoin, subtractinghackcoin, userId, commentId) => {
+  await knex('users').where('user_id', userId).update('hackcoin', currenthackcoin - subtractinghackcoin);
+  await knex('comments').where('comment_id', commentId).increment('votes', subtractinghackcoin); //update votes by amount of hackcoins subtracted
 };
 
 const refreshCoins = () => {
   knex('users').update('hackcoin', 5);
 };
 
+const getUsername = async (id) => {
+  let user = await knex.select('username').from('users').where('user_id', id);
+  return user[0].username;
+}
+
 module.exports = {
   getAllPosts,
+  getUserPosts,
   createPost,
   getComments,
+  getUserComments,
   // getPostsWithCommentsAsync,
   checkCredentials,
   createUser,
@@ -123,5 +164,7 @@ module.exports = {
   subtractCoins,
   refreshCoins,
   createSubcomment,
-  getSubcomments
+  getSubcomments,
+  getUsername
+
 };

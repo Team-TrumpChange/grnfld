@@ -2,12 +2,29 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt-nodejs');
 const db = require('../database-pg/index');
+const AYLIENTextAPI = require('aylien_textapi');
+const config = require('../database-pg/config.js');
+const foaas = require('./foaas.js');
+const session = require('express-session');
+
+let getSentiment = new AYLIENTextAPI({
+  application_id: config.aylien.id,
+  application_key: config.aylien.key
+});
 
 const app = express();
+
 app.use(express.static(__dirname + '/../app'));
 app.use(express.static(__dirname + '/../node_modules'));
 
 app.use(bodyParser.json());
+
+app.use(session({
+  secret: 'the mystery machine',
+  cookie: {
+    maxAge: 60000000,
+  }
+}));
 
 const timer =  24 * 60 * 1000; //hours minutes seconds  //15 * 1000
 let refreshCoins = setInterval( () => {
@@ -19,6 +36,12 @@ app.get('/posts', async (req, res) => {
   let posts = await db.getAllPosts();
   res.json(posts);
 });
+
+app.get('/userPosts', async (req, res) => {
+  let userId = req.query.userId;
+  let posts = await db.getUserPosts(userId)
+  res.json(posts);
+})
 
 // app.get('/test', (req, res) => {
   // wrap this in a promise/async/await
@@ -38,12 +61,20 @@ app.get('/comments', async (req, res) => {
   res.json(comments);
 });
 
+
 app.get('/subcomments', async (req, res) => {
   console.log('req.query:', req.query);
   let subcomments = await db.getSubcomments(req.query.commentId);
   console.log('subcomments in get:', subcomments);
   res.json(subcomments);
 })
+
+app.get('/userComments', async (req, res) => {
+  let userId = req.query.userId;
+  let comments = await db.getUserComments(userId);
+  res.json(comments);
+});
+
 
 app.post('/createPost', async (req, res) => {
   try {
@@ -54,14 +85,32 @@ app.post('/createPost', async (req, res) => {
   res.end();
 });
 
-app.post('/createComment', async (req, res) => {
+app.post('/createComment', (req, res) => {
   let comment = req.body;
-  try {
-    await db.createComment(comment);
-  } catch (err) {
-    console.log(err);
-  }
-  res.end();
+  getSentiment.sentiment({text: comment.message}, async (err, sentiment) => {
+    if (err) {
+      console.log(err);
+      res.status(500).end();
+    } else {
+      if (sentiment.polarity === 'negative' && sentiment.polarity_confidence > 0.75) {
+        foaas(comment.message, comment.user_id, function(err, warning) {
+          if (err) {
+            res.status(500).end();
+          } else {
+            console.log(warning, 'warning');
+            res.json({rejection: warning})
+          }
+        });
+      } else {
+        try {
+          await db.createComment(comment);
+        } catch (err) {
+          res.status(500).end();
+        }
+        res.end();
+      }
+    }
+  });
 });
 
 app.post('/login', async (req, res) => {
@@ -70,6 +119,10 @@ app.post('/login', async (req, res) => {
   if (userInfo.length) {
     const user = userInfo[0];
     if (bcrypt.compareSync(req.body.password, user.password)) {
+
+      req.session.loggedIn = true;
+      req.session.user = user;
+
       res.status(200).json({
         user_id: user.user_id,
         username: user.username,
@@ -83,6 +136,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
+
 app.post('/createSubcomment', async (req, res) => {
   try {
     await db.createSubcomment(req.body);
@@ -92,13 +146,27 @@ app.post('/createSubcomment', async (req, res) => {
   res.end();
 });
 
+app.post('/autoLogin', (req,res) => {
+  console.log('trying to autologin');
+  if (req.session.loggedIn === true) {
+    res.send(req.session.user);
+  } else {
+    res.end();
+  }
+})
+
+
 app.post('/register', async (req, res) => {
   const shasum = bcrypt.hashSync(req.body.password);
-  const data = await db.createUser(req.body.username, shasum);
-  if (data === 'already exists') {
+  const data = await db.createUser(req.body.username, shasum, req.body.email, req.body.skills);
+  if (data === 'username already exists' || data === 'email already exists') {
     res.status(409).end();
   } else {
     const userInfo = await db.checkCredentials(req.body.username);
+    
+    req.session.loggedIn = true;
+    req.session.user = userInfo[0];
+
     res.status(200).json({
       user_id: userInfo[0].user_id,
       username: userInfo[0].username,
@@ -106,6 +174,11 @@ app.post('/register', async (req, res) => {
     });
   }
 });
+
+app.post('/logout', (req, res) => {
+  console.log('logging out');
+  req.session.destroy();
+})
 
 app.post('/coin', async (req, res) => {
   let currentHackCoins = await db.checkCoin(req.body.userId);
@@ -125,13 +198,17 @@ app.post('/coin', async (req, res) => {
 });
 
 app.post('/solution', async (req, res) => {
-  console.log(req.body);
+  console.log(req.body, 'solution');
   const data = await db.markSolution(req.body.commentId, req.body.postId);
   res.status(200).end();
 });
 
-app.get('*', (req, res) => res.redirect('/'));
+app.get('*', (req, res) => {
+  console.log('OPEN');
+  res.redirect('/');
+});
 
 app.listen(process.env.PORT || 3000, function () {
   console.log('listening on port 3000!');
 });
+

@@ -1,5 +1,5 @@
 angular.module('app')
-.controller('AppCtrl', function (postsService, $rootScope) {
+  .controller('AppCtrl', function (postsService, usersService, $rootScope) {
   $rootScope.userId = 0;
   $rootScope.hackcoin = 0;
 })
@@ -17,6 +17,10 @@ angular.module('app')
     .when('/submit', {
       templateUrl: 'templates/submit.html',
       controller: 'SubmitCtrl'
+    })
+    .when('/user', {
+      templateUrl: 'templates/user.html',
+      controller: 'UserCtrl'
     })
     .otherwise({ redirectTo: '/' });
   $locationProvider.html5Mode(true);

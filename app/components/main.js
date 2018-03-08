@@ -1,10 +1,19 @@
 angular.module('app')
-  .controller('MainCtrl', function ($scope, postsService, $rootScope, commentsService, subcommentsService) {
-  $('.alert .close').on('click', function (e) { 
+
+.controller('MainCtrl', function ($scope, postsService, $rootScope, commentsService, usersService) {
+  $('.alert .close').on('click', function (e) {
     $(this).parent().hide();
   });
 
   $scope.init = function() {
+    console.log('init');
+    usersService.autoLogin((user) => {
+      if (user) {
+        $rootScope.userId = user.user_id;
+        $rootScope.hackcoin = user.hackcoin
+      }
+    });
+
     $scope.currentPage = 1;
     $scope.numPerPage = 5;
 
@@ -43,6 +52,8 @@ angular.module('app')
     $scope.init();
   };
 
+  $scope.warning = '';
+  $scope.meanMessage = '';
   $scope.message = '';
 
 
@@ -54,8 +65,14 @@ angular.module('app')
         message: $scope.message
       };
       commentsService.submitNewComment(commentObj, (data) => {
-        $scope.message = '';
-        $scope.handlePostClick($scope.currentIndex);
+        if (data.data.rejection) {
+          $scope.meanMessage = data.data.rejection;
+          $scope.warning = 'Please make constructive comments only';
+        } else {
+          $scope.warning = '';
+          $scope.message = '';
+          $scope.handlePostClick($scope.currentIndex);
+        }
       });
     }
   };
@@ -65,7 +82,6 @@ angular.module('app')
     if ($rootScope.userId === $scope.currentPost.user_id) {
       $scope.currentPost.solution_id = comment.comment_id; //changes local solution_id so that star moves without refresh
       commentsService.selectSolution(comment.comment_id, $scope.currentPost.post_id);
-      console.log('select Solution completed');
     }
   };
 

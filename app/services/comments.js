@@ -1,4 +1,4 @@
- angular.module('app')
+angular.module('app')
 .service('commentsService', function ($http) {
   this.submitNewComment = function (newCommentObj, callback) {
     $http.post('/createComment', newCommentObj)
@@ -27,9 +27,25 @@
     });
   };
 
+  this.getUserComments = function (userId, callback) {
+    $http.get('/userComments', {
+      params: {userId: userId}
+    })
+      .then (function({data}){
+        callback(data);
+      })
+      .catch(function(err) {
+        console.log(err);
+      })
+  }
+
   this.selectSolution = async (commentId, postId) => {
     await $http.post('/solution', {
       postId: postId, commentId: commentId
     });
   };
+
+  this.validate = (commentObj, callback) => {
+
+  }
 });

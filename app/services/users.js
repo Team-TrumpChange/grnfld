@@ -13,10 +13,28 @@ angular.module('app')
     });
   };
 
-  this.register = function (username, password, callback) {
+  this.autoLogin = function (callback) {
+    $http.post('/autoLogin')
+      .then(function(response) {
+        let data = response.data;
+        if (data) {
+          console.log(typeof data, data);
+          callback(data);
+        } else {
+          callback();
+        }
+      })
+      .catch(function(error) {
+        callback(error)
+      });
+  }
+
+  this.register = function (username, password, email, skills, callback) {
     $http.post('/register', {
       username: username,
-      password: password
+      password: password,
+      email: email,
+      skills: skills,
     })
       .then(function (data) {
         callback(data);
@@ -25,4 +43,8 @@ angular.module('app')
         callback(err);
     });
   };
+
+  this.logout = function () {
+    $http.post('logout');
+  }
 });

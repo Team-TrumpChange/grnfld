@@ -1,6 +1,7 @@
 <div>
     <button ng-click="refresh()" type="button" class="btn btn-primary btn-sm pull-right">Refresh</button>
     <h3 class="" style="margin-left: 10px;">Most Recent Posts:</h3>
+    <hr>
     <div class="list-group">
         <a ng-repeat="post in filteredPosts track by $index" ng-click="handlePostClick($index)" post="post" class="list-group-item list-group-item-action flex-column align-items-start"
             data-toggle="modal" data-target="#myModal">
@@ -67,6 +68,10 @@
 
                             <div class="form-group">
                                 <label for="newCommentDescription" class="pull-left">Your response</label>
+                                <div><a href="#" data-toggle="modal" data-target="#codepen-modal">SandBox</a></div>
+
+                                <p ng-show="warning">{{meanMessage}}</p>
+                                <p ng-show="warning">{{warning}}</p>
                                 <textarea name="message" ng-model="message" class="form-control" rows="3" placeholder="Write your comment here" ng-maxlength="8000"
                                     required></textarea>
                                 <p ng-show="commentForm.message.$error.required && commentForm.message.$dirty" class="help-block">You cannot leave a blank comment.</p>
@@ -81,3 +86,23 @@
         </div>
     </div>
 </div>
+
+
+<!-- sandbox modal -->
+<div class="modal fade" id="codepen-modal" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <div>SandBox</div>
+            </div>
+            <div class="modal-body post-frame-wrapper">
+                <div class="post-frame-top"></div>
+                <div class="post-frame-bottom"></div>
+              <iframe height="400px" width="100%" src="https://codepen.io/maniks04/pen/zWOZXG?editors=0010" scrolling="no" frameborder="no" allowtransparency="true" allowfullscreen="true" sandbox="allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-modals"></iframe>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
