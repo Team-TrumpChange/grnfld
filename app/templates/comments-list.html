@@ -21,8 +21,11 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class = "inline-block">
             <h4 class="modal-title">{{currentComment.post.title}}</h4>
             <h5 ng-click="handleUsernameClick(currentComment.post.user_id)" data-dismiss="modal"> {{currentComment.post.username}} </h5>
+            </div>
+            <img ng-src="https://robohash.org/{{currentComment.post.username}}.png?size=80x80" class = "inline-block"/>
           </div>
           <div class="modal-body">
             <pre>{{currentComment.post.code}}</pre>
