@@ -1,6 +1,7 @@
 <h2 style="opacity: 0;">User Page</h2>
-<div>
+<div> 
   <h3>{{name}}</h3>
+  <img ng-src="https://robohash.org/{{user.username}}.png?size=80x80"/>
   <h5> Skills: {{user.skills}} </h5>
   <h5> Hackcoin: {{user.hackcoin}} </h5>
   <button ng-show='self' data-toggle="modal" data-target="#editUserModal"> Edit </button>
@@ -13,7 +14,7 @@
         <h4 class="modal-title">Edit Skills</h4>
       </div>
       <form name="skillsForm" ng-submit="editSubmit(skillsForm.$valid)" ng-controller="UserCtrl">
-        <div class="modal-body">
+        <div class="modal-body"
           <div class="form-group input-group log-group">
             <input class="form-control" 
               type="text" name="skills" 

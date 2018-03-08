@@ -46,6 +46,7 @@ app.get('/userPosts', async (req, res) => {
 app.get('/user', async (req,res) => {
   let userId = req.query.userid;
   let user = await db.getUser(userId);
+  console.log(user.avatar);
   res.json(user);
 });
 
@@ -152,7 +153,9 @@ app.post('/autoLogin', (req,res) => {
 
 app.post('/register', async (req, res) => {
   const shasum = bcrypt.hashSync(req.body.password);
-  const data = await db.createUser(req.body.username, shasum, req.body.email, req.body.skills);
+
+  const avatar = `https://api.adorable.io/avatars/80/${req.body.username}.png`
+  const data = await db.createUser(req.body.username, shasum, req.body.email, req.body.skills, avatar);
   if (data === 'username already exists' || data === 'email already exists') {
     res.status(409).end();
   } else {

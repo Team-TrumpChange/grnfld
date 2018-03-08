@@ -10,6 +10,7 @@ angular.module('app')
       if (user) {
         $rootScope.userId = user.user_id;
         $rootScope.hackcoin = user.hackcoin
+        $rootScope.userPageUser = user.user_id;
       }
     });
 

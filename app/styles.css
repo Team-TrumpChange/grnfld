@@ -126,3 +126,7 @@ hr {
     border: none;
     background-color: #1DBB8D;
 }
+
+.inline-block {
+    display: inline-block;
+}

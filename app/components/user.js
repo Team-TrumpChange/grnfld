@@ -12,7 +12,7 @@ angular.module('app')
       
       usersService.getUserDetails($rootScope.userPageUser, user => {
         $scope.user = user;
-        $scope.name = $scope.self ? 'You' : $scope.user.username.concat("'s");
+        $scope.name = $scope.self ? 'You' : $scope.user.username;
       })
       //get all posts on page load
       postsService.getUserPosts($rootScope.userPageUser, data => {

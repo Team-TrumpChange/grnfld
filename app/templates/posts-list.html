@@ -5,16 +5,18 @@
     <div class="list-group">
         <a ng-repeat="post in filteredPosts track by $index" ng-click="handlePostClick($index)" post="post" class="list-group-item list-group-item-action flex-column align-items-start"
             data-toggle="modal" data-target="#myModal">
-            <div class="d-flex w-100 justify-content-between">
+            <div class="d-flex w-100 justify-content-between inline-block">    
                 <h5 class="mb-1">
                     <strong>{{post.title}}</strong>
                 </h5>
                 <small>
                     <strong>{{post.username}}</strong>
                 </small>
+                <p class="mb-1">{{post.summary}}</p>
+                <small>{{post.created_at | date:'medium'}}</small>
             </div>
-            <p class="mb-1">{{post.summary}}</p>
-            <small>{{post.created_at | date:'medium'}}</small>
+            <img ng-src="https://robohash.org/{{post.username}}.png?size=80x80" class="rounded inline-block" />
+
         </a>
         <div id="myModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
