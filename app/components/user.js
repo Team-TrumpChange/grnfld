@@ -130,6 +130,7 @@ angular.module('app')
       if ($rootScope.hackcoin <= 0) {
         $('#like-error').show();
       } else {
+        console.log(index, 'index');
         let res = await commentsService.likeComment({
           commentId: commentId,
           userId: $rootScope.userId,
@@ -139,7 +140,8 @@ angular.module('app')
         if (res.status === 200) {
           $scope.$apply(() => {
             --$rootScope.hackcoin;
-            $scope.comments[index].votes++;
+            console.log($scope.userComments);
+            $scope.postComments[index].votes++;
           });
         }
       }
