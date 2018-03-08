@@ -40,7 +40,6 @@ angular.module('app')
     $scope.currentPost = $scope.filteredPosts[clickedValue];
     //get all comments from clicked post
     commentsService.getComments($scope.currentPost.post_id, (data) => {
-      console.log('comments', data);
       $scope.comments = data;
       $scope.comments.forEach(comment => comment.message = comment.message.replace(/\{\{([^}]+)\}\}/g, '<code>$1</code>'));
       $scope.currentIndex = clickedValue; //sets index for when submit comment is clicked
@@ -49,7 +48,6 @@ angular.module('app')
   };
 
   $scope.handleUsernameClick = (userId) => {
-    console.log('username click!', userId);
     $rootScope.userPageUser = userId;
     $location.path('/user');
   }

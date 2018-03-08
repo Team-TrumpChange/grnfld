@@ -49,7 +49,6 @@ angular.module('app')
       $scope.currentPost = $scope.filteredPosts[clickedValue];
       //get all comments from clicked post
       commentsService.getComments($scope.currentPost.post_id, (data) => {
-        console.log('comments', data);
         $scope.comments = data;
         $scope.comments.forEach(comment => comment.message = comment.message.replace(/\{\{([^}]+)\}\}/g, '<code>$1</code>'));
         $scope.currentIndex = clickedValue; //sets index for when submit comment is clicked
@@ -130,7 +129,6 @@ angular.module('app')
       if ($rootScope.hackcoin <= 0) {
         $('#like-error').show();
       } else {
-        console.log(index, 'index');
         let res = await commentsService.likeComment({
           commentId: commentId,
           userId: $rootScope.userId,
@@ -140,7 +138,6 @@ angular.module('app')
         if (res.status === 200) {
           $scope.$apply(() => {
             --$rootScope.hackcoin;
-            console.log($scope.userComments);
             $scope.postComments[index].votes++;
           });
         }
