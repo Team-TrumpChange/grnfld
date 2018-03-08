@@ -1,11 +1,3 @@
-body, html {
-    background: white;
-    color: black;
-}
-
-.modal-comment-title {
-    text-align: left;
-}
 
 .disabled {
     cursor: not-allowed;
@@ -13,41 +5,41 @@ body, html {
 }
 
 .login-modal,
-.register-modal {
+.register-modal,
+.about-modal {
     width: 400px;
 }
 
-::placeholder {
-    color: #A9A9A9;
+.modal-comment-title {
+    text-align: left;
+}
+
+p.help-block {
+    color: #ba000d;
 }
 
 .form-control {
+    border-top: none;
+    border-left: none;
+    bordeR-right: none;
     border-bottom: 1px solid #158465;
     border-radius: 0px;
 }
 
-.form-control:focus {
-    border-bottom: 1px solid#158465;
-}
-
-.log-group,
+/* .log-group,
 .reg-group {
     border-radius: 2px;
     width: 350px;
     height: 30px;
-}
+} */
 
 .reg-header, 
-.log-header {
+.log-header,
+.about-header {
     background: #1DBB8D;
     border-radius: 3px;
     color: white;
     border: none;
-}
-
-.log-content,
-.reg-content {
-    background-color: white;
 }
 
 .btn-default {
@@ -58,13 +50,9 @@ body, html {
 }
 
 .btn-default:hover,
-.btn-default:focus {
-    background-color: #1DBB8D;
-    outline: none;
-}
-
+.btn-default:focus,
 button.btn.btn-default:active {
-    background: #1DBB8D;
+    background-color: #1DBB8D;
     outline: none;
 }
 
@@ -100,7 +88,20 @@ button.btn.btn-success:active {
     border: none;
 }
 
+.about-btn,
+.about-btn:hover,
+.about-btn:focus,
+button.btn.about-btn:active {
+    color: #1DBB8D;
+    outline: none;
+}
+
+.about-footer {
+    border-top: none;
+}
+
 .input-group-addon {
+    border: none;
     background: white;
 }
 
@@ -161,15 +162,11 @@ button.btn.btn-success:active {
     z-index:10001;
     display: block;
     color: #fff;
-
-.list-group-item {
-    background-color: white;
-    border: none;
-    border-radius: 0px;
 }
 
-a.list-group-item {
-    color: black;
+.list-group-item {
+    border: none;
+    border-radius: 0px;
 }
 
 .list-group {
@@ -179,9 +176,12 @@ a.list-group-item {
 
 hr {
     margin-top: 50px;
-    width: 85%;
+    width: 90%;
     height: 1px;
     border: none;
     background-color: #1DBB8D;
+}
 
+.inline-block {
+    display: inline-block;
 }

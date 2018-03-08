@@ -41,7 +41,24 @@ app.get('/userPosts', async (req, res) => {
   let userId = req.query.userId;
   let posts = await db.getUserPosts(userId)
   res.json(posts);
-})
+});
+
+app.get('/user', async (req,res) => {
+  let userId = req.query.userid;
+  if (!userId) {
+    res.redirect('/');
+  } else {
+    let user = await db.getUser(userId);
+    res.json(user);
+  }
+});
+
+app.patch('/user', async (req, res) => {
+  let userId = req.body.userid;
+  let skills = req.body.skills;
+  await db.updateUserSkills(userId, skills);
+  res.end();
+});
 
 // app.get('/test', (req, res) => {
   // wrap this in a promise/async/await
@@ -97,7 +114,6 @@ app.post('/createComment', (req, res) => {
           if (err) {
             res.status(500).end();
           } else {
-            console.log(warning, 'warning');
             res.json({rejection: warning})
           }
         });
@@ -147,7 +163,6 @@ app.post('/createSubcomment', async (req, res) => {
 });
 
 app.post('/autoLogin', (req,res) => {
-  console.log('trying to autologin');
   if (req.session.loggedIn === true) {
     res.send(req.session.user);
   } else {
@@ -158,7 +173,9 @@ app.post('/autoLogin', (req,res) => {
 
 app.post('/register', async (req, res) => {
   const shasum = bcrypt.hashSync(req.body.password);
-  const data = await db.createUser(req.body.username, shasum, req.body.email, req.body.skills);
+
+  const avatar = `https://api.adorable.io/avatars/80/${req.body.username}.png`
+  const data = await db.createUser(req.body.username, shasum, req.body.email, req.body.skills, avatar);
   if (data === 'username already exists' || data === 'email already exists') {
     res.status(409).end();
   } else {

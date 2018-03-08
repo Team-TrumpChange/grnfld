@@ -1,44 +1,49 @@
 angular.module('app')
-  .controller('UserCtrl', function ($scope, postsService, $rootScope, commentsService) {
+  .controller('UserCtrl', function ($scope, postsService, $rootScope, commentsService, usersService, $location) {
     $('.alert .close').on('click', function (e) {
       $(this).parent().hide();
     });
 
     $scope.init = function () {
+      $scope.self = $rootScope.userPageUser === $rootScope.userId;
       $scope.currentPage = 1;
       $scope.numPerPage = 5;
       $scope.currentCommentPage = 1;
-
-      //get all posts on page load
-      postsService.getUserPosts($rootScope.userId, data => {
-        console.log('got posts', data);
-        $scope.userPosts = data;
-
-        //pagination
-        $scope.$watch('currentPage + numPerPage', function () {
-          //filter posts by page number
-          let begin = (($scope.currentPage - 1) * $scope.numPerPage);
-          let end = begin + $scope.numPerPage;
-
-          $scope.filteredPosts = $scope.userPosts.slice(begin, end);
+      
+      if(!$rootScope.userPageUser) {
+        $location.path('/');
+      } else {
+        usersService.getUserDetails($rootScope.userPageUser, user => {
+          $scope.user = user;
+          $scope.name = $scope.self ? 'You' : $scope.user.username;
+        })
+        //get all posts on page load
+        postsService.getUserPosts($rootScope.userPageUser, data => {
+          $scope.userPosts = data;
+  
+          //pagination
+          $scope.$watch('currentPage + numPerPage', function () {
+            //filter posts by page number
+            let begin = (($scope.currentPage - 1) * $scope.numPerPage);
+            let end = begin + $scope.numPerPage;
+  
+            $scope.filteredPosts = $scope.userPosts.slice(begin, end);
+            
+          });
         });
-      });
-
-      commentsService.getUserComments($rootScope.userId, data => {
-        console.log('got commented posts', data);
-        $scope.userComments = data;
-
-        //pagination
-        $scope.$watch('currentPage + numPerPage', function () {
-          //filter posts by page number
-          let begin = (($scope.currentPage - 1) * $scope.numPerPage);
-          console.log(begin);
-          let end = begin + $scope.numPerPage;
-          console.log(end);
-          $scope.filteredComments = $scope.userComments.slice(begin, end);
-          console.log($scope.filteredComments, 'this pages comments');
+  
+        commentsService.getUserComments($rootScope.userPageUser, data => {
+          $scope.userComments = data;
+  
+          //pagination
+          $scope.$watch('currentCommentPage + numPerPage', function () {
+            //filter posts by page number
+            let begin = (($scope.currentCommentPage - 1) * $scope.numPerPage);
+            let end = begin + $scope.numPerPage;
+            $scope.filteredComments = $scope.userComments.slice(begin, end);
+          });
         });
-      })
+      }
     };
 
     //runs init on view startup
@@ -48,26 +53,26 @@ angular.module('app')
       $scope.currentPost = $scope.filteredPosts[clickedValue];
       //get all comments from clicked post
       commentsService.getComments($scope.currentPost.post_id, (data) => {
-        console.log('comments', data);
         $scope.comments = data;
         $scope.comments.forEach(comment => comment.message = comment.message.replace(/\{\{([^}]+)\}\}/g, '<code>$1</code>'));
         $scope.currentIndex = clickedValue; //sets index for when submit comment is clicked
       });
-
     };
+
+    $scope.handleUsernameClick = (userId) => {
+      console.log('username click!', userId);
+      $rootScope.userPageUser = userId;
+      $scope.init();
+    }
 
     $scope.handleCommentClick = (clickedValue) => {
       $scope.currentComment = $scope.filteredComments[clickedValue];
-      console.log('comment click!!!!');
-      console.log($scope.currentComment, $scope.currentComment.post.title);
       //get all comments from clicked post
       commentsService.getComments($scope.currentComment.post_id, (data) => {
         $scope.postComments = data;
         $scope.postComments.forEach(comment => comment.message = comment.message.replace(/\{\{([^}]+)\}\}/g, '<code>$1</code>'));
-        console.log($scope.postComments);
         $scope.currentIndex = clickedValue; //sets index for when submit comment is clicked
       }); //having these indexes the same might do weird things later on
-
     };
 
     //hacky way of refreshing the current view to get new posts
@@ -105,6 +110,16 @@ angular.module('app')
       }
     };
 
+    $scope.editSubmit = (isValid) => {
+      if (isValid) {
+        console.log('edit submission');
+        usersService.editUser($rootScope.userId, $scope.user.skills, (data) => {
+          console.log('edit complete', $scope.user.skills);
+          $('#edit-user-modal').modal('toggle');
+        });
+      }
+    }
+
     $scope.selectSolution = (comment) => {
       if ($rootScope.userId === $scope.currentPost.user_id) {
         $scope.currentPost.solution_id = comment.comment_id; //changes local solution_id so that star moves without refresh
@@ -128,7 +143,7 @@ angular.module('app')
         if (res.status === 200) {
           $scope.$apply(() => {
             --$rootScope.hackcoin;
-            $scope.comments[index].votes++;
+            $scope.postComments[index].votes++;
           });
         }
       }

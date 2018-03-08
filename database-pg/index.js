@@ -111,7 +111,7 @@ const checkCredentials = (username) => {
     .where(knex.raw(`LOWER(username) = LOWER('${username}')`));
 };
 
-const createUser = async (username, password, email, skills) => {
+const createUser = async (username, password, email, skills, avatar) => {
   const userQuery = await knex.select().from('users')
     .where(knex.raw(`LOWER(username) = LOWER('${username}')`));
   const emailQuery = await knex.select().from('users')
@@ -121,7 +121,7 @@ const createUser = async (username, password, email, skills) => {
   } else if (emailQuery.length) {
     return 'email already exists';
   } else {
-    return await knex('users').insert({ username: username, password: password, email: email, skills: skills});
+    return await knex('users').insert({ username: username, password: password, email: email, skills: skills, avatar: avatar});
   }
 };
 
@@ -149,9 +149,19 @@ const getUsername = async (id) => {
   return user[0].username;
 }
 
+const getUser = async (id) => {
+  let user = await knex.select('*').from('users').where('user_id', id);
+  return user[0];
+}
+
+const updateUserSkills = async (id, skills) => {
+  await knex('users').update('skills', skills).where('user_id', id);
+}
+
 module.exports = {
   getAllPosts,
   getUserPosts,
+  getUser,
   createPost,
   getComments,
   getUserComments,
@@ -163,8 +173,10 @@ module.exports = {
   checkCoin,
   subtractCoins,
   refreshCoins,
+
   createSubcomment,
   getSubcomments,
-  getUsername
-
+  getUsername,
+  getUsername,
+  updateUserSkills
 };
