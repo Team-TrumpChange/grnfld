@@ -1,5 +1,5 @@
 angular.module('app')
-.controller('MainCtrl', function ($scope, postsService, $rootScope, commentsService, usersService) {
+.controller('MainCtrl', function ($scope, postsService, $rootScope, commentsService, usersService, $location) {
   $('.alert .close').on('click', function (e) {
     $(this).parent().hide();
   });
@@ -10,6 +10,7 @@ angular.module('app')
       if (user) {
         $rootScope.userId = user.user_id;
         $rootScope.hackcoin = user.hackcoin
+        $rootScope.userPageUser = user.user_id;
       }
     });
 
@@ -39,13 +40,17 @@ angular.module('app')
     $scope.currentPost = $scope.filteredPosts[clickedValue];
     //get all comments from clicked post
     commentsService.getComments($scope.currentPost.post_id, (data) => {
-      console.log('comments', data);
       $scope.comments = data;
       $scope.comments.forEach(comment => comment.message = comment.message.replace(/\{\{([^}]+)\}\}/g, '<code>$1</code>'));
       $scope.currentIndex = clickedValue; //sets index for when submit comment is clicked
     });
 
   };
+
+  $scope.handleUsernameClick = (userId) => {
+    $rootScope.userPageUser = userId;
+    $location.path('/user');
+  }
 
   //hacky way of refreshing the current view to get new posts
   $scope.refresh = () => {

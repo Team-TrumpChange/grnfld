@@ -1,5 +1,5 @@
 <h2 style="opacity: 0;">Submission Page</h2>
-<div>
+<div class="submit-holder">
     <form name="submitForm" ng-submit="submit(submitForm.$valid)" novalidate>
         <div class="form-group">
             <label for="newPostTitle">Title</label>
@@ -7,7 +7,7 @@
                 type="text"
                 name="title"
                 ng-model="post.title"
-                class="form-control"
+                class="form-control submit-title-input"
                 id="newPostTitle"
                 rows="10"
                 placeholder="Title"
@@ -25,11 +25,11 @@
         </div>
         <div class="form-group">
             <label for="newPostCode">Code</label>
-            <pre>{{post.codebox}}</pre>
+            <pre class="submit-code-display">{{post.codebox}}</pre>
             <textarea
                 name="codebox"
                 ng-model="post.codebox"
-                class="form-control"
+                class="form-control submit-code-input"
                 id="newPostCode"
                 rows="10"
                 placeholder="Your code goes here, idiot"
@@ -53,7 +53,7 @@
                 name="description"
                 ng-model="post.description"
                 id="newPostDescription"
-                class="form-control"
+                class="form-control submit-description-input"
                 rows="3"
                 placeholder="Describe your coding issue"
                 ng-maxlength="8000"
@@ -75,12 +75,14 @@
 
 <!-- codepenmodal -->
 <div class="modal fade" id="codepen-modal" role="dialog">
-  <div class="modal-dialog">
+  <div class="modal-dialog sandbox-modal">
     <div class="modal-content">
       <div class="modal-header">
         <div>SandBox</div>
       </div>
-      <div class="modal-body">
+      <div class="modal-body post-frame-wrapper">
+            <div class="post-frame-top"></div>
+            <div class="post-frame-bottom"></div>
         <iframe height="400px" width="100%" src="https://codepen.io/maniks04/pen/zWOZXG?editors=0010" scrolling="no" frameborder="no" allowtransparency="true" allowfullscreen="true" sandbox="allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-modals"></iframe>
       </div>
       <div class="modal-footer">
