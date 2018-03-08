@@ -157,6 +157,7 @@ button.btn.btn-success:active {
     z-index:10001;
     display: block;
     color: #fff;
+}
 
 .list-group-item {
     background-color: white;
@@ -180,4 +181,8 @@ hr {
     border: none;
     background-color: #1DBB8D;
 
+}
+
+.inline-block {
+    display: inline-block;
 }
