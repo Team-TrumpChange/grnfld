@@ -1,10 +1,18 @@
 angular.module('app')
-.controller('MainCtrl', function ($scope, postsService, $rootScope, commentsService) {
+.controller('MainCtrl', function ($scope, postsService, $rootScope, commentsService, usersService) {
   $('.alert .close').on('click', function (e) {
     $(this).parent().hide();
   });
 
   $scope.init = function() {
+    console.log('init');
+    usersService.autoLogin((user) => {
+      if (user) {
+        $rootScope.userId = user.user_id;
+        $rootScope.hackcoin = user.hackcoin
+      }
+    });
+
     $scope.currentPage = 1;
     $scope.numPerPage = 5;
 
