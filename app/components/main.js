@@ -50,7 +50,7 @@ angular.module('app')
   $scope.handleUsernameClick = (userId) => {
     console.log('username click!', userId);
     $rootScope.userPageUser = userId;
-    $location.path('/otherUser');
+    $location.path('/user');
   }
 
   //hacky way of refreshing the current view to get new posts

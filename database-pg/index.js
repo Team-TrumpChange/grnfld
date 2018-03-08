@@ -132,9 +132,19 @@ const getUsername = async (id) => {
   return user[0].username;
 }
 
+const getUser = async (id) => {
+  let user = await knex.select('*').from('users').where('user_id', id);
+  return user[0];
+}
+
+const updateUserSkills = async (id, skills) => {
+  await knex('users').update('skills', skills).where('user_id', id);
+}
+
 module.exports = {
   getAllPosts,
   getUserPosts,
+  getUser,
   createPost,
   getComments,
   getUserComments,
@@ -146,5 +156,6 @@ module.exports = {
   checkCoin,
   subtractCoins,
   refreshCoins,
-  getUsername
+  getUsername,
+  updateUserSkills
 };

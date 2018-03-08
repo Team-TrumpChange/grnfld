@@ -18,7 +18,6 @@ angular.module('app')
       .then(function(response) {
         let data = response.data;
         if (data) {
-          console.log(typeof data, data);
           callback(data);
         } else {
           callback();
@@ -46,5 +45,31 @@ angular.module('app')
 
   this.logout = function () {
     $http.post('logout');
+  }
+
+  this.getUserDetails = function(userid, callback) {
+    $http.get('/user', {
+      params: {userid: userid}
+    })
+      .then(res => {
+        callback(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  this.editUser = function(userid, newSkills, callback) {
+    console.log('edit user')
+    $http.patch('/user', {
+      userid: userid,
+      skills: newSkills
+    })
+      .then(res => {
+        callback(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 });

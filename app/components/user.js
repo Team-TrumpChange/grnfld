@@ -1,15 +1,19 @@
 angular.module('app')
-  .controller('UserCtrl', function ($scope, postsService, $rootScope, commentsService, $location) {
+  .controller('UserCtrl', function ($scope, postsService, $rootScope, commentsService, usersService, $location) {
     $('.alert .close').on('click', function (e) {
       $(this).parent().hide();
     });
 
     $scope.init = function () {
-      $scope.self = $location.path() === '/user'  || $rootScope.userPageUser === $rootScope.userId;
+      $scope.self = $rootScope.userPageUser === $rootScope.userId;
       $scope.currentPage = 1;
       $scope.numPerPage = 5;
       $scope.currentCommentPage = 1;
-
+      
+      usersService.getUserDetails($rootScope.userPageUser, user => {
+        $scope.user = user;
+        $scope.name = $scope.self ? 'You' : $scope.user.username.concat("'s");
+      })
       //get all posts on page load
       postsService.getUserPosts($rootScope.userPageUser, data => {
         $scope.userPosts = data;
@@ -21,7 +25,7 @@ angular.module('app')
           let end = begin + $scope.numPerPage;
 
           $scope.filteredPosts = $scope.userPosts.slice(begin, end);
-          $scope.name = $scope.self ? 'Your' : ($scope.filteredPosts[0].username).concat("'s");
+          
         });
       });
 
@@ -55,7 +59,6 @@ angular.module('app')
     $scope.handleUsernameClick = (userId) => {
       console.log('username click!', userId);
       $rootScope.userPageUser = userId;
-      $location.path('\otherUser')
       $scope.init();
     }
 
@@ -103,6 +106,15 @@ angular.module('app')
         });
       }
     };
+
+    $scope.editSubmit = (isValid) => {
+      if (isValid) {
+        console.log('edit submission');
+        usersService.editUser($rootScope.userId, $scope.user.skills, (data) => {
+          console.log('edit complete');
+        });
+      }
+    }
 
     $scope.selectSolution = (comment) => {
       if ($rootScope.userId === $scope.currentPost.user_id) {

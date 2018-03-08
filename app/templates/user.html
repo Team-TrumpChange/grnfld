@@ -1,5 +1,35 @@
 <h2 style="opacity: 0;">User Page</h2>
-<h3>{{name}}</h3>
+<div>
+  <h3>{{name}}</h3>
+  <h5> Skills: {{user.skills}} </h5>
+  <h5> Hackcoin: {{user.hackcoin}} </h5>
+  <button ng-show='self' data-toggle="modal" data-target="#editUserModal"> Edit </button>
+</div>
+<div class="modal fade" id="editUserModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit Skills</h4>
+      </div>
+      <form name="skillsForm" ng-submit="editSubmit(skillsForm.$valid)" ng-controller="UserCtrl">
+        <div class="modal-body">
+          <div class="form-group input-group log-group">
+            <input class="form-control" 
+              type="text" name="skills" 
+              ng-model="user.skills"  
+              rows="5" 
+              required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success" ng-click="registerForm.$setPristine()">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 <posts-front-page></posts-front-page>
 <pagination 
   ng-model="currentPage" 

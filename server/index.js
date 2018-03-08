@@ -41,7 +41,21 @@ app.get('/userPosts', async (req, res) => {
   let userId = req.query.userId;
   let posts = await db.getUserPosts(userId)
   res.json(posts);
-})
+});
+
+app.get('/user', async (req,res) => {
+  let userId = req.query.userid;
+  let user = await db.getUser(userId);
+  res.json(user);
+});
+
+app.patch('/user', async (req, res) => {
+  let userId = req.body.userid;
+  let skills = req.body.skills;
+  console.log(skills);
+  await db.updateUserSkills(userId, skills);
+  res.end();
+});
 
 // app.get('/test', (req, res) => {
   // wrap this in a promise/async/await

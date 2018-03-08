@@ -23,10 +23,6 @@ angular.module('app')
       templateUrl: 'templates/user.html',
       controller: 'UserCtrl'
     })
-    .when('/otherUser', {
-      templateUrl: 'templates/user.html',
-      controller: 'UserCtrl'
-    })
     .otherwise({ redirectTo: '/' });
   $locationProvider.html5Mode(true);
 });
