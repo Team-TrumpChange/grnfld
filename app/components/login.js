@@ -16,6 +16,7 @@ angular.module('app')
           $('#login-error').show();
         } else {
           $rootScope.userId = res.data.user_id;
+          console.log('rootScopUserID:', $rootScope.userId);
           $rootScope.hackcoin = res.data.hackcoin;
           $scope.login = {
             username: '',

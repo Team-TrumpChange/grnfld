@@ -27,6 +27,7 @@ angular.module('app')
           subcommentsService.submitNewSubcomment(subcommentObj, (data) => {
             console.log('insubcommentsService data:', data);
             this.submessage = '';
+            this.showReplyForm();
             this.showSubcomments = false;
             this.getSubcomments();
           });
@@ -35,9 +36,7 @@ angular.module('app')
 
 
       this.showReplyForm = () => {
-        console.log('clicked');
         this.replyClicked = !this.replyClicked;
-        console.log('this.replyClicked:', this.replyClicked)
       }
 
 

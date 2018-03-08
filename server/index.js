@@ -154,6 +154,7 @@ app.post('/login', async (req, res) => {
 
 
 app.post('/createSubcomment', async (req, res) => {
+  console.log('req.body:', req.body);
   try {
     await db.createSubcomment(req.body);
   } catch (err) {
