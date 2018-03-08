@@ -29,8 +29,10 @@ const getComments = (postId) => {
 
 const getSubcomments = (commentId) => {
   return knex.column(knex.raw('subcomments.*, users.username')).select()
-    .from(knex.raw('comments, subcomments, users'))
-    .where(knex.raw(`subcomments.comment_id = ${commentId} and subcomments.user_id = users.user_id`));
+    .from('subcomments')
+    .innerJoin('comments', 'subcomments.user_id', 'comments.user_id')
+    .innerJoin('users', 'comments.user_id', 'users.user_id')
+    .where(knex.raw(`subcomments.comment_id = ${commentId}`))
 };
 
 //using async/await

@@ -1,0 +1,26 @@
+<small>
+  <a ng-click="$ctrl.getSubcomments()" >{{$ctrl.subcomments.length}} replies</a>
+</small>
+<div ng-show="$ctrl.showSubcomments" ng-repeat="subcomment in $ctrl.subcomments track by $index" class="comments-list" ng-class="{'solution': comment.solution}">
+
+  <div id="like-error" class="alert alert-danger alert-dismissible fade in" style="display:none">
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <strong>{{subcomment.username}}</strong>
+          <span class="text-muted">replied at {{subcomment.created_at | date:'short'}}</span>
+        </div>
+        <div class="panel-body">
+          <p ng-bind-html="subcomment.submessage"></p>
+        </div>
+        <!-- /panel-body -->
+        <p style="margin-left: 2px;">
+
+      </div>
+      <!-- /panel panel-default -->
+    </div>
+    <!-- /col-sm-5 -->
+  </div>
+</div>

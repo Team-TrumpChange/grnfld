@@ -39,8 +39,9 @@ app.get('/comments', async (req, res) => {
 });
 
 app.get('/subcomments', async (req, res) => {
-  console.log('req.body:', req.query);
+  console.log('req.query:', req.query);
   let subcomments = await db.getSubcomments(req.query.commentId);
+  console.log('subcomments in get:', subcomments);
   res.json(subcomments);
 })
 

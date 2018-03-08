@@ -35,7 +35,6 @@
 
                         <div ng-repeat="comment in comments track by $index" class="comments-list" ng-class="{'solution': comment.solution}">
 
-
                             <div id="like-error" class="alert alert-danger alert-dismissible fade in" style="display:none">
 
                                 <strong>No more Hackcoins!</strong> Please wait for your coins to refresh
@@ -57,6 +56,7 @@
                                         </div>
                                         <!-- /panel panel-default -->
                                         <subcomments-submit comment="comment" userid=$root.userId postid="currentPost.post_id" ></subcomments-submit>
+                                        <subcomments comment="comment" comments="" userid="$root.userId"></subcomments>
                                     </div>
                                 <!-- /col-sm-5 -->
                             </div>
