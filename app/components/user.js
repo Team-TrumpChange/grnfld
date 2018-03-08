@@ -10,36 +10,40 @@ angular.module('app')
       $scope.numPerPage = 5;
       $scope.currentCommentPage = 1;
       
-      usersService.getUserDetails($rootScope.userPageUser, user => {
-        $scope.user = user;
-        $scope.name = $scope.self ? 'You' : $scope.user.username;
-      })
-      //get all posts on page load
-      postsService.getUserPosts($rootScope.userPageUser, data => {
-        $scope.userPosts = data;
-
-        //pagination
-        $scope.$watch('currentPage + numPerPage', function () {
-          //filter posts by page number
-          let begin = (($scope.currentPage - 1) * $scope.numPerPage);
-          let end = begin + $scope.numPerPage;
-
-          $scope.filteredPosts = $scope.userPosts.slice(begin, end);
-          
+      if(!$rootScope.userPageUser) {
+        $location.path('/');
+      } else {
+        usersService.getUserDetails($rootScope.userPageUser, user => {
+          $scope.user = user;
+          $scope.name = $scope.self ? 'You' : $scope.user.username;
+        })
+        //get all posts on page load
+        postsService.getUserPosts($rootScope.userPageUser, data => {
+          $scope.userPosts = data;
+  
+          //pagination
+          $scope.$watch('currentPage + numPerPage', function () {
+            //filter posts by page number
+            let begin = (($scope.currentPage - 1) * $scope.numPerPage);
+            let end = begin + $scope.numPerPage;
+  
+            $scope.filteredPosts = $scope.userPosts.slice(begin, end);
+            
+          });
         });
-      });
-
-      commentsService.getUserComments($rootScope.userPageUser, data => {
-        $scope.userComments = data;
-
-        //pagination
-        $scope.$watch('currentCommentPage + numPerPage', function () {
-          //filter posts by page number
-          let begin = (($scope.currentCommentPage - 1) * $scope.numPerPage);
-          let end = begin + $scope.numPerPage;
-          $scope.filteredComments = $scope.userComments.slice(begin, end);
+  
+        commentsService.getUserComments($rootScope.userPageUser, data => {
+          $scope.userComments = data;
+  
+          //pagination
+          $scope.$watch('currentCommentPage + numPerPage', function () {
+            //filter posts by page number
+            let begin = (($scope.currentCommentPage - 1) * $scope.numPerPage);
+            let end = begin + $scope.numPerPage;
+            $scope.filteredComments = $scope.userComments.slice(begin, end);
+          });
         });
-      });
+      }
     };
 
     //runs init on view startup
@@ -110,7 +114,8 @@ angular.module('app')
       if (isValid) {
         console.log('edit submission');
         usersService.editUser($rootScope.userId, $scope.user.skills, (data) => {
-          console.log('edit complete');
+          console.log('edit complete', $scope.user.skills);
+          $('#edit-user-modal').modal('toggle');
         });
       }
     }
