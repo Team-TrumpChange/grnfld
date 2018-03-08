@@ -35,6 +35,13 @@ const getComments = (postId) => {
     .where(knex.raw(`comments.post_id = ${postId} and comments.user_id = users.user_id`));
 };
 
+
+const getSubcomments = (commentId) => {
+  return knex.select('*').from('subcomments').join('users', function () {
+    this.on('subcomments.user_id', '=', 'users.user_id').onIn('subcomments.comment_id', [commentId])
+  })
+};
+
 const getUserComments = async (userId) => {
   let comments = await knex.select()
     .from('comments')
@@ -53,6 +60,7 @@ let getPostForComment = async (postId) => {
     .innerJoin('users', 'posts.user_id', 'users.user_id')
     .where('posts.post_id', postId)
 }
+
 
 //using async/await
 //currently not used
@@ -86,6 +94,15 @@ const createComment = (comment) => {
     user_id: comment.user_id,
     post_id: comment.post_id,
     message: comment.message
+  }).orderBy('comment_id', 'asc');
+};
+
+const createSubcomment = (subcomment) => {
+  return knex('subcomments').insert({
+    user_id: subcomment.user_id,
+    post_id: subcomment.post_id,
+    comment_id: subcomment.comment_id,
+    submessage: subcomment.submessage
   }).orderBy('comment_id', 'asc');
 };
 
@@ -156,6 +173,10 @@ module.exports = {
   checkCoin,
   subtractCoins,
   refreshCoins,
+
+  createSubcomment,
+  getSubcomments,
+  getUsername,
   getUsername,
   updateUserSkills
 };

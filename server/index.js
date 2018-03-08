@@ -78,11 +78,20 @@ app.get('/comments', async (req, res) => {
   res.json(comments);
 });
 
+
+app.get('/subcomments', async (req, res) => {
+  console.log('req.query:', req.query);
+  let subcomments = await db.getSubcomments(req.query.commentId);
+  console.log('subcomments in get:', subcomments);
+  res.json(subcomments);
+})
+
 app.get('/userComments', async (req, res) => {
   let userId = req.query.userId;
   let comments = await db.getUserComments(userId);
   res.json(comments);
 });
+
 
 app.post('/createPost', async (req, res) => {
   try {
@@ -143,6 +152,17 @@ app.post('/login', async (req, res) => {
   }
 });
 
+
+app.post('/createSubcomment', async (req, res) => {
+  console.log('req.body:', req.body);
+  try {
+    await db.createSubcomment(req.body);
+  } catch (err) {
+    console.log('err:', err);
+  }
+  res.end();
+});
+
 app.post('/autoLogin', (req,res) => {
   if (req.session.loggedIn === true) {
     res.send(req.session.user);
@@ -150,6 +170,7 @@ app.post('/autoLogin', (req,res) => {
     res.end();
   }
 })
+
 
 app.post('/register', async (req, res) => {
   const shasum = bcrypt.hashSync(req.body.password);
