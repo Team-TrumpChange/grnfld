@@ -46,7 +46,7 @@
                                 <div class="col-md-12">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <strong>{{comment.username}}</strong>
+                                            <strong ng-click = "handleUsernameClick(comment.user_id)" data-dismiss="modal">{{comment.username}}</strong>
                                             <span class="text-muted">commented at {{comment.created_at | date:'short'}}</span>
                                             <span ng-class="{'glyphicon glyphicon-star': currentPost.solution_id === comment.comment_id}" aria-hidden="true"></span>
                                         </div>

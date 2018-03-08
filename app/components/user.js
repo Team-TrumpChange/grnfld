@@ -6,14 +6,12 @@ angular.module('app')
 
     $scope.init = function () {
       $scope.self = $location.path() === '/user'  || $rootScope.userPageUser === $rootScope.userId;
-      console.log(self);
       $scope.currentPage = 1;
       $scope.numPerPage = 5;
       $scope.currentCommentPage = 1;
 
       //get all posts on page load
       postsService.getUserPosts($rootScope.userPageUser, data => {
-        console.log('got posts', data);
         $scope.userPosts = data;
 
         //pagination
@@ -23,26 +21,21 @@ angular.module('app')
           let end = begin + $scope.numPerPage;
 
           $scope.filteredPosts = $scope.userPosts.slice(begin, end);
+          $scope.name = $scope.self ? 'Your' : ($scope.filteredPosts[0].username).concat("'s");
         });
       });
 
       commentsService.getUserComments($rootScope.userPageUser, data => {
-        console.log('got commented posts', data);
         $scope.userComments = data;
 
         //pagination
         $scope.$watch('currentCommentPage + numPerPage', function () {
           //filter posts by page number
           let begin = (($scope.currentCommentPage - 1) * $scope.numPerPage);
-          console.log(begin);
           let end = begin + $scope.numPerPage;
-          console.log(end);
           $scope.filteredComments = $scope.userComments.slice(begin, end);
-          console.log($scope.filteredComments, 'this pages comments');
         });
-
       });
-      $scope.name = self ? 'Your' : $scope.filteredPosts[0].username;
     };
 
     //runs init on view startup
@@ -62,6 +55,7 @@ angular.module('app')
     $scope.handleUsernameClick = (userId) => {
       console.log('username click!', userId);
       $rootScope.userPageUser = userId;
+      $location.path('\otherUser')
       $scope.init();
     }
 
