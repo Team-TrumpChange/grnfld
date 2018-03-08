@@ -1,5 +1,4 @@
 <div>
-  <button ng-click="refresh()" type="button" class="btn btn-primary btn-sm pull-right">Refresh</button>
   <h3 class="" style="margin-left: 10px;">Your Most Recent Comments:</h3>
   <div class="list-group">
     <a ng-repeat="comment in filteredComments track by $index" ng-click="handleCommentClick($index)" comment="comment" class="list-group-item list-group-item-action flex-column align-items-start"

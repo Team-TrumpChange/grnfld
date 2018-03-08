@@ -1,5 +1,5 @@
 angular.module('app')
-.controller('MainCtrl', function ($scope, postsService, $rootScope, commentsService, usersService) {
+.controller('MainCtrl', function ($scope, postsService, $rootScope, commentsService, usersService, $location) {
   $('.alert .close').on('click', function (e) {
     $(this).parent().hide();
   });
@@ -46,6 +46,12 @@ angular.module('app')
     });
 
   };
+
+  $scope.handleUsernameClick = (userId) => {
+    console.log('username click!', userId);
+    $rootScope.userPageUser = userId;
+    $location.path('/otherUser');
+  }
 
   //hacky way of refreshing the current view to get new posts
   $scope.refresh = () => {

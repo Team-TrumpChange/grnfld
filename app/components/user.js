@@ -1,16 +1,17 @@
 angular.module('app')
-  .controller('UserCtrl', function ($scope, postsService, $rootScope, commentsService) {
+  .controller('UserCtrl', function ($scope, postsService, $rootScope, commentsService, $location) {
     $('.alert .close').on('click', function (e) {
       $(this).parent().hide();
     });
 
     $scope.init = function () {
+      $scope.self = $location.path() === '/user'  || $rootScope.userPageUser === $rootScope.userId;
       $scope.currentPage = 1;
       $scope.numPerPage = 5;
       $scope.currentCommentPage = 1;
 
       //get all posts on page load
-      postsService.getUserPosts($rootScope.userId, data => {
+      postsService.getUserPosts($rootScope.userPageUser, data => {
         console.log('got posts', data);
         $scope.userPosts = data;
 
@@ -24,7 +25,7 @@ angular.module('app')
         });
       });
 
-      commentsService.getUserComments($rootScope.userId, data => {
+      commentsService.getUserComments($rootScope.userPageUser, data => {
         console.log('got commented posts', data);
         $scope.userComments = data;
 
@@ -38,6 +39,7 @@ angular.module('app')
           $scope.filteredComments = $scope.userComments.slice(begin, end);
           console.log($scope.filteredComments, 'this pages comments');
         });
+
       })
     };
 
@@ -58,16 +60,12 @@ angular.module('app')
 
     $scope.handleCommentClick = (clickedValue) => {
       $scope.currentComment = $scope.filteredComments[clickedValue];
-      console.log('comment click!!!!');
-      console.log($scope.currentComment, $scope.currentComment.post.title);
       //get all comments from clicked post
       commentsService.getComments($scope.currentComment.post_id, (data) => {
         $scope.postComments = data;
         $scope.postComments.forEach(comment => comment.message = comment.message.replace(/\{\{([^}]+)\}\}/g, '<code>$1</code>'));
-        console.log($scope.postComments);
         $scope.currentIndex = clickedValue; //sets index for when submit comment is clicked
       }); //having these indexes the same might do weird things later on
-
     };
 
     //hacky way of refreshing the current view to get new posts

@@ -2,6 +2,7 @@ angular.module('app')
   .controller('AppCtrl', function (postsService, usersService, $rootScope) {
   $rootScope.userId = 0;
   $rootScope.hackcoin = 0;
+  $rootScope.userPageUser = 0;
 })
 .component('app', {
   bindings: {},
@@ -19,6 +20,10 @@ angular.module('app')
       controller: 'SubmitCtrl'
     })
     .when('/user', {
+      templateUrl: 'templates/user.html',
+      controller: 'UserCtrl'
+    })
+    .when('/otherUser', {
       templateUrl: 'templates/user.html',
       controller: 'UserCtrl'
     })

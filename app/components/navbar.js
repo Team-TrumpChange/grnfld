@@ -1,9 +1,14 @@
 angular.module('app')
-.controller('NavbarCtrl', function($scope, $rootScope, $location, usersService) {
+  .controller('NavbarCtrl', function ($scope, $rootScope, usersService, $location) {
   $scope.logout = function() {
     usersService.logout();
     $rootScope.userId = 0;
     $location.path('/');
+  };
+  $scope.yourUserPage = function() {
+    console.log('got ot your userpage', $rootScope.userId);
+    $rootScope.userPageUser = $rootScope.userId;
+    $location.path('/user');
   };
 })
 .directive('navbar', function() {
