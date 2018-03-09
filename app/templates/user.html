@@ -1,5 +1,5 @@
-<h2 style="opacity: 0;">User Page</h2>
-<div> 
+<h2  style="opacity: 0;">User Page</h2>
+<div class="user-profile"> 
   <h3>{{name}}</h3>
   <img ng-src="https://robohash.org/{{user.username}}.png?size=80x80"/>
   <h5> Skills: {{user.skills}} </h5>
@@ -37,7 +37,8 @@
   total-items="userPosts.length" 
   max-size="5" 
   boundary-links="true" 
-  items-per-page="numPerPage">
+  items-per-page="numPerPage"
+  class="user-profile">
 </pagination>
 
 <comments-user-page></comments-user-page>
@@ -46,7 +47,15 @@
   total-items="userComments.length" 
   max-size="5" 
   boundary-links="true" 
-  items-per-page="numPerPage">
+  items-per-page="numPerPage"
+  class="user-profile">
 </pagination>
 
 <notes-user-page></notes-user-page>
+<pagination 
+  ng-model="currentNotePage" 
+  total-items="userComments.length" 
+  max-size="5" 
+  boundary-links="true" 
+  items-per-page="numPerPage"
+  class="user-profile">
