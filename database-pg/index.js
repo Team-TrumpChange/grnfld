@@ -158,10 +158,10 @@ const updateUserSkills = async (id, skills) => {
   await knex('users').update('skills', skills).where('user_id', id);
 }
 
-<<<<<<< HEAD
 const closePost = async (id) => {
   await knex('posts').update('closed', true).where('post_id', id);
-=======
+}
+
 const getUserNotes = (userId) => {
   return knex.select('*').from('notes').join('users', function () {
     this.on('users.user_id', '=', 'notes.poster_id').onIn('notes.user_profile_id', [userId.profileId])
@@ -175,7 +175,6 @@ const createNote = (noteObj) => {
     user_profile_id: noteObj.user_profile_id,
     note: noteObj.note
   }).orderBy('comment_id', 'asc');
->>>>>>> a65dca80f34de6141d0c28d819a5b75762fe9676
 }
 
 module.exports = {
@@ -199,10 +198,7 @@ module.exports = {
   getUsername,
   getUsername,
   updateUserSkills,
-<<<<<<< HEAD
-  closePost
-=======
+  closePost,
   getUserNotes,
   createNote
->>>>>>> a65dca80f34de6141d0c28d819a5b75762fe9676
 };
