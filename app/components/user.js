@@ -162,15 +162,19 @@ angular.module('app')
     $scope.sortPosts = (sortType) => {
       switch (sortType) {
         case 'recent':
+          $scope.sortType = "recent";
           $scope.userPosts = sortService.dateSort('post_id', $scope.userPosts);
           break;
         case 'title':
+          $scope.sortType = "title";
           $scope.userPosts = sortService.alphabetize('title', $scope.userPosts);
           break;
         case 'username':
+          $scope.sortType = "username";
           $scope.userPosts = sortService.alphabetize('username', $scope.userPosts);
           break;
         case 'status':
+          $scope.sortType = "status";
           $scope.userPosts = sortService.boolSort($scope.userPosts);
           break;
       }
