@@ -11,6 +11,7 @@ angular.module('app')
       $scope.currentPage = 1;
       $scope.numPerPage = 5;
       $scope.currentCommentPage = 1;
+      $scope.currentNotePage = 1;
       
       if(!$rootScope.userPageUser) {
         $location.path('/');
@@ -18,6 +19,7 @@ angular.module('app')
         usersService.getUserDetails($rootScope.userPageUser, user => {
           $scope.user = user;
           $scope.name = $scope.self ? 'You' : $scope.user.username;
+          $scope.namePossessive = $scope.self ? 'Your' : $scope.user.username + '\'s'; 
         })
         //get all posts on page load
         postsService.getUserPosts($rootScope.userPageUser, data => {
@@ -49,11 +51,25 @@ angular.module('app')
             $scope.filteredComments = $scope.userComments.slice(begin, end);
           });
         });
-
-        noteService.getNotes($rootScope.userPageUser, data => {
-          $scope.userNotes = data;
-        });
+        
+        $scope.refreshNotes();
       }
+    };
+
+    $scope.refreshNotes = () => {
+      noteService.getNotes($rootScope.userPageUser, data => {
+        $scope.userNotes = data;
+        console.log('notes:', $scope.userNotes);
+        //pagination
+        $scope.$watch('currentNotePage + numPerPage', function () {
+          //filter posts by page number
+          let begin = (($scope.currentNotePage - 1) * $scope.numPerPage);
+          let end = begin + $scope.numPerPage;
+
+          $scope.filteredNotes = $scope.userNotes.slice(begin, end);
+
+        });
+      });
     };
 
     //runs init on view startup
@@ -223,9 +239,10 @@ angular.module('app')
       console.log('noteObj:', noteObj);
       noteService.submitNote(noteObj, () => {
         $scope.noteText = '';
-        noteService.getNotes($rootScope.userPageUser, data => {
-          $scope.userNotes = data;
-        });
+        $scope.refreshNotes();
+        // noteService.getNotes($rootScope.userPageUser, data => {
+        //   $scope.userNotes = data;
+        // });
       });
     }
 

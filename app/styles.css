@@ -13,6 +13,14 @@
     margin-bottom: 40px;
 }
 
+/* .note {
+    margin-left: 15px
+} */
+
+.user-profile {
+    margin-left: 50px;
+}
+
 .main-div {
     min-height: 100vh;
 }

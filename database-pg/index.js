@@ -165,7 +165,9 @@ const closePost = async (id) => {
 const getUserNotes = (userId) => {
   return knex.select('*').from('notes').join('users', function () {
     this.on('users.user_id', '=', 'notes.poster_id').onIn('notes.user_profile_id', [userId.profileId])
+      
   })
+    .orderBy('notes.post_id', 'desc');
 }
 
 const createNote = (noteObj) => {
