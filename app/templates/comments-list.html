@@ -1,19 +1,19 @@
 <div>
-  <h3 class="" style="margin-left: 10px;">Most Recent Comments:</h3>
+  <h3 class="recent-post-title">Most Recent Comments:</h3>
   <hr>
   <div class="list-group">
-    <a ng-repeat="comment in filteredComments track by $index" ng-click="handleCommentClick($index)" comment="comment" class="list-group-item list-group-item-action flex-column align-items-start"
+    <a ng-repeat="comment in filteredComments track by $index" ng-click="handleCommentClick($index)" comment="comment" class="list-group-item list-group-item-action flex-column align-items-start posts-list"
       data-toggle="modal" data-target="#commentModal">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">
-          <strong>{{comment.post.title}}</strong>
+      <div class="d-flex w-100 justify-content-between inline-block post-content">
+        <h5 class="mb-1 post-title">
+          {{comment.post.title}}
         </h5>
         <small>
           <strong> votes : {{comment.votes}}</strong>
         </small>
+        <p class="mb-1">{{comment.message}}</p>
+        <small>{{comment.created_at | date:'medium'}}</small>
       </div>
-      <p class="mb-1">{{comment.message}}</p>
-      <small>{{comment.created_at | date:'medium'}}</small>
     </a>
     <div id="commentModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
