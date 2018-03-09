@@ -8,7 +8,6 @@
     opacity: .5;
 }
 
-
 .note-button {
     margin-right: 20px;
     margin-bottom: 40px;
@@ -135,14 +134,16 @@ button.btn.cancel-btn:active {
 
 
 .submit-description-input,
-.submit-code-input {
+.submit-code-input,
+.submit-response-input {
     width:100%;
     border: 1px solid var(--primary-color);
     border-radius: 2px;
 }
 
 .submit-description-input:focus,
-.submit-code-input:focus {
+.submit-code-input:focus,
+.submit-response-input:focus {
     border: 1px solid var(--primary-color);
 }
 
@@ -218,23 +219,18 @@ button.btn.cancel-btn:active {
     margin-left: 50px;
 }
 
-.refresh-button {
-    margin-top: 20px;
+.glyphicon-refresh {
+    margin-top: 28px;
     margin-left: 20px;
-    background-color: #158465;
+    color: #158465;
     border:none;
     border-radius: 2px;
 }
 
-.refresh-button:hover {
-    background-color: var(--primary-color);
-}
-
-.refresh-button:focus,
-.refresh-button:hover,
-button.btn.refresh-button:active {
-    outline: none;
-    background-color: var(--primary-color);
+.glyphicon-refresh:hover {
+    transform: rotate(1turn);
+    transition-duration: 3s;
+    cursor: pointer;
 }
 
 hr {
@@ -254,4 +250,12 @@ a:active,
 a:hover,
 a:focus {
     outline: none;
+}
+
+.pagination>li>a {
+    color: white;
+}
+
+.pagination>.disabled>a {
+    color: #187764;
 }
