@@ -85,7 +85,7 @@ CREATE TABLE notes
   user_profile_id INT NOT NULL,
   poster_id INT NOT NULL,
   note VARCHAR(8000),
-  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  created TIMESTAMP NOT NULL DEFAULT NOW(),
   PRIMARY KEY (post_id),
   FOREIGN KEY (user_profile_id) REFERENCES users (user_id)
 );
