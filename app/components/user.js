@@ -40,7 +40,7 @@ angular.module('app')
           if (!$scope.userComments || $scope.userComments.length !== data.length) { //maintain sort through refresh
             $scope.userComments = data;
           }
-          console.log($scope.userComments)
+
           //pagination
           $scope.$watch('currentCommentPage + numPerPage', function () {
             //filter posts by page number

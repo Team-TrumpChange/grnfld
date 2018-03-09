@@ -11,7 +11,6 @@ angular.module('app')
     };
 
     this.getNotes = function (profileId, callback) {
-      console.log('commentId in getSubcomments', profileId);
       $http.get('/userNotes', {
         params: { profileId: profileId }
       })
