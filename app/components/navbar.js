@@ -6,9 +6,9 @@ angular.module('app')
     $location.path('/');
   };
   $scope.yourUserPage = function() {
-    console.log('got ot your userpage', $rootScope.userId);
+    console.log('got to your userpage', $rootScope.userId);
     $rootScope.userPageUser = $rootScope.userId;
-    $location.path('/user');
+    $location.path('/self');
   };
 })
 .directive('navbar', function() {
