@@ -20,7 +20,6 @@ CREATE TABLE users
   skills VARCHAR(255),
   hackcoin int NOT NULL DEFAULT 5,
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-  avatar VARCHAR(255),
   PRIMARY KEY (user_id)
 );
 
@@ -87,7 +86,7 @@ CREATE TABLE subcomments
 -- ---
 
 insert into users
-  (username, password, email, skills, avatar)
+  (username, password, email, skills)
 VALUES
   ('yaboi', '$2a$10$MCRlmB8bUswMTqKG.kURCu2pu8ipopli2LLaO5OODNokt44cpLZ56', 'yaboi@hotmail.com', 'javascript, python, react, sandwiches'),
   ('Gepeto', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou', 'gepeto@aol.com', 'python, java'),
