@@ -1,6 +1,5 @@
 <div>
-<<<<<<< HEAD
-    <h3 class="" style="margin-left: 10px;">Most Recent Posts:</h3>
+    <h3 class="" style="margin-left: 10px;">Posts:</h3>
     <div class="navbar" role="navigation">
         <div class="container"></div>
         <ul class="nav navbar-nav">
@@ -23,10 +22,6 @@
         <button type="button" class="btn btn-primary btn-sm refresh-button pull-right margin-right" ng-click="refresh()">Refresh</button>
         </div>
     </div>
-=======
-    <h3 class="recent-post-title" style="margin-left: 10px;">Most Recent Posts</h3>
-    <button ng-click="refresh()" type="button" class="btn btn-primary btn-sm refresh-button">Refresh</button>
->>>>>>> a65dca80f34de6141d0c28d819a5b75762fe9676
     <hr>
     <div class="list-group">
         <a ng-repeat="post in filteredPosts track by $index" ng-click="handlePostClick($index)" post="post" class="list-group-item list-group-item-action flex-column align-items-start posts-list"

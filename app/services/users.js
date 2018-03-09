@@ -73,9 +73,4 @@ angular.module('app')
       });
   }
 
-<<<<<<< HEAD
-
-=======
-  
->>>>>>> a65dca80f34de6141d0c28d819a5b75762fe9676
 });

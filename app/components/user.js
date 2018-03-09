@@ -1,6 +1,6 @@
 angular.module('app')
   .controller('UserCtrl', function ($scope, $rootScope, 
-    postsService, commentsService, usersService, sortService, 
+    postsService, commentsService, usersService, sortService, noteService, 
     $location) {
     $('.alert .close').on('click', function (e) {
       $(this).parent().hide();
@@ -37,8 +37,10 @@ angular.module('app')
         });
   
         commentsService.getUserComments($rootScope.userPageUser, data => {
-          $scope.userComments = data;
-  
+          if (!$scope.userComments || $scope.userComments.length !== data.length) { //maintain sort through refresh
+            $scope.userComments = data;
+          }
+          console.log($scope.userComments)
           //pagination
           $scope.$watch('currentCommentPage + numPerPage', function () {
             //filter posts by page number
@@ -163,19 +165,21 @@ angular.module('app')
       });
     }
 
+    $scope.sortType = $scope.sortType || "recent";
+
     $scope.sortPosts = (sortType) => {
       switch (sortType) {
         case 'recent':
           $scope.sortType = "recent";
-          $scope.userPosts = sortService.dateSort('post_id', $scope.userPosts);
+          $scope.userPosts = sortService.numberSort($scope.userPosts, 'post_id');
           break;
         case 'title':
           $scope.sortType = "title";
-          $scope.userPosts = sortService.alphabetize('title', $scope.userPosts);
+          $scope.userPosts = sortService.alphabetize($scope.userPosts, 'title');
           break;
         case 'username':
           $scope.sortType = "username";
-          $scope.userPosts = sortService.alphabetize('username', $scope.userPosts);
+          $scope.userPosts = sortService.alphabetize($scope.userPosts, 'username');
           break;
         case 'status':
           $scope.sortType = "status";
@@ -184,7 +188,29 @@ angular.module('app')
       }
       $scope.refresh();
     }
-    
+
+    $scope.sortComments = (sortType) => {
+      switch (sortType) {
+        case 'recent':
+          $scope.sortType = "recent";
+          $scope.userPosts = sortService.numberSort($scope.userComments, 'comment_id');
+          break;
+        case 'poster':
+          $scope.sortType = "title";
+          $scope.userComments = sortService.alphabetize($scope.userComments, 'post', 'title');
+          break;
+        case 'postTitle':
+          $scope.sortType = "username";
+          $scope.userComments = sortService.alphabetize($scope.userComments, 'post', 'username');
+          break;
+        case 'likes':
+          $scope.sortType = "likes";
+          $scope.userComments = sortService.numberSort($scope.userComments, 'votes');
+          break;
+      }
+      $scope.refresh();
+    }
+
     $scope.noteText = '';
 
     $scope.submitNote = (isValid) => {

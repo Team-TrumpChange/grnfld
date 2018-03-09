@@ -119,20 +119,22 @@ angular.module('app')
     });
   };
 
+  $scope.sortType = $scope.sortType || "recent";
+
   $scope.sortPosts = (sortType) => {
-    $scope.sortType = "recent";
+    
     switch (sortType) {
       case 'recent' :
         $scope.sortType = "recent";
-        $scope.posts = sortService.dateSort('post_id', $scope.posts);
+        $scope.posts = sortService.dateSort($scope.posts, 'post_id');
         break;
       case 'title' :
         $scope.sortType = "title";
-        $scope.posts = sortService.alphabetize('title', $scope.posts);
+        $scope.posts = sortService.alphabetize($scope.posts, 'title');
         break;   
       case 'username' :
         $scope.sortType = "username";
-        $scope.posts = sortService.alphabetize('username', $scope.posts);
+        $scope.posts = sortService.alphabetize($scope.posts, 'username');
         break;
       case 'status' :
         $scope.sortType = "status";

@@ -1,5 +1,28 @@
 <div>
-  <h3 class="" style="margin-left: 10px;">Most Recent Comments:</h3>
+  <h3 class="" style="margin-left: 10px;">Comments:</h3>
+  <div class="navbar" role="navigation">
+    <div class="container"></div>
+    <ul class="nav navbar-nav">
+      <li>
+        <a class="navbar-brand">Sort by:</a>
+      </li>
+      <li ng-class="{selected: sortCommentType=='poster'}">
+        <a ng-click="sortComments('poster')"> Post Author </a>
+      </li>
+      <li ng-class="{selected: sortCommentType=='postTitle'}">
+        <a ng-click="sortComments('postTitle')"> Post Title </a>
+      </li>
+      <li ng-class="{selected: sortCommentType=='likes'}">
+        <a ng-click="sortComments('likes')"> Likes </a>
+      </li>
+      <li ng-class="{selected: sortCommentType=='recent'}">
+        <a ng-click="sortComments('recent')"> Recent </a>
+      </li>
+    </ul>
+    <button type="button" class="btn btn-primary btn-sm refresh-button pull-right margin-right" ng-click="refresh()">Refresh</button>
+    </div>
+  </div>
+  <hr>
   <div class="list-group">
     <a ng-repeat="comment in filteredComments track by $index" ng-click="handleCommentClick($index)" comment="comment" class="list-group-item list-group-item-action flex-column align-items-start"
       data-toggle="modal" data-target="#commentModal">
