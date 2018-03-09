@@ -20,7 +20,6 @@ CREATE TABLE users
   skills VARCHAR(255),
   hackcoin int NOT NULL DEFAULT 5,
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-  avatar VARCHAR(255),
   PRIMARY KEY (user_id)
 );
 
