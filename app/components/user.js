@@ -1,5 +1,7 @@
 angular.module('app')
-  .controller('UserCtrl', function ($scope, postsService, $rootScope, commentsService, usersService, $location) {
+  .controller('UserCtrl', function ($scope, $rootScope, 
+    postsService, commentsService, usersService, sortService, 
+    $location) {
     $('.alert .close').on('click', function (e) {
       $(this).parent().hide();
     });
@@ -19,7 +21,9 @@ angular.module('app')
         })
         //get all posts on page load
         postsService.getUserPosts($rootScope.userPageUser, data => {
-          $scope.userPosts = data;
+          if (!$scope.userPosts || $scope.userPosts.length !== data.length) { //maintain sort through refresh
+            $scope.userPosts = data;
+          }
   
           //pagination
           $scope.$watch('currentPage + numPerPage', function () {
@@ -153,5 +157,23 @@ angular.module('app')
       postsService.closePost(postId, function (data) {
         $scope.userPosts[$scope.currentIndex].closed = true;
       });
+    }
+
+    $scope.sortPosts = (sortType) => {
+      switch (sortType) {
+        case 'recent':
+          $scope.userPosts = sortService.dateSort('post_id', $scope.userPosts);
+          break;
+        case 'title':
+          $scope.userPosts = sortService.alphabetize('title', $scope.userPosts);
+          break;
+        case 'username':
+          $scope.userPosts = sortService.alphabetize('username', $scope.userPosts);
+          break;
+        case 'status':
+          $scope.userPosts = sortService.boolSort($scope.userPosts);
+          break;
+      }
+      $scope.refresh();
     }
   });

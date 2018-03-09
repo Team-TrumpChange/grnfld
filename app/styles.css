@@ -170,7 +170,7 @@ button.btn.about-btn:active {
 }
 
 hr {
-    margin-top: 50px;
+    margin-top: 0px;
     width: 90%;
     height: 1px;
     border: none;
@@ -183,4 +183,11 @@ hr {
 
 .centered {
     text-align: center;
+}
+.margin-right {
+    margin-right: 20px;
+}
+
+.selected {
+    background-color: rgb(238, 238, 238);
 }

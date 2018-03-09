@@ -1,6 +1,27 @@
 <div>
-    <button ng-click="refresh()" type="button" class="btn btn-primary btn-sm pull-right">Refresh</button>
     <h3 class="" style="margin-left: 10px;">Most Recent Posts:</h3>
+    <div class="navbar" role="navigation">
+        <div class="container"></div>
+        <ul class="nav navbar-nav">
+            <li>
+                <a class="navbar-brand">Sort by:</a>
+            </li>  
+            <li ng-class="(sortType=='title') ? 'selected' : ''">
+                <a ng-click="sortPosts('title')"> Title </a>
+            </li>
+            <li ng-hide='userPosts' ng-class="{selected: sortType=='username'}">
+                <a ng-click="sortPosts('username')"> Poster </a>
+            </li>
+            <li ng-class="{selected: sortType=='status'}">
+                <a ng-click="sortPosts('status')"> Open </a>
+            </li>
+            <li ng-class="{selected: sortType=='recent'}">
+                <a ng-click="sortPosts('recent')"> Recent </a>
+            </li>
+        </ul>
+        <button type="button" class="btn btn-primary btn-sm refresh-button pull-right margin-right" ng-click="refresh()">Refresh</button>
+        </div>
+    </div>
     <hr>
     <div class="list-group">
         <a ng-repeat="post in filteredPosts track by $index" ng-click="handlePostClick($index)" post="post" class="list-group-item list-group-item-action flex-column align-items-start"
