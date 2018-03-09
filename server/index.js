@@ -78,7 +78,6 @@ app.get('/comments', async (req, res) => {
   res.json(comments);
 });
 
-
 app.get('/subcomments', async (req, res) => {
   console.log('req.query:', req.query);
   let subcomments = await db.getSubcomments(req.query.commentId);
@@ -92,6 +91,11 @@ app.get('/userComments', async (req, res) => {
   res.json(comments);
 });
 
+app.get('/userNotes', async (req, res) => {
+  console.log('req.query:', req.query);
+  let notes = await db.getUserNotes(req.query);
+  res.json(notes);
+});
 
 app.post('/createPost', async (req, res) => {
   try {
@@ -129,6 +133,26 @@ app.post('/createComment', (req, res) => {
   });
 });
 
+app.post('/createSubcomment', async (req, res) => {
+  console.log('req.body:', req.body);
+  try {
+    await db.createSubcomment(req.body);
+  } catch (err) {
+    console.log('err:', err);
+  }
+  res.end();
+});
+
+app.post('/createNote', async (req, res) => {
+  console.log('req.body', req.body);
+  try {
+    await db.createNote(req.body);
+  } catch(err) {
+    console.log('err:', err);
+  }
+  res.end();
+});
+
 app.post('/login', async (req, res) => {
   const userInfo = await db.checkCredentials(req.body.username);
 
@@ -153,15 +177,6 @@ app.post('/login', async (req, res) => {
 });
 
 
-app.post('/createSubcomment', async (req, res) => {
-  console.log('req.body:', req.body);
-  try {
-    await db.createSubcomment(req.body);
-  } catch (err) {
-    console.log('err:', err);
-  }
-  res.end();
-});
 
 app.post('/autoLogin', (req,res) => {
   if (req.session.loggedIn === true) {

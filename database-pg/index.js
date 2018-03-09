@@ -158,6 +158,20 @@ const updateUserSkills = async (id, skills) => {
   await knex('users').update('skills', skills).where('user_id', id);
 }
 
+const getUserNotes = (userId) => {
+  return knex('notes')
+    .join('users', 'users.user_id', '=', 'notes.poster_id')
+    .select('users.username', 'notes.*')
+}
+
+const createNote = (noteObj) => {
+  return knex('subcomments').insert({
+    poster_id: noteObj.posterId,
+    user_profile_id: noteObj.profileId,
+    note: noteOjb.note
+  }).orderBy('comment_id', 'asc');
+}
+
 module.exports = {
   getAllPosts,
   getUserPosts,
@@ -178,5 +192,7 @@ module.exports = {
   getSubcomments,
   getUsername,
   getUsername,
-  updateUserSkills
+  updateUserSkills,
+  getUserNotes,
+  createNote
 };

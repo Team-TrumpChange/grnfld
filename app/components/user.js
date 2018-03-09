@@ -1,5 +1,5 @@
 angular.module('app')
-  .controller('UserCtrl', function ($scope, postsService, $rootScope, commentsService, usersService, $location) {
+  .controller('UserCtrl', function ($scope, postsService, $rootScope, commentsService, usersService, $location, noteService) {
     $('.alert .close').on('click', function (e) {
       $(this).parent().hide();
     });
@@ -42,6 +42,10 @@ angular.module('app')
             let end = begin + $scope.numPerPage;
             $scope.filteredComments = $scope.userComments.slice(begin, end);
           });
+        });
+
+        noteService.getNotes($rootScope.userPageUser, data => {
+          $scope.userNotes = data;
         });
       }
     };
@@ -148,4 +152,22 @@ angular.module('app')
         }
       }
     };
+    
+    $scope.noteText = '';
+
+    $scope.submitNote = (isValid) => {
+      console.log('in submitNote');
+      let noteObj = {
+        poster_id: $rootScope.userId,
+        user_profile_id: $rootScope.userPageUser,
+        note: $scope.noteText
+      }
+      console.log('noteObj:', noteObj);
+      noteService.submitNote(noteObj, () => {
+        $scope.noteText = '';
+        noteService.getNotes($rootScope.userPageUser, data => {
+          $scope.userNotes = data;
+        });
+      });
+    }
   });
