@@ -1,6 +1,11 @@
-<div >
-    <h3 class="recent-post-title" >Most Recent Posts</h3>
-    <button ng-click="refresh()" type="button" class="btn btn-primary btn-sm refresh-button">Refresh</button>
+
+<div>
+    <h3 class="recent-post-title" style="margin-left: 10px;">Most Recent Posts</h3>
+    <!-- <button  type="button" class="btn btn-primary btn-sm refresh-button"> -->
+        <span ng-click="refresh()" class="refresh-icon">
+            <i class="glyphicon glyphicon-refresh"></i>
+        </span>
+    <!-- </button> -->
     <hr>
     <div class="list-group">
         <a ng-repeat="post in filteredPosts track by $index" ng-click="handlePostClick($index)" post="post" class="list-group-item list-group-item-action flex-column align-items-start posts-list"
@@ -74,7 +79,7 @@
 
                                 <p ng-show="warning">{{meanMessage}}</p>
                                 <p ng-show="warning">{{warning}}</p>
-                                <textarea name="message" ng-model="message" class="form-control response-comment" rows="3" placeholder="Write your comment here" ng-maxlength="8000"
+                                <textarea name="message" ng-model="message" class="form-control submit-response-input" rows="3" placeholder="Write your comment here" ng-maxlength="8000"
                                     required></textarea>
                                 <p ng-show="commentForm.message.$error.required && commentForm.message.$dirty" class="help-block">You cannot leave a blank comment.</p>
                                 <p ng-show="commentForm.message.$error.maxlength" class="help-block">Your comment is too long.</p>
