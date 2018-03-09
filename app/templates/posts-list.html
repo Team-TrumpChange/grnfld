@@ -34,6 +34,10 @@
                     <div class="modal-body">
                         <p>{{currentPost.summary}}</p>
                     </div>
+                    <div class="modal-body">
+                        <button ng-show="currentPost.user_id === $root.userId && !currentPost.closed" type="button" ng-click="markPostSolved(currentPost.post_id, $index)"> Mark Post Solved </button>
+                        <p ng-show="currentPost.user_id === $root.userId && currentPost.closed"> You have closed this post</p>
+                    </div>
                     <div class="modal-footer">
 
 
@@ -41,7 +45,6 @@
 
 
                             <div id="like-error" class="alert alert-danger alert-dismissible fade in" style="display:none">
-
                                 <strong>No more Hackcoins!</strong> Please wait for your coins to refresh
                             </div>
                             <div class="row">
@@ -72,7 +75,7 @@
                         </div>
 
 
-                        <form ng-show="$root.userId" name="commentForm" ng-submit="submitComment(commentForm.$valid)" novalidate>
+                        <form ng-show="$root.userId  && !currentPost.closed" name="commentForm" ng-submit="submitComment(commentForm.$valid)" novalidate>
 
                             <div class="form-group">
                                 <label for="newCommentDescription" class="pull-left">Your response</label>

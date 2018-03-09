@@ -141,6 +141,10 @@ const updateUserSkills = async (id, skills) => {
   await knex('users').update('skills', skills).where('user_id', id);
 }
 
+const closePost = async (id) => {
+  await knex('posts').update('closed', true).where('post_id', id);
+}
+
 module.exports = {
   getAllPosts,
   getUserPosts,
@@ -157,5 +161,6 @@ module.exports = {
   subtractCoins,
   refreshCoins,
   getUsername,
-  updateUserSkills
+  updateUserSkills,
+  closePost
 };

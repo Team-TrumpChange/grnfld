@@ -148,4 +148,10 @@ angular.module('app')
         }
       }
     };
+
+    $scope.markPostSolved = (postId) => {
+      postsService.closePost(postId, function (data) {
+        $scope.userPosts[$scope.currentIndex].closed = true;
+      });
+    }
   });

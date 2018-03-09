@@ -60,6 +60,14 @@ app.patch('/user', async (req, res) => {
   res.end();
 });
 
+app.patch('/closePost', async (req, res) => {
+  console.log(req.body)
+  let postId = req.body.postId;
+  console.log(postId, 'postId')
+  await db.closePost(postId);
+  res.end();
+})
+
 // app.get('/test', (req, res) => {
   // wrap this in a promise/async/await
   // let postsWithComments = async () => {
@@ -195,7 +203,6 @@ app.post('/coin', async (req, res) => {
 });
 
 app.post('/solution', async (req, res) => {
-  console.log(req.body, 'solution');
   const data = await db.markSolution(req.body.commentId, req.body.postId);
   res.status(200).end();
 });
