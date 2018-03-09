@@ -4,6 +4,11 @@
     opacity: .5;
 }
 
+.post-button {
+    margin-right: 20px;
+    margin-bottom: 40px;
+}
+
 .login-modal,
 .register-modal,
 .about-modal {

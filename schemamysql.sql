@@ -88,16 +88,15 @@ CREATE TABLE notes
   note VARCHAR(8000),
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   PRIMARY KEY (post_id),
-  FOREIGN KEY (user_profile_id) REFERENCES user (user_id)
+  FOREIGN KEY (user_profile_id) REFERENCES users (user_id)
 );
-
 -- ---
 -- Test Data
 --
 -- ---
 
 insert into users
-  (username, password, email, skills, avatar)
+  (username, password, email, skills)
 VALUES
   ('yaboi', '$2a$10$MCRlmB8bUswMTqKG.kURCu2pu8ipopli2LLaO5OODNokt44cpLZ56', 'yaboi@hotmail.com', 'javascript, python, react, sandwiches'),
   ('Gepeto', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou', 'gepeto@aol.com', 'python, java'),

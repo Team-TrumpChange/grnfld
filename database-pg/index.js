@@ -111,7 +111,7 @@ const checkCredentials = (username) => {
     .where(knex.raw(`LOWER(username) = LOWER('${username}')`));
 };
 
-const createUser = async (username, password, email, skills, avatar) => {
+const createUser = async (username, password, email, skills) => {
   const userQuery = await knex.select().from('users')
     .where(knex.raw(`LOWER(username) = LOWER('${username}')`));
   const emailQuery = await knex.select().from('users')
@@ -121,7 +121,7 @@ const createUser = async (username, password, email, skills, avatar) => {
   } else if (emailQuery.length) {
     return 'email already exists';
   } else {
-    return await knex('users').insert({ username: username, password: password, email: email, skills: skills, avatar: avatar});
+    return await knex('users').insert({ username: username, password: password, email: email, skills: skills});
   }
 };
 
@@ -159,16 +159,17 @@ const updateUserSkills = async (id, skills) => {
 }
 
 const getUserNotes = (userId) => {
-  return knex('notes')
-    .join('users', 'users.user_id', '=', 'notes.poster_id')
-    .select('users.username', 'notes.*')
+  return knex.select('*').from('notes').join('users', function () {
+    this.on('users.user_id', '=', 'notes.poster_id').onIn('notes.user_profile_id', [userId.profileId])
+  })
 }
 
 const createNote = (noteObj) => {
-  return knex('subcomments').insert({
-    poster_id: noteObj.posterId,
-    user_profile_id: noteObj.profileId,
-    note: noteOjb.note
+  console.log(noteObj);
+  return knex('notes').insert({
+    poster_id: noteObj.poster_id,
+    user_profile_id: noteObj.user_profile_id,
+    note: noteObj.note
   }).orderBy('comment_id', 'asc');
 }
 

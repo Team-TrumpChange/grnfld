@@ -191,7 +191,7 @@ app.post('/register', async (req, res) => {
   const shasum = bcrypt.hashSync(req.body.password);
 
   const avatar = `https://api.adorable.io/avatars/80/${req.body.username}.png`
-  const data = await db.createUser(req.body.username, shasum, req.body.email, req.body.skills, avatar);
+  const data = await db.createUser(req.body.username, shasum, req.body.email, req.body.skills);
   if (data === 'username already exists' || data === 'email already exists') {
     res.status(409).end();
   } else {
