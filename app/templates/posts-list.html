@@ -1,4 +1,5 @@
 <div>
+<<<<<<< HEAD
     <h3 class="" style="margin-left: 10px;">Most Recent Posts:</h3>
     <div class="navbar" role="navigation">
         <div class="container"></div>
@@ -22,18 +23,22 @@
         <button type="button" class="btn btn-primary btn-sm refresh-button pull-right margin-right" ng-click="refresh()">Refresh</button>
         </div>
     </div>
+=======
+    <h3 class="recent-post-title" style="margin-left: 10px;">Most Recent Posts</h3>
+    <button ng-click="refresh()" type="button" class="btn btn-primary btn-sm refresh-button">Refresh</button>
+>>>>>>> a65dca80f34de6141d0c28d819a5b75762fe9676
     <hr>
     <div class="list-group">
-        <a ng-repeat="post in filteredPosts track by $index" ng-click="handlePostClick($index)" post="post" class="list-group-item list-group-item-action flex-column align-items-start"
+        <a ng-repeat="post in filteredPosts track by $index" ng-click="handlePostClick($index)" post="post" class="list-group-item list-group-item-action flex-column align-items-start posts-list"
             data-toggle="modal" data-target="#myModal">
-            <div class="d-flex w-100 justify-content-between inline-block">    
-                <h5 class="mb-1">
-                    <strong>{{post.title}}</strong>
+            <div class="d-flex w-100 justify-content-between inline-block post-content">    
+                <h5 class="mb-1 post-title">
+                    {{post.title}}
                 </h5>
+                <p class="mb-1">{{post.summary}}</p>
                 <small>
                     <strong>{{post.username}}</strong>
                 </small>
-                <p class="mb-1">{{post.summary}}</p>
                 <small>{{post.created_at | date:'medium'}}</small>
             </div>
             <img ng-src="https://robohash.org/{{post.username}}.png?size=80x80" class="rounded inline-block" />
@@ -64,7 +69,6 @@
 
                         <div ng-repeat="comment in comments track by $index" class="comments-list" ng-class="{'solution': comment.solution}">
 
-
                             <div id="like-error" class="alert alert-danger alert-dismissible fade in" style="display:none">
                                 <strong>No more Hackcoins!</strong> Please wait for your coins to refresh
                             </div>
@@ -80,17 +84,12 @@
                                             <p ng-bind-html="comment.message"></p>
                                         </div>
                                         <!-- /panel-body -->
-                                        <p style="margin-right: 2px;">
-                                            <small>
-                                                <a ng-class="{'disabled': $root.hackcoin <= 0 || !$root.userId}" ng-click="likeComment(comment.comment_id, $index)"
-                                                    href="">Like</a> -
-                                                <a ng-show="currentPost.user_id === $root.userId" ng-click="selectSolution(comment)"
-                                                    href="">Mark as Solution</a> Votes: {{comment.votes}}
-                                            </small>
-                                        </p>
+                                        <p style="margin-left: 2px;">
+                                            
+                                        </div>
+                                        <!-- /panel panel-default -->
+                                        <subcomments comment="comment" userid=$root.userId postid="currentPost.post_id"></subcomments>
                                     </div>
-                                    <!-- /panel panel-default -->
-                                </div>
                                 <!-- /col-sm-5 -->
                             </div>
                         </div>
@@ -100,18 +99,18 @@
 
                             <div class="form-group">
                                 <label for="newCommentDescription" class="pull-left">Your response</label>
-                                <div><a href="#" data-toggle="modal" data-target="#codepen-modal">SandBox</a></div>
+                                <div><a href="#" data-toggle="modal" data-target="#codepen-modal">Open Codepen SandBox</a></div>
 
                                 <p ng-show="warning">{{meanMessage}}</p>
                                 <p ng-show="warning">{{warning}}</p>
-                                <textarea name="message" ng-model="message" class="form-control" rows="3" placeholder="Write your comment here" ng-maxlength="8000"
+                                <textarea name="message" ng-model="message" class="form-control response-comment" rows="3" placeholder="Write your comment here" ng-maxlength="8000"
                                     required></textarea>
                                 <p ng-show="commentForm.message.$error.required && commentForm.message.$dirty" class="help-block">You cannot leave a blank comment.</p>
                                 <p ng-show="commentForm.message.$error.maxlength" class="help-block">Your comment is too long.</p>
                             </div>
-                            <button type="submit" ng-click="commentForm.$setPristine()" ng-disabled="commentForm.$invalid" class="btn btn-primary pull-left">Submit</button>
+                            <button type="button" class="btn cancel-btn" data-dismiss="modal">Close</button>
+                            <button type="submit" ng-click="commentForm.$setPristine()" ng-disabled="commentForm.$invalid" class="btn btn-success">Submit</button>
                         </form>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -122,27 +121,20 @@
 
 <!-- sandbox modal -->
 <div class="modal fade" id="codepen-modal" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
+    <div class="modal-dialog sandbox-modal">
+        <div class="modal-content">
             <div class="modal-header">
-              <div>SandBox</div>
+                <div>Codepen SandBox</div>
             </div>
             <div class="modal-body post-frame-wrapper">
                 <div class="post-frame-top"></div>
                 <div class="post-frame-bottom"></div>
-              <iframe height="400px" width="100%" src="https://codepen.io/maniks04/pen/zWOZXG?editors=0010" scrolling="no" frameborder="no" allowtransparency="true" allowfullscreen="true" sandbox="allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-modals"></iframe>
+                <iframe height="400px" width="100%" src="https://codepen.io/maniks04/pen/zWOZXG?editors=0010" scrolling="no" frameborder="no"
+                    allowtransparency="true" allowfullscreen="true" sandbox="allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-modals"></iframe>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Done</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
             </div>
-          </div>
-        </div>
-        <div class="modal-body">
-            <iframe height="400px" width="100%" src="https://codepen.io/maniks04/pen/zWOZXG?editors=0010" scrolling="no" frameborder="no" allowtransparency="true" allowfullscreen="true" sandbox="allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-modals"></iframe>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Done</button>
-        </div>
         </div>
     </div>
 </div>

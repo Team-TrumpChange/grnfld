@@ -1,9 +1,12 @@
+
 DROP DATABASE IF EXISTS grnfld;
 
 CREATE DATABASE grnfld;
 
 USE grnfld;
 
+
+DROP TABLE IF EXISTS subcomments;
 DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS users;
@@ -17,7 +20,6 @@ CREATE TABLE users
   skills VARCHAR(255),
   hackcoin int NOT NULL DEFAULT 5,
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-  avatar VARCHAR(255),
   PRIMARY KEY (user_id)
 );
 
@@ -61,14 +63,39 @@ CREATE TABLE comments
   FOREIGN KEY (post_id) REFERENCES posts (post_id)
 );
 
+CREATE TABLE subcomments
+(
+  subcomment_id INT NOT NULL AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  post_id INT NOT NULL,
+  comment_id INT NOT NULL, 
+  submessage VARCHAR(8000),
+  votes INTEGER DEFAULT 0,
+  solution boolean DEFAULT FALSE,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (subcomment_id),
+  FOREIGN KEY (user_id) REFERENCES users (user_id),
+  FOREIGN KEY (post_id) REFERENCES posts (post_id),
+  FOREIGN KEY (comment_id) REFERENCES comments (comment_id)
+);
 
+CREATE TABLE notes
+(
+  post_id INT NOT NULL AUTO_INCREMENT,
+  user_profile_id INT NOT NULL,
+  poster_id INT NOT NULL,
+  note VARCHAR(8000),
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (post_id),
+  FOREIGN KEY (user_profile_id) REFERENCES users (user_id)
+);
 -- ---
 -- Test Data
 --
 -- ---
 
 insert into users
-  (username, password, email, skills, avatar)
+  (username, password, email, skills)
 VALUES
   ('yaboi', '$2a$10$MCRlmB8bUswMTqKG.kURCu2pu8ipopli2LLaO5OODNokt44cpLZ56', 'yaboi@hotmail.com', 'javascript, python, react, sandwiches'),
   ('Gepeto', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou', 'gepeto@aol.com', 'python, java'),

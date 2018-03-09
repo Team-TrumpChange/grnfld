@@ -47,6 +47,10 @@ angular.module('app')
             $scope.filteredComments = $scope.userComments.slice(begin, end);
           });
         });
+
+        noteService.getNotes($rootScope.userPageUser, data => {
+          $scope.userNotes = data;
+        });
       }
     };
 
@@ -180,4 +184,23 @@ angular.module('app')
       }
       $scope.refresh();
     }
+    
+    $scope.noteText = '';
+
+    $scope.submitNote = (isValid) => {
+      console.log('in submitNote');
+      let noteObj = {
+        poster_id: $rootScope.userId,
+        user_profile_id: $rootScope.userPageUser,
+        note: $scope.noteText
+      }
+      console.log('noteObj:', noteObj);
+      noteService.submitNote(noteObj, () => {
+        $scope.noteText = '';
+        noteService.getNotes($rootScope.userPageUser, data => {
+          $scope.userNotes = data;
+        });
+      });
+    }
+
   });

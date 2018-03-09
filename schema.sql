@@ -1,5 +1,7 @@
 DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS posts;
+DROP TABLE IF EXISTS subcomments;
+DROP TABLE IF EXISTS notes;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
@@ -27,7 +29,6 @@ CREATE TABLE posts (
   created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
 
-
 -- ---
 -- Table 'comment'
 --
@@ -43,6 +44,25 @@ CREATE TABLE comments (
   created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
 
+CREATE TABLE subcomments
+(
+  subcomment_id serial PRIMARY KEY,
+  user_id INT REFERENCES users (user_id) NOT NULL,
+  post_id INT REFERENCES posts (post_id) NOT NULL,
+  comment_id INT REFERENCES comments (comment_id) NOT NULL, 
+  message VARCHAR(8000),
+  votes INTEGER DEFAULT 0,
+  solution boolean DEFAULT FALSE,
+  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+);
+
+CREATE TABLE notes
+(
+  user_profile_id serial PRIMARY KEY,
+  poster_id INTEGER REFERENCES users (user_id) NOT NULL,
+  note VARCHAR(8000),
+  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+);
 
 -- ---
 -- Test Data

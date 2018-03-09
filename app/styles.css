@@ -1,12 +1,32 @@
+:root {
+    --primary-color: #1DBB8D;
+    --primary-dark: #158465;
+}
+
 .disabled {
     cursor: not-allowed;
     opacity: .5;
 }
 
+
+.note-button {
+    margin-right: 20px;
+    margin-bottom: 40px;
+}
+
+.main-div {
+    min-height: 100vh;
+}
+
 .login-modal,
 .register-modal,
-.about-modal {
+.about-modal,
+.logout-modal {
     width: 400px;
+}
+
+.modal-comment-title {
+    text-align: left;
 }
 
 p.help-block {
@@ -17,8 +37,16 @@ p.help-block {
     border-top: none;
     border-left: none;
     bordeR-right: none;
-    border-bottom: 1px solid #158465;
+    border-bottom: 1px solid var(--primary-dark);
     border-radius: 0px;
+}
+
+.posts-list:nth-child(even) {
+    background-color:rgba(189, 245, 229, 0.25);
+}
+
+.post-title {
+    font-size: 22px;
 }
 
 /* .log-group,
@@ -30,8 +58,10 @@ p.help-block {
 
 .reg-header, 
 .log-header,
-.about-header {
-    background: #1DBB8D;
+.about-header,
+.logout-header,
+.modal-header {
+    background: var(--primary-color);
     border-radius: 3px;
     color: white;
     border: none;
@@ -47,12 +77,11 @@ p.help-block {
 .btn-default:hover,
 .btn-default:focus,
 button.btn.btn-default:active {
-    background-color: #1DBB8D;
     outline: none;
 }
 
 .btn-success {
-    background: #158465;
+    background: var(--primary-color);
     color: white;
     border:none;
     outline: none;   
@@ -73,21 +102,21 @@ button.btn.btn-success:active {
 .btn-success:hover,
 .btn-success:focus,
 button.btn.btn-success:active {
-    background-color: #116e54;
+    background-color: var(--primary-dark);
 }
 
 .log-footer,
 .reg-footer {
-    background-color: #1DBB8D;
+    background-color: var(--primary-color);
     border-radius: 3px;
     border: none;
 }
 
-.about-btn,
-.about-btn:hover,
-.about-btn:focus,
-button.btn.about-btn:active {
-    color: #1DBB8D;
+.cancel-btn,
+.cancel-btn:hover,
+.cancel-btn:focus,
+button.btn.cancel-btn:active {
+    color: var(--primary-color);
     outline: none;
 }
 
@@ -101,16 +130,20 @@ button.btn.about-btn:active {
 }
 
 .glyphicon {
-    color: #158465;
+    color: var(--primary-dark);
 }
 
 
-.submit-description-input {
-    width:100%;
-}
-
+.submit-description-input,
 .submit-code-input {
     width:100%;
+    border: 1px solid var(--primary-color);
+    border-radius: 2px;
+}
+
+.submit-description-input:focus,
+.submit-code-input:focus {
+    border: 1px solid var(--primary-color);
 }
 
 .submit-code-display {
@@ -118,7 +151,13 @@ button.btn.about-btn:active {
 }
 
 .submit-title-input {
+    font-size: 22px;
     width: 100%;
+    border-bottom-color: var(--primary-color);    
+}
+
+.submit-title-input:focus {
+    border-bottom-color: var(--primary-color);
 }
 
 .submit-holder {
@@ -165,8 +204,37 @@ button.btn.about-btn:active {
 }
 
 .list-group {
-    width: 95%;
+    /* width: 95%; */
     margin: 0 auto;
+}
+
+.recent-post-title {
+    float: left;
+    margin-top: 20px;
+    padding-left: 20px;
+}
+
+.post-content {
+    margin-left: 50px;
+}
+
+.refresh-button {
+    margin-top: 20px;
+    margin-left: 20px;
+    background-color: #158465;
+    border:none;
+    border-radius: 2px;
+}
+
+.refresh-button:hover {
+    background-color: var(--primary-color);
+}
+
+.refresh-button:focus,
+.refresh-button:hover,
+button.btn.refresh-button:active {
+    outline: none;
+    background-color: var(--primary-color);
 }
 
 hr {
@@ -174,7 +242,7 @@ hr {
     width: 90%;
     height: 1px;
     border: none;
-    background-color: #1DBB8D;
+    background-color: var(--primary-color);
 }
 
 .inline-block {
@@ -190,4 +258,10 @@ hr {
 
 .selected {
     background-color: rgb(238, 238, 238);
+}
+a,
+a:active,
+a:hover,
+a:focus {
+    outline: none;
 }

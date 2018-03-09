@@ -44,10 +44,9 @@ angular.module('app')
     //get all comments from clicked post
     commentsService.getComments($scope.currentPost.post_id, (data) => {
       $scope.comments = data;
-      $scope.comments.forEach(comment => comment.message = comment.message.replace(/\{\{([^}]+)\}\}/g, '<code>$1</code>'));
+      $scope.comments.forEach(comment => comment.message = comment.message.replace(/\{\{([^}]+)\}\}/g, '<code>$1</code>')); // what this means?
       $scope.currentIndex = clickedValue; //sets index for when submit comment is clicked
     });
-
   };
 
   $scope.handleUsernameClick = (userId) => {
@@ -63,6 +62,7 @@ angular.module('app')
   $scope.warning = '';
   $scope.meanMessage = '';
   $scope.message = '';
+
 
   $scope.submitComment = (isValid) => {
     if (isValid) {
@@ -83,6 +83,7 @@ angular.module('app')
       });
     }
   };
+
 
   $scope.selectSolution = (comment) => {
     if ($rootScope.userId === $scope.currentPost.user_id) {

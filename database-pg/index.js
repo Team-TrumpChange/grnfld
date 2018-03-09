@@ -35,6 +35,13 @@ const getComments = (postId) => {
     .where(knex.raw(`comments.post_id = ${postId} and comments.user_id = users.user_id`));
 };
 
+
+const getSubcomments = (commentId) => {
+  return knex.select('*').from('subcomments').join('users', function () {
+    this.on('subcomments.user_id', '=', 'users.user_id').onIn('subcomments.comment_id', [commentId])
+  })
+};
+
 const getUserComments = async (userId) => {
   let comments = await knex.select()
     .from('comments')
@@ -53,6 +60,7 @@ let getPostForComment = async (postId) => {
     .innerJoin('users', 'posts.user_id', 'users.user_id')
     .where('posts.post_id', postId)
 }
+
 
 //using async/await
 //currently not used
@@ -89,12 +97,21 @@ const createComment = (comment) => {
   }).orderBy('comment_id', 'asc');
 };
 
+const createSubcomment = (subcomment) => {
+  return knex('subcomments').insert({
+    user_id: subcomment.user_id,
+    post_id: subcomment.post_id,
+    comment_id: subcomment.comment_id,
+    submessage: subcomment.submessage
+  }).orderBy('comment_id', 'asc');
+};
+
 const checkCredentials = (username) => {
   return knex.select().from('users')
     .where(knex.raw(`LOWER(username) = LOWER('${username}')`));
 };
 
-const createUser = async (username, password, email, skills, avatar) => {
+const createUser = async (username, password, email, skills) => {
   const userQuery = await knex.select().from('users')
     .where(knex.raw(`LOWER(username) = LOWER('${username}')`));
   const emailQuery = await knex.select().from('users')
@@ -104,7 +121,7 @@ const createUser = async (username, password, email, skills, avatar) => {
   } else if (emailQuery.length) {
     return 'email already exists';
   } else {
-    return await knex('users').insert({ username: username, password: password, email: email, skills: skills, avatar: avatar});
+    return await knex('users').insert({ username: username, password: password, email: email, skills: skills});
   }
 };
 
@@ -141,8 +158,24 @@ const updateUserSkills = async (id, skills) => {
   await knex('users').update('skills', skills).where('user_id', id);
 }
 
+<<<<<<< HEAD
 const closePost = async (id) => {
   await knex('posts').update('closed', true).where('post_id', id);
+=======
+const getUserNotes = (userId) => {
+  return knex.select('*').from('notes').join('users', function () {
+    this.on('users.user_id', '=', 'notes.poster_id').onIn('notes.user_profile_id', [userId.profileId])
+  })
+}
+
+const createNote = (noteObj) => {
+  console.log(noteObj);
+  return knex('notes').insert({
+    poster_id: noteObj.poster_id,
+    user_profile_id: noteObj.user_profile_id,
+    note: noteObj.note
+  }).orderBy('comment_id', 'asc');
+>>>>>>> a65dca80f34de6141d0c28d819a5b75762fe9676
 }
 
 module.exports = {
@@ -160,7 +193,16 @@ module.exports = {
   checkCoin,
   subtractCoins,
   refreshCoins,
+
+  createSubcomment,
+  getSubcomments,
+  getUsername,
   getUsername,
   updateUserSkills,
+<<<<<<< HEAD
   closePost
+=======
+  getUserNotes,
+  createNote
+>>>>>>> a65dca80f34de6141d0c28d819a5b75762fe9676
 };
