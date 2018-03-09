@@ -1,5 +1,7 @@
 DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS posts;
+DROP TABLE IF EXISTS subcomments;
+DROP TABLE IF EXISTS notes;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
@@ -51,8 +53,15 @@ CREATE TABLE subcomments
   message VARCHAR(8000),
   votes INTEGER DEFAULT 0,
   solution boolean DEFAULT FALSE,
-  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-  PRIMARY KEY (subcomment_id)
+  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+);
+
+CREATE TABLE notes
+(
+  user_profile_id serial PRIMARY KEY,
+  poster_id INTEGER REFERENCES users (user_id) NOT NULL,
+  note VARCHAR(8000),
+  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
 );
 
 -- ---

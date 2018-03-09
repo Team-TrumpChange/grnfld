@@ -8,6 +8,12 @@
     opacity: .5;
 }
 
+
+.note-button {
+    margin-right: 20px;
+    margin-bottom: 40px;
+}
+
 .main-div {
     min-height: 100vh;
 }
