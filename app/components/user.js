@@ -17,6 +17,7 @@ angular.module('app')
         usersService.getUserDetails($rootScope.userPageUser, user => {
           $scope.user = user;
           $scope.name = $scope.self ? 'You' : $scope.user.username;
+          $scope.namePossessive = $scope.self ? 'Your' : $scope.user.username + '\'s'; 
         })
         //get all posts on page load
         postsService.getUserPosts($rootScope.userPageUser, data => {
@@ -52,7 +53,7 @@ angular.module('app')
     $scope.refreshNotes = () => {
       noteService.getNotes($rootScope.userPageUser, data => {
         $scope.userNotes = data;
-
+        console.log('notes:', $scope.userNotes);
         //pagination
         $scope.$watch('currentNotePage + numPerPage', function () {
           //filter posts by page number
