@@ -1,6 +1,7 @@
 angular.module('app')
-
-.controller('MainCtrl', function ($scope, postsService, $rootScope, commentsService, usersService, $location) {
+  .controller('MainCtrl', function ($scope, $rootScope, 
+    postsService, commentsService, usersService, sortService, 
+    $location) {
   $('.alert .close').on('click', function (e) {
     $(this).parent().hide();
   });
@@ -12,16 +13,17 @@ angular.module('app')
         $rootScope.userId = user.user_id;
         $rootScope.hackcoin = user.hackcoin
         $rootScope.userPageUser = user.user_id;
-      }
+      } 
     });
 
     $scope.currentPage = 1;
     $scope.numPerPage = 5;
-
     //get all posts on page load
     postsService.getAll(data => {
       console.log('got posts', data);
-      $scope.posts = data;
+      if (!$scope.posts || $scope.posts.length !== data.length) {
+        $scope.posts = data;
+      } 
 
       //pagination
       $scope.$watch('currentPage + numPerPage', function () {
@@ -110,4 +112,35 @@ angular.module('app')
       }
     }
   };
+
+  $scope.markPostSolved = (postId) => {
+    postsService.closePost(postId, function(data) {
+      $scope.posts[$scope.currentIndex].closed = true;
+    });
+  };
+
+  $scope.sortType = $scope.sortType || "recent";
+
+  $scope.sortPosts = (sortType) => {
+    
+    switch (sortType) {
+      case 'recent' :
+        $scope.sortType = "recent";
+        $scope.posts = sortService.dateSort($scope.posts, 'post_id');
+        break;
+      case 'title' :
+        $scope.sortType = "title";
+        $scope.posts = sortService.alphabetize($scope.posts, 'title');
+        break;   
+      case 'username' :
+        $scope.sortType = "username";
+        $scope.posts = sortService.alphabetize($scope.posts, 'username');
+        break;
+      case 'status' :
+        $scope.sortType = "status";
+        $scope.posts = sortService.boolSort($scope.posts);
+        break;
+    }
+    $scope.refresh();
+  }
 });

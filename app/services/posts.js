@@ -29,4 +29,15 @@ angular.module('app')
         console.log(err);
     });
   };
+
+  this.closePost = function(postId, callback) {
+    console.log(postId, 'post Id')
+    $http.patch('/closePost', { postId : postId })
+      .then(function(data) {
+        callback(data);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
 });

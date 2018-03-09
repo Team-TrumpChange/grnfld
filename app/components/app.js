@@ -23,6 +23,10 @@ angular.module('app')
       templateUrl: 'templates/user.html',
       controller: 'UserCtrl'
     })
+    .when('/self', {
+      templateUrl: 'templates/user.html',
+      controller: 'UserCtrl'
+    })
     .otherwise({ redirectTo: '/' });
   $locationProvider.html5Mode(true);
 });
