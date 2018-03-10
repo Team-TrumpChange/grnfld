@@ -237,7 +237,7 @@ button.btn.cancel-btn:active {
 }
 
 .glyphicon-refresh:hover {
-    transform: rotate(1turn);
+    transform: rotate(.5turn);
     transition-duration: 3s;
     cursor: pointer;
 }
