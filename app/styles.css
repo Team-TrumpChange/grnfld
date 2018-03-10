@@ -17,9 +17,7 @@
     margin-left: 15px
 } */
 
-.user-profile {
-    margin-left: 50px;
-}
+
 
 .main-div {
     min-height: 100vh;
@@ -144,7 +142,9 @@ button.btn.cancel-btn:active {
 
 .submit-description-input,
 .submit-code-input,
-.submit-response-input {
+.submit-response-input,
+.subcomment-input,
+.submit-note {
     width:100%;
     border: 1px solid var(--primary-color);
     border-radius: 2px;
@@ -152,7 +152,9 @@ button.btn.cancel-btn:active {
 
 .submit-description-input:focus,
 .submit-code-input:focus,
-.submit-response-input:focus {
+.submit-response-input:focus,
+.subcomment-input:focus,
+.submit-note:focus {
     border: 1px solid var(--primary-color);
 }
 
@@ -219,9 +221,9 @@ button.btn.cancel-btn:active {
 }
 
 .recent-post-title {
-    float: left;
     margin-top: 20px;
-    padding-left: 20px;
+    display: block;
+    margin-left: 6%;
 }
 
 .post-content {
@@ -237,7 +239,7 @@ button.btn.cancel-btn:active {
 }
 
 .glyphicon-refresh:hover {
-    transform: rotate(.5turn);
+    transform: rotate(1turn);
     transition-duration: 3s;
     cursor: pointer;
 }
@@ -248,6 +250,14 @@ hr {
     height: 1px;
     border: none;
     background-color: var(--primary-color);
+}
+
+.username:hover {
+    background-color: #808080;
+}
+
+.username {
+    background-color: grey;
 }
 
 .inline-block {
@@ -271,10 +281,30 @@ a:focus {
     outline: none;
 }
 
+.pagination {
+    margin-left: 5%;
+}
+
 .pagination>li>a {
     color: white;
 }
 
 .pagination>.disabled>a {
-    color: #187764;
+    background-color: #D6D6D6;
+    color: white;
+}
+
+.pagination>.disabled>a:hover,
+.pagination>.disabled>a:focus,
+.pagination>.disabled>a:active {
+    background-color: #808080;
+    color: white;
+}
+
+.username-click {
+    cursor: pointer;    
+}
+
+.sort {
+    margin-left: 5%;
 }

@@ -1,6 +1,6 @@
 <div>
   <h3 class="recent-post-title">Comments:</h3>
-  <div class="navbar" role="navigation">
+  <div class="navbar sort" role="navigation">
     <div class="container"></div>
     <ul class="nav navbar-nav">
       <li>
@@ -24,10 +24,9 @@
     </span>
   </div>
   </div>
-  <hr>
   <div class="list-group">
     <a ng-repeat="comment in filteredComments track by $index" ng-click="handleCommentClick($index)" comment="comment" class="list-group-item list-group-item-action flex-column align-items-start posts-list"
-      data-toggle="modal" data-target="#commentModal">
+      data-toggle="modal" data-target="#commentModal" style="margin-left:3%;">
       <div class="d-flex w-100 justify-content-between inline-block post-content">
         <h5 class="mb-1 post-title">
           {{comment.post.title}}
@@ -48,7 +47,7 @@
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <div class = "inline-block">
             <h4 class="modal-title">{{currentComment.post.title}}</h4>
-            <h5 ng-click="handleUsernameClick(currentComment.post.user_id)" data-dismiss="modal"> {{currentComment.post.username}} </h5>
+            <h5 class="username-click" ng-click="handleUsernameClick(currentComment.post.user_id)" data-dismiss="modal"> {{currentComment.post.username}} </h5>
             </div>
             <img ng-src="https://robohash.org/{{currentComment.post.username}}.png?size=80x80" class = "inline-block"/>
           </div>
@@ -98,14 +97,14 @@
 
               <div class="form-group">
                 <label for="newCommentDescription" class="pull-left">Your response</label>
-                <textarea name="message" ng-model="message" class="form-control" rows="3" placeholder="Write your comment here" ng-maxlength="8000"
+                <textarea name="message" ng-model="message" class="form-control subcomment-input" rows="3" placeholder="Write your comment here" ng-maxlength="8000"
                   required></textarea>
                 <p ng-show="commentForm.message.$error.required && commentForm.message.$dirty" class="help-block">You cannot leave a blank comment.</p>
                 <p ng-show="commentForm.message.$error.maxlength" class="help-block">Your comment is too long.</p>
               </div>
-              <button type="submit" ng-click="commentForm.$setPristine()" ng-disabled="commentForm.$invalid" class="btn btn-primary pull-left">Submit</button>
             </form>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn cancel-btn" data-dismiss="modal">Close</button>
+            <button type="submit" ng-click="commentForm.$setPristine()" ng-disabled="commentForm.$invalid" class="btn btn-success pull-right">Submit</button>
           </div>
         </div>
       </div>

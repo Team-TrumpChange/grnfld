@@ -1,11 +1,12 @@
 <h2  style="opacity: 0;">User Page</h2>
-<div class="user-profile centered"> 
-  <h3>{{name}}</h3>
+<div class="user-profile centered" style="margin-top:14px;"> 
+  <h3 >{{name}}</h3>
   <img ng-src="https://robohash.org/{{user.username}}.png?size=80x80"/>
   <h5> Skills: {{user.skills}} </h5>
   <h5> Hackcoin: {{user.hackcoin}} </h5>
-  <button ng-show='self' class="btn btn-success" data-toggle="modal" data-target="#edit-user-modal"> Edit </button>
+  <button ng-show='self' class="btn btn-success" data-toggle="modal" data-target="#edit-user-modal" style="margin-bottom:30px;"> Edit </button>
 </div>
+<hr>
 <div class="modal fade" id="edit-user-modal" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -32,6 +33,7 @@
   </div>
 </div>
 <posts-front-page></posts-front-page>
+
 <pagination 
   ng-model="currentPage" 
   total-items="userPosts.length" 
@@ -40,6 +42,7 @@
   items-per-page="numPerPage"
   class="pagination">
 </pagination>
+<hr>
 
 <comments-user-page></comments-user-page>
 <pagination 
@@ -50,7 +53,7 @@
   items-per-page="numPerPage"
   class="pagination">
 </pagination>
-
+<hr>
 <notes-user-page></notes-user-page>
 <pagination 
   ng-model="currentNotePage" 

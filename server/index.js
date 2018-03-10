@@ -196,7 +196,7 @@ app.post('/login', async (req, res) => {
     if (bcrypt.compareSync(req.body.password, user.password)) {
 
       req.session.loggedIn = true;
-      req.session.user = user;
+      req.session.user_id = user.user_id;
 
       res.status(200).json({
         user_id: user.user_id,
@@ -214,10 +214,11 @@ app.post('/login', async (req, res) => {
 
 
 
-app.post('/autoLogin', async(req,res) => {
+
+app.post('/autoLogin', async (req,res) => {
   if (req.session.loggedIn === true) {
-    
-    res.send(req.session.user)
+    let user = await db.getUser(req.session.user_id)
+    res.json(user);
   } else {
     res.end();
   }
