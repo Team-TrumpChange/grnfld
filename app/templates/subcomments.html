@@ -4,7 +4,7 @@
   <small style="margin-bottom:5px;">
     <a ng-click="$ctrl.getSubcomments()" >{{$ctrl.subcomments.length + ' replies '}}</a>
     <small>
-      <a ng-click="$ctrl.showReplyForm()" ng-class="{'disabled': $ctrl.currentPost.closed} ">- Reply</a>
+      <a ng-click="$ctrl.showReplyForm()" ng-class="{'disabled': $ctrl.currentPost.closed} " ng-show="$root.userId" >- Reply</a>
     </small>
   </small>
 </span>
