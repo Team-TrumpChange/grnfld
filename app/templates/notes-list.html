@@ -14,7 +14,7 @@
     
       <div class="form-group">
         <label for="newNote" ><h3 class="recent-post-title">Write a Message for {{user.username}}:</h3></label>
-        <textarea name="noteText" ng-model="noteText" class="form-control" rows="3" placeholder="Write your note here" ng-maxlength="8000"
+        <textarea name="noteText" ng-model="noteText" class="form-control submit-note" rows="3" placeholder="Write your note here" ng-maxlength="8000"
           required></textarea>
         <p ng-show="commentForm.message.$error.required && commentForm.message.$dirty" class="help-block">You cannot leave a blank comment.</p>
         <p ng-show="commentForm.message.$error.maxlength" class="help-block">Your comment is too long.</p>

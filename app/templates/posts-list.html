@@ -35,7 +35,7 @@
                 </h5>
                 <p class="mb-1">{{post.summary}}</p>
                 <small>
-                    <strong>{{post.username}}</strong>
+                    <strong class="username-click">{{post.username}}</strong>
                 </small>
                 <small>{{post.created_at | date:'medium'}}</small>
             </div>
@@ -50,7 +50,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">{{currentPost.title}}</h4>
-                        <h5 ng-click = "handleUsernameClick(currentPost.user_id)" data-dismiss="modal"> {{currentPost.username}} </h5>
+                        <h5 ng-click="handleUsernameClick(currentPost.user_id)" class="username-click" data-dismiss="modal"> {{currentPost.username}} </h5>
                     </div>
                     <div class="modal-body">
                         <pre>{{currentPost.code}}</pre>
