@@ -252,6 +252,14 @@ hr {
     background-color: var(--primary-color);
 }
 
+.username:hover {
+    background-color: #808080;
+}
+
+.username {
+    background-color: grey;
+}
+
 .inline-block {
     display: inline-block;
 }
