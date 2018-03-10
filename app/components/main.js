@@ -72,13 +72,14 @@ angular.module('app')
         user_id: $rootScope.userId,
         post_id: $scope.currentPost.post_id,
         message: $scope.message,
-        questcoin: 1
+        questcoin: $rootScope.questcoin
       };
       commentsService.submitNewComment(commentObj, (data) => {
         if (data.data.rejection) {
           $scope.meanMessage = data.data.rejection;
           $scope.warning = 'Please make constructive comments only';
         } else {
+          $('#like-error').hide();
           $scope.warning = '';
           $scope.message = '';
           $scope.handlePostClick($scope.currentIndex);
