@@ -156,10 +156,22 @@ const checkCoin = (userId) => {
   return knex.select('hackcoin').from('users').where('user_id', userId);
 };
 
+const checkQuestCoin = (userId) => {
+  return knex.select('questcoin').from('users').where('user_id', userId);
+};
+
 const subtractCoins = async (currenthackcoin, subtractinghackcoin, userId, commentId) => {
-  await knex('users').where('user_id', userId).update('hackcoin', currenthackcoin - subtractinghackcoin);
+  await knex('users').where('user_id', userId).update('questcoin', currenthackcoin - subtractinghackcoin);
   await knex('comments').where('comment_id', commentId).increment('votes', subtractinghackcoin); //update votes by amount of hackcoins subtracted
 };
+
+const minusQuestCoin = async (post) => {
+  await knex('users').where('user_id', post.userId).update('questcoin', post.questcoin-1);
+}
+
+const addQuestCoin = async (post) => {
+  await knex('users').where('user_id', post.user_id).update('questcoin', post.questcoin+1);
+}
 
 const refreshCoins = () => {
   knex('users').update('hackcoin', 5);
@@ -173,6 +185,11 @@ const getUsername = async (id) => {
 const getUser = async (id) => {
   let user = await knex.select('*').from('users').where('user_id', id);
   return user[0];
+}
+
+const doSomething = async (username) => {
+  let user = await knex.select('*').from('users').where('username', username);
+  return user;
 }
 
 const updateUserSkills = async (id, skills) => {
@@ -223,5 +240,9 @@ module.exports = {
   closePost,
   getUserNotes,
   createNote,
-  unMarkSolution
+  unMarkSolution,
+  minusQuestCoin,
+  addQuestCoin,
+  checkQuestCoin, 
+  doSomething
 };
