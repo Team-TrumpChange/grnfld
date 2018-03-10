@@ -4,7 +4,8 @@ angular.module('app')
       comment: '<',
       userid: '<',
       postid: '<',
-      userid: '<'
+      userid: '<',
+      currentPost: '<'
     },
     controller: function (subcommentsService) {
       this.subcomments = null;
