@@ -1,8 +1,8 @@
 <div>
-  <h3 class="recent-post-title">{{namePossessive}} Messages:</h3>
-  <hr>
+  <h3 class="recent-post-title" >{{namePossessive}} Messages:</h3>
   <div class="list-group">
-    <a ng-repeat="note in filteredNotes track by $index" class="list-group-item list-group-item-action flex-column align-items-start posts-list">
+    <a ng-repeat="note in filteredNotes track by $index" class="list-group-item list-group-item-action flex-column align-items-start posts-list"
+     style="margin-left:3%;">
       <div class="d-flex w-100 justify-content-between inline-block post-content">
         <h5 class="mb-1 post-title">{{note.username}} wrote:</h5>
         <p class="mb-1">{{note.note}}</p>
@@ -11,9 +11,10 @@
     </a>
   </div>
   <div style="width:100vh;">
-    <form style="margin:50px;" ng-show="$root.userId" name="noteForm" ng-submit="submitNote(commentForm.$valid)" novalidate>
+    <form style="margin:8%;" ng-show="$root.userId" name="noteForm" ng-submit="submitNote(commentForm.$valid)" novalidate>
     
       <div class="form-group">
+
         <label for="newNote" ><h3 class="recent-post-title">Write a Message for {{user.username}}:</h3></label>
         <textarea name="noteText" ng-model="noteText" class="form-control submit-note" rows="3" placeholder="Write your note here" ng-maxlength="8000"
           required></textarea>

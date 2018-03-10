@@ -118,7 +118,22 @@ app.get('/userNotes', async (req, res) => {
 
 app.post('/createPost', async (req, res) => {
   try {
-    await db.createPost(req.body);
+    let currentHackCoins = await db.checkQuestCoin(req.body.userId);
+    currentHackCoins = currentHackCoins.pop().questcoin;
+
+    if (currentHackCoins > 0 && req.body.questcoin <= currentHackCoins) { //user has usable coins and asking to use a number of some available -- good update db
+      await db.minusQuestCoin(req.body)
+      await db.createPost(req.body);
+      res.status(200).end();
+    } else if(currentHackCoins > 0 && req.body.questcoin > currentHackCoins) { //if usable coins but asking to use more than available
+      console.log('tried to use too many hack coins');
+      res.status(409).end();  //send something in the body for client
+    } else if(currentHackCoins <= 0) {  //if no usable coins
+      res.status(409).end();  //send something in the body for client
+    } else {
+      console.log('unexpected edge case', 'currentHackCoins', currentHackCoins,  req.body);
+    }
+
   } catch (err) {
     console.log(err);
   }
@@ -143,6 +158,7 @@ app.post('/createComment', (req, res) => {
       } else {
         try {
           await db.createComment(comment);
+          await db.addQuestCoin(comment)
         } catch (err) {
           res.status(500).end();
         }
@@ -180,12 +196,13 @@ app.post('/login', async (req, res) => {
     if (bcrypt.compareSync(req.body.password, user.password)) {
 
       req.session.loggedIn = true;
-      req.session.user = user;
+      req.session.user_id = user.user_id;
 
       res.status(200).json({
         user_id: user.user_id,
         username: user.username,
-        hackcoin: user.hackcoin
+        hackcoin: user.hackcoin,
+        questcoin: user.questcoin
       });
     } else {
       res.status(401).send('false password');
@@ -197,9 +214,11 @@ app.post('/login', async (req, res) => {
 
 
 
-app.post('/autoLogin', (req,res) => {
+
+app.post('/autoLogin', async (req,res) => {
   if (req.session.loggedIn === true) {
-    res.send(req.session.user);
+    let user = await db.getUser(req.session.user_id)
+    res.json(user);
   } else {
     res.end();
   }
@@ -233,13 +252,13 @@ app.post('/logout', (req, res) => {
 })
 
 app.post('/coin', async (req, res) => {
-  let currentHackCoins = await db.checkCoin(req.body.userId);
-  currentHackCoins = currentHackCoins.pop().hackcoin;
+  let currentHackCoins = await db.checkQuestCoin(req.body.userId);
+  currentHackCoins = currentHackCoins.pop().questcoin;
 
-  if (currentHackCoins > 0 && req.body.hackCoins <= currentHackCoins) { //user has usable coins and asking to use a number of some available -- good update db
-    await db.subtractCoins(currentHackCoins, req.body.hackCoins, req.body.userId, req.body.commentId);
+  if (currentHackCoins > 0 && req.body.questcoin <= currentHackCoins) { //user has usable coins and asking to use a number of some available -- good update db
+    await db.subtractCoins(currentHackCoins, req.body.questcoin, req.body.userId, req.body.commentId);
     res.status(200).end();
-  } else if(currentHackCoins > 0 && req.body.hackCoins > currentHackCoins) { //if usable coins but asking to use more than available
+  } else if(currentHackCoins > 0 && req.body.questcoin > currentHackCoins) { //if usable coins but asking to use more than available
     console.log('tried to use too many hack coins');
     res.status(409).end();  //send something in the body for client
   } else if(currentHackCoins <= 0) {  //if no usable coins
