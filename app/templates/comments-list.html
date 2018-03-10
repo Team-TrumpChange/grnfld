@@ -26,7 +26,7 @@
   </div>
   <div class="list-group">
     <a ng-repeat="comment in filteredComments track by $index" ng-click="handleCommentClick($index)" comment="comment" class="list-group-item list-group-item-action flex-column align-items-start posts-list"
-      data-toggle="modal" data-target="#commentModal">
+      data-toggle="modal" data-target="#commentModal" style="margin-left:3%;">
       <div class="d-flex w-100 justify-content-between inline-block post-content">
         <h5 class="mb-1 post-title">
           {{comment.post.title}}

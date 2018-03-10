@@ -28,7 +28,7 @@
    
     <div class="list-group">
         <a ng-repeat="post in filteredPosts track by $index" ng-click="handlePostClick($index)" post="post" class="list-group-item list-group-item-action flex-column align-items-start posts-list"
-            data-toggle="modal" data-target="#myModal">
+            data-toggle="modal" data-target="#myModal" style="margin-left:3%;">
             <div class="d-flex w-100 justify-content-between inline-block post-content">    
                 <h5 class="mb-1 post-title">
                     {{post.title}}
