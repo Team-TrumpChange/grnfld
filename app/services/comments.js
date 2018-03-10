@@ -41,9 +41,24 @@ angular.module('app')
 
   this.selectSolution = async (commentId, postId) => {
     await $http.post('/solution', {
-      postId: postId, commentId: commentId
+      postId: postId, 
+      commentId: commentId,
+      select: true
     });
   };
+
+  this.unSelectSolution = (commentId, callback) => {
+    $http.post('/solution', {
+      commentId: commentId,
+      select: false
+    })
+      .then(() => {
+        callback();
+      })
+      .catch((err) => {
+        console.log('err:', err);
+      })
+  }
 
   this.validate = (commentObj, callback) => {
 

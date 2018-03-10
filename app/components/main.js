@@ -85,12 +85,22 @@ angular.module('app')
   };
 
 
-  $scope.selectSolution = (comment) => {
-    if ($rootScope.userId === $scope.currentPost.user_id) {
-      $scope.currentPost.solution_id = comment.comment_id; //changes local solution_id so that star moves without refresh
-      commentsService.selectSolution(comment.comment_id, $scope.currentPost.post_id);
+  $scope.toggleSolution = (comment) => {
+    if ($scope.currentPost.solution_id) {
+      if ($rootScope.userId === $scope.currentPost.user_id) {
+        commentsService.unSelectSolution(comment.comment_id, () => {
+          $scope.currentPost.solution_id = false;
+          console.log('$scope.currentPost.solution_id:', $scope.currentPost.solution_id);
+        });
+      }
+    } else {
+      if ($rootScope.userId === $scope.currentPost.user_id) {
+        $scope.currentPost.solution_id = comment.comment_id; //changes local solution_id so that star moves without refresh
+        commentsService.selectSolution(comment.comment_id, $scope.currentPost.post_id);
+      }
     }
   };
+
 
   $scope.likeComment = async (commentId, index) => {
     //need commmentId, usernameId(rootscope), how many coins to use (ng-click to send one and ng-double click to send more?)
@@ -118,6 +128,7 @@ angular.module('app')
       $scope.posts[$scope.currentIndex].closed = true;
     });
   };
+
 
   $scope.sortType = $scope.sortType || "recent";
 

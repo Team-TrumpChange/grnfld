@@ -4,7 +4,7 @@
   <img ng-src="https://robohash.org/{{user.username}}.png?size=80x80"/>
   <h5> Skills: {{user.skills}} </h5>
   <h5> Hackcoin: {{user.hackcoin}} </h5>
-  <button ng-show='self' data-toggle="modal" data-target="#edit-user-modal"> Edit </button>
+  <button ng-show='self' class="btn btn-success" data-toggle="modal" data-target="#edit-user-modal"> Edit </button>
 </div>
 <div class="modal fade" id="edit-user-modal" role="dialog">
   <div class="modal-dialog">

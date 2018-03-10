@@ -29,6 +29,7 @@ CREATE TABLE posts (
   created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
 
+
 -- ---
 -- Table 'comment'
 --
@@ -95,3 +96,13 @@ VALUES
   (3, 1, 'sword = shield', 525),
   (4, 1, 'Pulls out rocket launcher', 15),
   (5, 1, 'I used those before they were cool', 0);
+-- CREATE TABLE notes
+-- (
+--   post_id INT NOT NULL AUTO_INCREMENT,
+--   user_profile_id INT NOT NULL,
+--   poster_id INT NOT NULL,
+--   note VARCHAR(8000),
+--   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+--   PRIMARY KEY (post_id),
+--   FOREIGN KEY (user_profile_id) REFERENCES users (user_id)
+-- );
