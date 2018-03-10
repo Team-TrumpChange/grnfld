@@ -1,6 +1,6 @@
+DROP TABLE IF EXISTS subcomments;
 DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS posts;
-DROP TABLE IF EXISTS subcomments;
 DROP TABLE IF EXISTS notes;
 DROP TABLE IF EXISTS users;
 
@@ -8,6 +8,8 @@ CREATE TABLE users (
  user_id serial PRIMARY KEY,
   username VARCHAR(25) NOT NULL,
   password VARCHAR(60) NOT NULL,
+  email VARCHAR(40) NOT NULL,
+  skills VARCHAR(255),
   hackcoin INTEGER NOT NULL DEFAULT 5,  
   created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
@@ -51,18 +53,19 @@ CREATE TABLE subcomments
   user_id INT REFERENCES users (user_id) NOT NULL,
   post_id INT REFERENCES posts (post_id) NOT NULL,
   comment_id INT REFERENCES comments (comment_id) NOT NULL, 
-  message VARCHAR(8000),
+  submessage VARCHAR(8000),
   votes INTEGER DEFAULT 0,
   solution boolean DEFAULT FALSE,
-  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
 
 CREATE TABLE notes
 (
-  user_profile_id serial PRIMARY KEY,
+  post_id serial PRIMARY KEY,
+  user_profile_id INTEGER NOT NULL,
   poster_id INTEGER REFERENCES users (user_id) NOT NULL,
   note VARCHAR(8000),
-  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+  created TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
 
 -- ---
@@ -71,13 +74,13 @@ CREATE TABLE notes
 -- ---
 
 insert into users
-  (username, password)
+  (username, password, email, skills)
 VALUES
-  ('yaboi', '$2a$10$MCRlmB8bUswMTqKG.kURCu2pu8ipopli2LLaO5OODNokt44cpLZ56'),
-  ('Gepeto', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou'),
-  ('Zanbato', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou'),
-  ('Colonel', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou'),
-  ('Hipster', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou');
+  ('yaboi', '$2a$10$MCRlmB8bUswMTqKG.kURCu2pu8ipopli2LLaO5OODNokt44cpLZ56', 'yaboi@hotmail.com', 'javascript, python, react, sandwiches'),
+  ('Gepeto', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou', 'gepeto@aol.com', 'python, java'),
+  ('Zanbato', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou', 'zanbato@gmail.com', 'java'),
+  ('Colonel', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou', 'colonel@yahoo.com', 'ruby on rails, javascript'),
+  ('Hipster', '$2a$10$pKgnmkFU5W7D70ekyEurruql72IonF7c5MiPlfnHrc9ywjrAF89Ou', 'hipster@live.com', 'python, django');
 
 insert into posts
   (user_id, title, code, summary, solution_id)

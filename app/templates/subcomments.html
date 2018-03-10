@@ -41,7 +41,7 @@
         <div ng-model="comment.comment_id"></div>
         <div class="form-group">
           <label for="newCommentDescription" class="pull-left">Your reply</label>
-          <textarea name="submessage" ng-model="$ctrl.submessage" class="form-control" rows="3" placeholder="Write your reply here"
+          <textarea name="submessage" ng-model="$ctrl.submessage" class="form-control subcomment-input" rows="3" placeholder="Write your reply here"
             ng-maxlength="8000" required></textarea>
           <p ng-show="subCommentForm.submessage.$error.required && subCommentForm.submessage.$dirty" class="help-block">You cannot leave a blank comment.</p>
           <p ng-show="subCommentForm.submessage.$error.maxlength" class="help-block">Your comment is too long.</p>

@@ -144,7 +144,8 @@ button.btn.cancel-btn:active {
 
 .submit-description-input,
 .submit-code-input,
-.submit-response-input {
+.submit-response-input,
+.subcomment-input {
     width:100%;
     border: 1px solid var(--primary-color);
     border-radius: 2px;
@@ -152,7 +153,8 @@ button.btn.cancel-btn:active {
 
 .submit-description-input:focus,
 .submit-code-input:focus,
-.submit-response-input:focus {
+.submit-response-input:focus 
+.subcomment-input:focus {
     border: 1px solid var(--primary-color);
 }
 
@@ -278,3 +280,4 @@ a:focus {
 .pagination>.disabled>a {
     color: #187764;
 }
+
