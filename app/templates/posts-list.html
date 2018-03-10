@@ -25,17 +25,17 @@
         </span>
         <!-- </button> -->       
     </div>
-    <hr>
+   
     <div class="list-group">
         <a ng-repeat="post in filteredPosts track by $index" ng-click="handlePostClick($index)" post="post" class="list-group-item list-group-item-action flex-column align-items-start posts-list"
-            data-toggle="modal" data-target="#myModal">
+            data-toggle="modal" data-target="#myModal" style="margin-left:3%;">
             <div class="d-flex w-100 justify-content-between inline-block post-content">    
                 <h5 class="mb-1 post-title">
                     {{post.title}}
                 </h5>
                 <p class="mb-1">{{post.summary}}</p>
                 <small>
-                    <strong>{{post.username}}</strong>
+                    <strong class="username-click">{{post.username}}</strong>
                 </small>
                 <small>{{post.created_at | date:'medium'}}</small>
             </div>
@@ -50,7 +50,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">{{currentPost.title}}</h4>
-                        <h5 ng-click = "handleUsernameClick(currentPost.user_id)" data-dismiss="modal"> {{currentPost.username}} </h5>
+                        <h5 ng-click="handleUsernameClick(currentPost.user_id)" class="username-click" data-dismiss="modal"> {{currentPost.username}} </h5>
                     </div>
                     <div class="modal-body">
                         <pre>{{currentPost.code}}</pre>
@@ -121,6 +121,7 @@
         </div>
     </div>
 </div>
+
 
 
 <!-- sandbox modal -->
