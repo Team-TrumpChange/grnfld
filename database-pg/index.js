@@ -131,6 +131,11 @@ const markSolution = async (commentId, postId) => {
   await knex('posts').where('post_id', postId).update('solution_id', commentId);
 };
 
+const unMarkSolution = (commentId) => {
+  console.log('commentId:', commentId);
+  return knex('comments').where('comment_id', commentId).update('solution', false);
+};
+
 const checkCoin = (userId) => {
   return knex.select('hackcoin').from('users').where('user_id', userId);
 };
@@ -194,7 +199,6 @@ module.exports = {
   checkCoin,
   subtractCoins,
   refreshCoins,
-
   createSubcomment,
   getSubcomments,
   getUsername,
@@ -202,5 +206,6 @@ module.exports = {
   updateUserSkills,
   closePost,
   getUserNotes,
-  createNote
+  createNote,
+  unMarkSolution
 };

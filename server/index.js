@@ -239,7 +239,12 @@ app.post('/coin', async (req, res) => {
 });
 
 app.post('/solution', async (req, res) => {
-  const data = await db.markSolution(req.body.commentId, req.body.postId);
+  console.log('req.body:', req.body);
+  if (req.body.select) {
+    const data = await db.markSolution(req.body.commentId, req.body.postId);
+  } else {
+    const data = await db.unMarkSolution(req.body.commentId);
+  }
   res.status(200).end();
 });
 
