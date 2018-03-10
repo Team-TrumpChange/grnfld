@@ -2,14 +2,14 @@
 
 <span>
   <small style="margin-bottom:5px;">
-    <a ng-click="$ctrl.getSubcomments()" >{{'-' + $ctrl.subcomments.length + ' replies '}}</a>
+    <a ng-click="$ctrl.getSubcomments()" >{{$ctrl.subcomments.length + ' replies '}}</a>
     <small>
-      <a ng-click="$ctrl.showReplyForm()">- Reply</a>
+      <a ng-click="$ctrl.showReplyForm()" ng-class="{'disabled': $ctrl.currentPost.closed} ">- Reply</a>
     </small>
   </small>
 </span>
 <div>    </div>
-<div ng-show="$ctrl.showSubcomments" ng-repeat="subcomment in $ctrl.subcomments track by $index" class="comments-list" ng-class="{'solution': comment.solution}">
+<div ng-show="$ctrl.showSubcomments" ng-repeat="subcomment in $ctrl.subcomments track by $index" class="comments-list" ng-class="{'solution': comment.solution}" >
 
   <div id="like-error" class="alert alert-danger alert-dismissible fade in" style="display:none">
   </div>
@@ -37,7 +37,7 @@
 <p style="margin-left: 2px;">
   <small>
     <div>
-      <form ng-show="$root.userId && $ctrl.replyClicked" name="subCommentForm" ng-submit="$ctrl.submitSubcomment(subCommentForm.$valid)" novalidate>
+      <form ng-show="$root.userId && $ctrl.replyClicked && !$ctrl.currentPost.closed" name="subCommentForm" ng-submit="$ctrl.submitSubcomment(subCommentForm.$valid)" novalidate>
         <div ng-model="comment.comment_id"></div>
         <div class="form-group">
           <label for="newCommentDescription" class="pull-left">Your reply</label>

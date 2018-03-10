@@ -83,7 +83,7 @@
                                         </div>
                                         <!-- /panel-body -->
                                         <p style="margin-left: 2px;">
-                                            <small>
+                                            <small> 
                                               <span style="margin-right:15px;">Votes: {{comment.votes}}</span>
                                             </small> 
                                         </div>
@@ -92,7 +92,7 @@
                                                 <a ng-show="currentPost.user_id === $root.userId" ng-click="toggleSolution(comment)" href="">Mark as Solution </a>
                                             </small>
                                         <!-- /panel panel-default -->
-                                        <subcomments comment="comment" userid=$root.userId postid="currentPost.post_id"></subcomments>
+                                        <subcomments currentPost="currentPost" comment="comment" userid=$root.userId postid="currentPost.post_id"></subcomments>
                                     </div>
                                 <!-- /col-sm-5 -->
                             </div>
