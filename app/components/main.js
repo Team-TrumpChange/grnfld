@@ -10,8 +10,10 @@ angular.module('app')
     console.log('init');
     usersService.autoLogin((user) => {
       if (user) {
+        console.log(user)
         $rootScope.userId = user.user_id;
         $rootScope.hackcoin = user.hackcoin;
+        $rootScope.questcoin = user.questcoin;
         $rootScope.userPageUser = user.user_id;
       } 
     });
@@ -69,7 +71,8 @@ angular.module('app')
       let commentObj = {
         user_id: $rootScope.userId,
         post_id: $scope.currentPost.post_id,
-        message: $scope.message
+        message: $scope.message,
+        questcoin: 1
       };
       commentsService.submitNewComment(commentObj, (data) => {
         if (data.data.rejection) {
@@ -79,6 +82,7 @@ angular.module('app')
           $scope.warning = '';
           $scope.message = '';
           $scope.handlePostClick($scope.currentIndex);
+          $rootScope.questcoin++
         }
       });
     }
@@ -105,18 +109,20 @@ angular.module('app')
   $scope.likeComment = async (commentId, index) => {
     //need commmentId, usernameId(rootscope), how many coins to use (ng-click to send one and ng-double click to send more?)
     //TODO add modal for ng-doubleclick
-    if ($rootScope.hackcoin <= 0) {
+    if ($rootScope.questcoin <= 0) {
+      console.log('not enough coins')
       $('#like-error').show();
     } else {
       let res = await commentsService.likeComment({
         commentId: commentId,
         userId: $rootScope.userId,
-        hackCoins: 1
+        questcoin: 1
       });
 
       if (res.status === 200) {
         $scope.$apply(() => {
-          --$rootScope.hackcoin;
+          //--$rootScope.hackcoin;
+          --$rootScope.questcoin
           $scope.comments[index].votes++;
         });
       }

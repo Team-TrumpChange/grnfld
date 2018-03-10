@@ -18,6 +18,7 @@ CREATE TABLE users
   password varchar(60) NOT NULL,
   email VARCHAR(40) NOT NULL,
   skills VARCHAR(255),
+  questcoin int NOT NULL DEFAULT 5,
   hackcoin int NOT NULL DEFAULT 5,
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   PRIMARY KEY (user_id)
