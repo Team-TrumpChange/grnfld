@@ -20,7 +20,7 @@
         <p ng-show="commentForm.message.$error.required && commentForm.message.$dirty" class="help-block">You cannot leave a blank comment.</p>
         <p ng-show="commentForm.message.$error.maxlength" class="help-block">Your comment is too long.</p>
       </div>
-      <button type="submit" ng-click="noteForm.$setPristine()" ng-disabled="noteForm.$invalid" class="btn btn-primary pull-right note-button">Submit</button>
+      <button type="submit" ng-click="noteForm.$setPristine()" ng-disabled="noteForm.$invalid" class="btn btn-success pull-right">Submit</button>
     </form>
   </div>
 </div>

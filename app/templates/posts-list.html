@@ -60,7 +60,7 @@
                         <p>{{currentPost.summary}}</p>
                     </div>
                     <div class="modal-body">
-                        <button ng-show="currentPost.user_id === $root.userId && !currentPost.closed" type="button" ng-click="markPostSolved(currentPost.post_id, $index)"> Mark Post Solved </button>
+                        <button ng-show="currentPost.user_id === $root.userId && !currentPost.closed" type="button" ng-click="markPostSolved(currentPost.post_id, $index)" class="btn btn-success" > Mark Post Solved </button>
                         <p ng-show="currentPost.user_id === $root.userId && currentPost.closed"> You have closed this post</p>
                     </div>
                     <div class="modal-footer">
