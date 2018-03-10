@@ -17,9 +17,7 @@
     margin-left: 15px
 } */
 
-.user-profile {
-    margin-left: 50px;
-}
+
 
 .main-div {
     min-height: 100vh;
@@ -223,9 +221,8 @@ button.btn.cancel-btn:active {
 }
 
 .recent-post-title {
-    float: left;
     margin-top: 20px;
-
+    display: block;
     margin-left: 6%;
 }
 

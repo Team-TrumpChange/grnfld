@@ -50,9 +50,9 @@ CREATE TABLE comments (
 CREATE TABLE subcomments
 (
   subcomment_id serial PRIMARY KEY,
-  user_id INT REFERENCES users (user_id) NOT NULL,
-  post_id INT REFERENCES posts (post_id) NOT NULL,
-  comment_id INT REFERENCES comments (comment_id) NOT NULL, 
+  user_id INTEGER REFERENCES users (user_id) NOT NULL,
+  post_id INTEGER REFERENCES posts (post_id) NOT NULL,
+  comment_id INTEGER REFERENCES comments (comment_id) NOT NULL, 
   submessage VARCHAR(8000),
   votes INTEGER DEFAULT 0,
   solution boolean DEFAULT FALSE,
