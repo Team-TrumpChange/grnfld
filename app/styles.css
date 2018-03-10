@@ -145,7 +145,8 @@ button.btn.cancel-btn:active {
 .submit-description-input,
 .submit-code-input,
 .submit-response-input,
-.subcomment-input {
+.subcomment-input,
+.submit-note {
     width:100%;
     border: 1px solid var(--primary-color);
     border-radius: 2px;
@@ -153,8 +154,9 @@ button.btn.cancel-btn:active {
 
 .submit-description-input:focus,
 .submit-code-input:focus,
-.submit-response-input:focus 
-.subcomment-input:focus {
+.submit-response-input:focus,
+.subcomment-input:focus,
+.submit-note:focus {
     border: 1px solid var(--primary-color);
 }
 
@@ -239,7 +241,7 @@ button.btn.cancel-btn:active {
 }
 
 .glyphicon-refresh:hover {
-    transform: rotate(.5turn);
+    transform: rotate(1turn);
     transition-duration: 3s;
     cursor: pointer;
 }
@@ -278,6 +280,18 @@ a:focus {
 }
 
 .pagination>.disabled>a {
-    color: #187764;
+    background-color: #D6D6D6;
+    color: white;
+}
+
+.pagination>.disabled>a:hover,
+.pagination>.disabled>a:focus,
+.pagination>.disabled>a:active {
+    background-color: #808080;
+    color: white;
+}
+
+.username-click {
+    cursor: pointer;    
 }
 

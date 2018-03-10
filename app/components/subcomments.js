@@ -4,7 +4,8 @@ angular.module('app')
       comment: '<',
       userid: '<',
       postid: '<',
-      userid: '<'
+      userid: '<',
+      currentPost: '<'
     },
     controller: function (subcommentsService) {
       this.subcomments = null;
@@ -14,7 +15,6 @@ angular.module('app')
 
 
       this.submitSubcomment = (isValid) => {
-        console.log('isValid from submitSubcomment:', isValid);
         if (isValid) {
 
           let subcommentObj = {
@@ -23,9 +23,7 @@ angular.module('app')
             comment_id: this.comment.comment_id,
             submessage: this.submessage
           }
-          console.log('subcommentObj:', subcommentObj);
           subcommentsService.submitNewSubcomment(subcommentObj, (data) => {
-            console.log('insubcommentsService data:', data);
             this.submessage = '';
             this.showReplyForm();
             this.showSubcomments = false;
@@ -48,9 +46,7 @@ angular.module('app')
         if (this.showSubcomments) {
           this.showSubcomments = false;
         } else {
-          console.log('clicked');
           subcommentsService.getSubcomments(this.comment.comment_id, (data) => {
-            console.log('data from getSubcomments:', data);
             this.subcomments = data;
             this.showSubcomments = true;
           });
