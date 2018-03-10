@@ -144,7 +144,7 @@ angular.module('app')
     switch (sortType) {
       case 'recent' :
         $scope.sortType = "recent";
-        $scope.posts = sortService.dateSort($scope.posts, 'post_id');
+        $scope.posts = sortService.numberSort($scope.posts, 'post_id');
         break;
       case 'title' :
         $scope.sortType = "title";
