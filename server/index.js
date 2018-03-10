@@ -118,7 +118,22 @@ app.get('/userNotes', async (req, res) => {
 
 app.post('/createPost', async (req, res) => {
   try {
-    await db.createPost(req.body);
+    let currentHackCoins = await db.checkQuestCoin(req.body.userId);
+    currentHackCoins = currentHackCoins.pop().questcoin;
+
+    if (currentHackCoins > 0 && req.body.questcoin <= currentHackCoins) { //user has usable coins and asking to use a number of some available -- good update db
+      await db.minusQuestCoin(req.body)
+      await db.createPost(req.body);
+      res.status(200).end();
+    } else if(currentHackCoins > 0 && req.body.questcoin > currentHackCoins) { //if usable coins but asking to use more than available
+      console.log('tried to use too many hack coins');
+      res.status(409).end();  //send something in the body for client
+    } else if(currentHackCoins <= 0) {  //if no usable coins
+      res.status(409).end();  //send something in the body for client
+    } else {
+      console.log('unexpected edge case', 'currentHackCoins', currentHackCoins,  req.body);
+    }
+
   } catch (err) {
     console.log(err);
   }
@@ -143,6 +158,7 @@ app.post('/createComment', (req, res) => {
       } else {
         try {
           await db.createComment(comment);
+          await db.addQuestCoin(comment)
         } catch (err) {
           res.status(500).end();
         }
@@ -185,15 +201,17 @@ app.post('/login', async (req, res) => {
       res.status(200).json({
         user_id: user.user_id,
         username: user.username,
-        hackcoin: user.hackcoin
+        hackcoin: user.hackcoin,
+        questcoin: user.questcoin
       });
     } else {
       res.status(401).send('false password');
     }
   } else {
-    res.status(401).send('username doesn\'t exist');
+    res.status(401).send('username does not exist');
   }
 });
+
 
 
 
@@ -212,14 +230,14 @@ app.post('/register', async (req, res) => {
 
   const avatar = `https://api.adorable.io/avatars/80/${req.body.username}.png`
   const data = await db.createUser(req.body.username, shasum, req.body.email, req.body.skills);
-  if (data === 'username already exists' || data === 'email already exists') {
-    res.status(409).end();
+  if (data === 'username already exists') {
+    res.status(409).send('username already exists');    
+  } else if (data === 'email already exists') {
+    res.status(409).send('email already exists');
   } else {
     const userInfo = await db.checkCredentials(req.body.username);
-    
     req.session.loggedIn = true;
     req.session.user = userInfo[0];
-
     res.status(200).json({
       user_id: userInfo[0].user_id,
       username: userInfo[0].username,
@@ -234,13 +252,13 @@ app.post('/logout', (req, res) => {
 })
 
 app.post('/coin', async (req, res) => {
-  let currentHackCoins = await db.checkCoin(req.body.userId);
-  currentHackCoins = currentHackCoins.pop().hackcoin;
+  let currentHackCoins = await db.checkQuestCoin(req.body.userId);
+  currentHackCoins = currentHackCoins.pop().questcoin;
 
-  if (currentHackCoins > 0 && req.body.hackCoins <= currentHackCoins) { //user has usable coins and asking to use a number of some available -- good update db
-    await db.subtractCoins(currentHackCoins, req.body.hackCoins, req.body.userId, req.body.commentId);
+  if (currentHackCoins > 0 && req.body.questcoin <= currentHackCoins) { //user has usable coins and asking to use a number of some available -- good update db
+    await db.subtractCoins(currentHackCoins, req.body.questcoin, req.body.userId, req.body.commentId);
     res.status(200).end();
-  } else if(currentHackCoins > 0 && req.body.hackCoins > currentHackCoins) { //if usable coins but asking to use more than available
+  } else if(currentHackCoins > 0 && req.body.questcoin > currentHackCoins) { //if usable coins but asking to use more than available
     console.log('tried to use too many hack coins');
     res.status(409).end();  //send something in the body for client
   } else if(currentHackCoins <= 0) {  //if no usable coins
