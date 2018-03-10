@@ -241,7 +241,8 @@ app.post('/register', async (req, res) => {
     res.status(200).json({
       user_id: userInfo[0].user_id,
       username: userInfo[0].username,
-      hackcoin: userInfo[0].hackcoin
+      hackcoin: userInfo[0].hackcoin,
+      questcoin: userInfo[0].questcoin
     });
   }
 });
