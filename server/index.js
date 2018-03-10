@@ -3,13 +3,24 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt-nodejs');
 const db = require('../database-pg/index');
 const AYLIENTextAPI = require('aylien_textapi');
-const config = require('../database-pg/config.js');
 const foaas = require('./foaas.js');
 const session = require('express-session');
 
+let aylienId;
+let aylienKey;
+
+if (!process.env.AYLIEN_ID) {
+  const config = require('../database-pg/config.js');
+  aylienId = config.aylien.id;
+  aylienKey = config.aylien.key;
+} else {
+  aylienId = process.env.AYLIEN_ID;
+  aylienKey = process.env.AYLIEN_KEY;
+}
+
 let getSentiment = new AYLIENTextAPI({
-  application_id: config.aylien.id,
-  application_key: config.aylien.key
+  application_id: aylienId,
+  application_key: aylienKey
 });
 
 const app = express();
