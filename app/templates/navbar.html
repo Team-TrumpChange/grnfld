@@ -95,6 +95,7 @@
       </div>
       <form name="registerForm" ng-submit="submit(registerForm.$valid)" novalidate>
       <div class="modal-body">
+          <img ng-src="https://robohash.org/{{register.username}}.png?size=80x80" class="rounded inline-block" />
           <div class="form-group input-group reg-group">
             <input class="form-control" type="text" name="username" ng-model="register.username" ng-maxlength="25" placeholder="username" required>
             <span class="input-group-addon">
