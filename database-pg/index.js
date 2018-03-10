@@ -1,7 +1,10 @@
-const config = require('./config.js');
-let knex;
 
-if (config.mySql) {
+let knex;
+let client;
+let connection;
+
+if (!process.env.DATABASE_URL) {
+  const config = require('./config.js');
   knex = require('knex')({
     client: 'mysql',
     connection: config.mySql
@@ -13,6 +16,19 @@ if (config.mySql) {
     ssl: true
   });
 }
+
+// if (config.mySql) {
+//   knex = require('knex')({
+//     client: 'mysql',
+//     connection: config.mySql
+//   });
+// } else {
+//   knex = require('knex')({
+//     client: 'pg',
+//     connection: process.env.DATABASE_URL,
+//     ssl: true
+//   });
+// }
 
 const getAllPosts = () => {
   return knex.column(knex.raw('posts.*, users.username')).select()
