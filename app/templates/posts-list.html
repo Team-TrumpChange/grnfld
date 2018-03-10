@@ -63,13 +63,15 @@
                         <p ng-show="currentPost.user_id === $root.userId && currentPost.closed"> You have closed this post</p>
                     </div>
                     <div class="modal-footer">
-
+                        <div id="like-error" class="alert alert-danger alert-dismissible fade in" style="display:none">
+                            <strong>No more Questcoins!</strong> Please wait for your coins to refresh
+                        </div>
 
                         <div ng-repeat="comment in comments track by $index" class="comments-list" ng-class="{'solution': comment.solution}">
 
-                            <div id="like-error" class="alert alert-danger alert-dismissible fade in" style="display:none">
+                            <!-- <div id="like-error" class="alert alert-danger alert-dismissible fade in" style="display:none">
                                 <strong>No more Hackcoins!</strong> Please wait for your coins to refresh
-                            </div>
+                            </div> -->
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="panel panel-default">

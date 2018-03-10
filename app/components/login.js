@@ -18,6 +18,7 @@ angular.module('app')
           $rootScope.userId = res.data.user_id;
           console.log('rootScopUserID:', $rootScope.userId);
           $rootScope.hackcoin = res.data.hackcoin;
+          $rootScope.questcoin = res.data.questcoin;
           $scope.login = {
             username: '',
             password: ''
