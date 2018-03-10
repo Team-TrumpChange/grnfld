@@ -1,5 +1,7 @@
 angular.module('app')
-  .controller('UserCtrl', function ($scope, postsService, $rootScope, commentsService, usersService, $location, noteService) {
+  .controller('UserCtrl', function ($scope, $rootScope, 
+    postsService, commentsService, usersService, sortService, noteService, 
+    $location) {
     $('.alert .close').on('click', function (e) {
       $(this).parent().hide();
     });
@@ -9,6 +11,7 @@ angular.module('app')
       $scope.currentPage = 1;
       $scope.numPerPage = 5;
       $scope.currentCommentPage = 1;
+      $scope.currentNotePage = 1;
       
       if(!$rootScope.userPageUser) {
         $location.path('/');
@@ -16,10 +19,13 @@ angular.module('app')
         usersService.getUserDetails($rootScope.userPageUser, user => {
           $scope.user = user;
           $scope.name = $scope.self ? 'You' : $scope.user.username;
+          $scope.namePossessive = $scope.self ? 'Your' : $scope.user.username + '\'s'; 
         })
         //get all posts on page load
         postsService.getUserPosts($rootScope.userPageUser, data => {
-          $scope.userPosts = data;
+          if (!$scope.userPosts || $scope.userPosts.length !== data.length) { //maintain sort through refresh
+            $scope.userPosts = data;
+          }
   
           //pagination
           $scope.$watch('currentPage + numPerPage', function () {
@@ -33,8 +39,10 @@ angular.module('app')
         });
   
         commentsService.getUserComments($rootScope.userPageUser, data => {
-          $scope.userComments = data;
-  
+          if (!$scope.userComments || $scope.userComments.length !== data.length) { //maintain sort through refresh
+            $scope.userComments = data;
+          }
+
           //pagination
           $scope.$watch('currentCommentPage + numPerPage', function () {
             //filter posts by page number
@@ -43,11 +51,25 @@ angular.module('app')
             $scope.filteredComments = $scope.userComments.slice(begin, end);
           });
         });
-
-        noteService.getNotes($rootScope.userPageUser, data => {
-          $scope.userNotes = data;
-        });
+        
+        $scope.refreshNotes();
       }
+    };
+
+    $scope.refreshNotes = () => {
+      noteService.getNotes($rootScope.userPageUser, data => {
+        $scope.userNotes = data;
+        console.log('notes:', $scope.userNotes);
+        //pagination
+        $scope.$watch('currentNotePage + numPerPage', function () {
+          //filter posts by page number
+          let begin = (($scope.currentNotePage - 1) * $scope.numPerPage);
+          let end = begin + $scope.numPerPage;
+
+          $scope.filteredNotes = $scope.userNotes.slice(begin, end);
+
+        });
+      });
     };
 
     //runs init on view startup
@@ -152,7 +174,59 @@ angular.module('app')
         }
       }
     };
-    
+
+    $scope.markPostSolved = (postId) => {
+      postsService.closePost(postId, function (data) {
+        $scope.userPosts[$scope.currentIndex].closed = true;
+      });
+    }
+
+    $scope.sortType = $scope.sortType || "recent";
+
+    $scope.sortPosts = (sortType) => {
+      switch (sortType) {
+        case 'recent':
+          $scope.sortType = "recent";
+          $scope.userPosts = sortService.numberSort($scope.userPosts, 'post_id');
+          break;
+        case 'title':
+          $scope.sortType = "title";
+          $scope.userPosts = sortService.alphabetize($scope.userPosts, 'title');
+          break;
+        case 'username':
+          $scope.sortType = "username";
+          $scope.userPosts = sortService.alphabetize($scope.userPosts, 'username');
+          break;
+        case 'status':
+          $scope.sortType = "status";
+          $scope.userPosts = sortService.boolSort($scope.userPosts);
+          break;
+      }
+      $scope.refresh();
+    }
+
+    $scope.sortComments = (sortType) => {
+      switch (sortType) {
+        case 'recent':
+          $scope.sortType = "recent";
+          $scope.userPosts = sortService.numberSort($scope.userComments, 'comment_id');
+          break;
+        case 'poster':
+          $scope.sortType = "title";
+          $scope.userComments = sortService.alphabetize($scope.userComments, 'post', 'title');
+          break;
+        case 'postTitle':
+          $scope.sortType = "username";
+          $scope.userComments = sortService.alphabetize($scope.userComments, 'post', 'username');
+          break;
+        case 'likes':
+          $scope.sortType = "likes";
+          $scope.userComments = sortService.numberSort($scope.userComments, 'votes');
+          break;
+      }
+      $scope.refresh();
+    }
+
     $scope.noteText = '';
 
     $scope.submitNote = (isValid) => {
@@ -165,9 +239,11 @@ angular.module('app')
       console.log('noteObj:', noteObj);
       noteService.submitNote(noteObj, () => {
         $scope.noteText = '';
-        noteService.getNotes($rootScope.userPageUser, data => {
-          $scope.userNotes = data;
-        });
+        $scope.refreshNotes();
+        // noteService.getNotes($rootScope.userPageUser, data => {
+        //   $scope.userNotes = data;
+        // });
       });
     }
+
   });

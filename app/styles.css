@@ -13,6 +13,14 @@
     margin-bottom: 40px;
 }
 
+/* .note {
+    margin-left: 15px
+} */
+
+.user-profile {
+    margin-left: 50px;
+}
+
 .main-div {
     min-height: 100vh;
 }
@@ -86,6 +94,7 @@ button.btn.btn-default:active {
     outline: none;   
     border-radius: 2px; 
 }
+
 
 .btn-success:hover,
 .btn-success:focus,
@@ -234,7 +243,7 @@ button.btn.cancel-btn:active {
 }
 
 hr {
-    margin-top: 30px;
+    margin-top: 0px;
     width: 90%;
     height: 1px;
     border: none;
@@ -245,6 +254,16 @@ hr {
     display: inline-block;
 }
 
+.centered {
+    text-align: center;
+}
+.margin-right {
+    margin-right: 20px;
+}
+
+.selected {
+    background-color: rgb(238, 238, 238);
+}
 a,
 a:active,
 a:hover,

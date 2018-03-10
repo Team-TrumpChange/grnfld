@@ -131,6 +131,11 @@ const markSolution = async (commentId, postId) => {
   await knex('posts').where('post_id', postId).update('solution_id', commentId);
 };
 
+const unMarkSolution = (commentId) => {
+  console.log('commentId:', commentId);
+  return knex('comments').where('comment_id', commentId).update('solution', false);
+};
+
 const checkCoin = (userId) => {
   return knex.select('hackcoin').from('users').where('user_id', userId);
 };
@@ -158,10 +163,16 @@ const updateUserSkills = async (id, skills) => {
   await knex('users').update('skills', skills).where('user_id', id);
 }
 
+const closePost = async (id) => {
+  await knex('posts').update('closed', true).where('post_id', id);
+}
+
 const getUserNotes = (userId) => {
   return knex.select('*').from('notes').join('users', function () {
     this.on('users.user_id', '=', 'notes.poster_id').onIn('notes.user_profile_id', [userId.profileId])
+      
   })
+    .orderBy('notes.post_id', 'desc');
 }
 
 const createNote = (noteObj) => {
@@ -188,12 +199,13 @@ module.exports = {
   checkCoin,
   subtractCoins,
   refreshCoins,
-
   createSubcomment,
   getSubcomments,
   getUsername,
   getUsername,
   updateUserSkills,
+  closePost,
   getUserNotes,
-  createNote
+  createNote,
+  unMarkSolution
 };

@@ -1,10 +1,31 @@
+
 <div>
-    <h3 class="recent-post-title" style="margin-left: 10px;">Most Recent Posts</h3>
-    <!-- <button  type="button" class="btn btn-primary btn-sm refresh-button"> -->
+    <h3 class="recent-post-title" style="margin-left: 10px;">Posts</h3>
+    <div class="navbar" role="navigation">
+        <div class="container"></div>
+        <ul class="nav navbar-nav">
+            <li>
+                <a class="navbar-brand">Sort by:</a>
+            </li>  
+            <li ng-class="(sortType=='title') ? 'selected' : ''">
+                <a ng-click="sortPosts('title')"> Title </a>
+            </li>
+            <li ng-hide='userPosts' ng-class="{selected: sortType=='username'}">
+                <a ng-click="sortPosts('username')"> Poster </a>
+            </li>
+            <li ng-class="{selected: sortType=='status'}">
+                <a ng-click="sortPosts('status')"> Open </a>
+            </li>
+            <li ng-class="{selected: sortType=='recent'}">
+                <a ng-click="sortPosts('recent')"> Recent </a>
+            </li>
+        </ul>
+            <!-- <button  type="button" class="btn btn-primary btn-sm refresh-button"> -->
         <span ng-click="refresh()" class="refresh-icon">
             <i class="glyphicon glyphicon-refresh"></i>
         </span>
-    <!-- </button> -->
+        <!-- </button> -->       
+    </div>
     <hr>
     <div class="list-group">
         <a ng-repeat="post in filteredPosts track by $index" ng-click="handlePostClick($index)" post="post" class="list-group-item list-group-item-action flex-column align-items-start posts-list"
@@ -38,13 +59,16 @@
                     <div class="modal-body">
                         <p>{{currentPost.summary}}</p>
                     </div>
+                    <div class="modal-body">
+                        <button ng-show="currentPost.user_id === $root.userId && !currentPost.closed" type="button" ng-click="markPostSolved(currentPost.post_id, $index)" class="btn btn-success" > Mark Post Solved </button>
+                        <p ng-show="currentPost.user_id === $root.userId && currentPost.closed"> You have closed this post</p>
+                    </div>
                     <div class="modal-footer">
 
 
                         <div ng-repeat="comment in comments track by $index" class="comments-list" ng-class="{'solution': comment.solution}">
 
                             <div id="like-error" class="alert alert-danger alert-dismissible fade in" style="display:none">
-
                                 <strong>No more Hackcoins!</strong> Please wait for your coins to refresh
                             </div>
                             <div class="row">
@@ -60,8 +84,14 @@
                                         </div>
                                         <!-- /panel-body -->
                                         <p style="margin-left: 2px;">
-                                            
+                                            <small>
+                                              <span style="margin-right:15px;">Votes: {{comment.votes}}</span>
+                                            </small> 
                                         </div>
+                                            <small>
+                                                <a ng-class="{'disabled': $root.hackcoin <= 0 || !$root.userId}" ng-click="likeComment(comment.comment_id, $index)" href="">Like - </a> 
+                                                <a ng-show="currentPost.user_id === $root.userId" ng-click="toggleSolution(comment)" href="">Mark as Solution </a>
+                                            </small>
                                         <!-- /panel panel-default -->
                                         <subcomments comment="comment" userid=$root.userId postid="currentPost.post_id"></subcomments>
                                     </div>
@@ -70,7 +100,7 @@
                         </div>
 
 
-                        <form ng-show="$root.userId" name="commentForm" ng-submit="submitComment(commentForm.$valid)" novalidate>
+                        <form ng-show="$root.userId  && !currentPost.closed" name="commentForm" ng-submit="submitComment(commentForm.$valid)" novalidate>
 
                             <div class="form-group">
                                 <label for="newCommentDescription" class="pull-left">Your response</label>

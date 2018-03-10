@@ -1,28 +1,30 @@
-<h3 class="" style="margin-left: 10px;">Leave a Note:</h3>
-<div class="list-group">
-  <a ng-repeat="note in userNotes track by $index" class="list-group-item list-group-item-action flex-column align-items-start"
-    <div class="d-flex w-100 justify-content-between">
-      <span class="mb-1">
-        <strong>{{note.username}} wrote:</strong>
-      </span>
-      <p class="mb-1">{{note.note}}</p>
-      <small>{{note.created_at | date:'medium'}}</small>
-    </div>
-   
-  </a>
 <div>
-  <form ng-show="$root.userId" name="noteForm" ng-submit="submitNote(commentForm.$valid)" novalidate>
-  
-    <div class="form-group">
-      <label for="newNote" class="pull-left">Your note:</label>
-      <textarea name="noteText" ng-model="noteText" class="form-control" rows="3" placeholder="Write your note here" ng-maxlength="8000"
-        required></textarea>
-      <p ng-show="commentForm.message.$error.required && commentForm.message.$dirty" class="help-block">You cannot leave a blank comment.</p>
-      <p ng-show="commentForm.message.$error.maxlength" class="help-block">Your comment is too long.</p>
-    </div>
-    <button type="submit" ng-click="noteForm.$setPristine()" ng-disabled="noteForm.$invalid" class="btn btn-primary pull-right note-button">Submit</button>
-  </form>
+  <h3 class="recent-post-title">{{namePossessive}} Messages:</h3>
+  <hr>
+  <div class="list-group">
+    <a ng-repeat="note in filteredNotes track by $index" class="list-group-item list-group-item-action flex-column align-items-start posts-list">
+      <div class="d-flex w-100 justify-content-between inline-block post-content">
+        <h5 class="mb-1 post-title">{{note.username}} wrote:</h5>
+        <p class="mb-1">{{note.note}}</p>
+        <small>{{note.created | date:'medium'}}</small>
+      </div>
+    </a>
+  </div>
+  <div style="width:100vh;">
+    <form style="margin:50px;" ng-show="$root.userId" name="noteForm" ng-submit="submitNote(commentForm.$valid)" novalidate>
+    
+      <div class="form-group">
+        <label for="newNote" ><h3 class="recent-post-title">Write a Message for {{user.username}}:</h3></label>
+        <textarea name="noteText" ng-model="noteText" class="form-control" rows="3" placeholder="Write your note here" ng-maxlength="8000"
+          required></textarea>
+        <p ng-show="commentForm.message.$error.required && commentForm.message.$dirty" class="help-block">You cannot leave a blank comment.</p>
+        <p ng-show="commentForm.message.$error.maxlength" class="help-block">Your comment is too long.</p>
+      </div>
+      <button type="submit" ng-click="noteForm.$setPristine()" ng-disabled="noteForm.$invalid" class="btn btn-success pull-right">Submit</button>
+    </form>
+  </div>
 </div>
+
 
 
   <!-- will need a form at the bottom for submitting a new note -->
