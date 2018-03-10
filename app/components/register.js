@@ -15,9 +15,13 @@ angular.module('app')
   $scope.submit = function (isValid) {
     if (isValid) {
       usersService.register($scope.register.username, $scope.register.password, $scope.register.email, $scope.register.skills, res => {
-        if (res.status === 409) {
-          console.log('registration error');
-          $('#registration-error').show();
+        console.log(res.data);
+        if (res.status === 409 && res.data === 'username already exists') {
+          $('#reg-error-user').show();
+          $('#reg-error-email').hide();          
+        } else if (res.status === 409 && res.data === 'email already exists') {
+          $('#reg-error-email').show();
+          $('#reg-error-user').hide();
         } else {
           console.log('userid', res.data.user_id);
           $rootScope.userId = res.data.user_id;

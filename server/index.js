@@ -191,7 +191,7 @@ app.post('/login', async (req, res) => {
       res.status(401).send('false password');
     }
   } else {
-    res.status(401).send('username doesn\'t exist');
+    res.status(401).send('username does not exist');
   }
 });
 
@@ -211,14 +211,14 @@ app.post('/register', async (req, res) => {
 
   const avatar = `https://api.adorable.io/avatars/80/${req.body.username}.png`
   const data = await db.createUser(req.body.username, shasum, req.body.email, req.body.skills);
-  if (data === 'username already exists' || data === 'email already exists') {
-    res.status(409).end();
+  if (data === 'username already exists') {
+    res.status(409).send('username already exists');    
+  } else if (data === 'email already exists') {
+    res.status(409).send('email already exists');
   } else {
     const userInfo = await db.checkCredentials(req.body.username);
-    
     req.session.loggedIn = true;
     req.session.user = userInfo[0];
-
     res.status(200).json({
       user_id: userInfo[0].user_id,
       username: userInfo[0].username,

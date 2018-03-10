@@ -10,7 +10,8 @@ CREATE TABLE users (
   password VARCHAR(60) NOT NULL,
   email VARCHAR(40) NOT NULL,
   skills VARCHAR(255),
-  hackcoin INTEGER NOT NULL DEFAULT 5,  
+  hackcoin INTEGER NOT NULL DEFAULT 5,
+  questcoin INTEGER NOT NULL DEFAULT 5,  
   created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
 
